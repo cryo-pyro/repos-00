@@ -10,7 +10,7 @@
   "eplnm": "@gmail, 240, amz, auth",
   "ukb-pyro": "@gmail, okuzuula, underappeal@G",
   "cryo-pyro": "@gmail, cryopyro, failed pw",
-  "ukb-dt": "@gmail, 076, mz, auth, accounts-gh"
+  "cryo-pyro": "@gmail, 076, mz, auth, accounts-gh"
 }
 ```
 
@@ -20,3 +20,15 @@
 - [Next](https://ukb-dt.github.io/journaling-11/)
 - [More](https://abikesa.github.io/1y/)
 - [Orig](https://github.com/abikesa/repos)
+
+- [01](https://ukubona-llc.github.io/repo-01/)
+- [02](https://jhurepos.github.io/repo-01/)
+- [03](https://abikesa.github.io/repo-01/)
+- [04](https://muzaale.github.io/repo-01/)
+- [05](https://jhustata.github.io/repo-01/)
+- [06](https://pairs-jh.github.io/repo-01/)
+- [07](https://jhufena.github.io/repo-01/)
+- [08](https://eplnm.github.io/repo-01/)
+- [09](https://ukb-pyro.github.io/repo-01/)
+- [10](https://cryo-pyro.github.io/repo-01/)
+- [11](https://cryo-pyro.github.io/repo-01/)
