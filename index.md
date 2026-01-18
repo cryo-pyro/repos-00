@@ -26,14 +26,14 @@
 - [01](https://ukubona-llc.github.io/repo-01/) 
 - [02](https://jhurepos.github.io/repo-02/) 
 - [03](https://abikesa.github.io/repo-03/)
-- [x](https://muzaale.github.io/repo-04/)
+- [04](https://muzaale.github.io/repo-04/)
 - [05](https://jhustata.github.io/repo-05/)
-- [x](https://pairs-jh.github.io/repo-06/)
-- [x](https://jhufena.github.io/repo-07/)
+- [06](https://pairs-jh.github.io/repos-06/) repos
+- [x](https://jhufena.github.io/repo-07/) repos
 - [08](https://eplnm.github.io/repo-08/)
-- [x](https://ukb-pyro.github.io/repo-09/)
-- [10](https://cryo-pyro.github.io/repo-10/)
+- [x](https://ukb-pyro.github.io/repo-09/) ?
+- [10](https://cryo-pyro.github.io/repo-10/) ?
 - [11](https://ukb-dt.github.io/repo-11/)
-
+    
 ## C
 Coming Soon..
