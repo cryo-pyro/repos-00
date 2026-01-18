@@ -23,15 +23,15 @@
 - [Orig](https://github.com/abikesa/repos) 
 
 ## B
-- [01](https://ukubona-llc.github.io/repo-01/) [x]
+- [01](https://ukubona-llc.github.io/repo-01/) 
 - [02](https://jhurepos.github.io/repo-02/) 
 - [03](https://abikesa.github.io/repo-03/)
-- [04](https://muzaale.github.io/repo-04/)
+- [x](https://muzaale.github.io/repo-04/)
 - [05](https://jhustata.github.io/repo-05/)
-- [06](https://pairs-jh.github.io/repo-06/)
-- [07](https://jhufena.github.io/repo-07/)
+- [x](https://pairs-jh.github.io/repo-06/)
+- [x](https://jhufena.github.io/repo-07/)
 - [08](https://eplnm.github.io/repo-08/)
-- [09](https://ukb-pyro.github.io/repo-09/)
+- [x](https://ukb-pyro.github.io/repo-09/)
 - [10](https://cryo-pyro.github.io/repo-10/)
 - [11](https://ukb-dt.github.io/repo-11/)
 
