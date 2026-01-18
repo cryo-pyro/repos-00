@@ -29,9 +29,9 @@
 - [04](https://muzaale.github.io/repo-04/)
 - [05](https://jhustata.github.io/repo-05/)
 - [06](https://pairs-jh.github.io/repos-06/) repos
-- [x](https://jhufena.github.io/repo-07/) repos
+- [07](https://jhufena.github.io/repos-07/) repos
 - [08](https://eplnm.github.io/repo-08/)
-- [x](https://ukb-pyro.github.io/repo-09/) ?
+- [09](https://ukb-pyro.github.io/repo-09/) ?
 - [10](https://cryo-pyro.github.io/repo-10/) ?
 - [11](https://ukb-dt.github.io/repo-11/)
     
