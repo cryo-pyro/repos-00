@@ -18,3 +18,5 @@
 
 - [Prev](https://ukb-dt.github.io/journaling-10/)
 - [Next](https://ukb-dt.github.io/journaling-11/)
+- [More](https://abikesa.github.io/1y/)
+- [Orig](https://github.com/abikesa/repos)
