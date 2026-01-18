@@ -10,7 +10,7 @@
   "eplnm": "@gmail, 240, amz, auth",
   "ukb-pyro": "@gmail, okuzuula, underappeal@G",
   "cryo-pyro": "@gmail, cryopyro, failed pw",
-  "cryo-pyro": "@gmail, 076, mz, auth, accounts-gh"
+  "ukb-dt": "@gmail, 076, mz, auth, accounts-gh"
 }
 ```
 
@@ -33,7 +33,7 @@
 - [08](https://eplnm.github.io/repo-01/)
 - [09](https://ukb-pyro.github.io/repo-01/)
 - [10](https://cryo-pyro.github.io/repo-01/)
-- [11](https://cryo-pyro.github.io/repo-01/)
+- [11](https://ukb-dt.github.io/repo-01/)
 
 ## C
 Coming Soon..
