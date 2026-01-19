@@ -9,7 +9,7 @@
   "jhufena": "@gmail, 240, mz, auth",
   "eplnm": "@gmail, 240, amz, auth",
   "ukb-pyro": "@gmail, okuzuula, underappeal@G",
-  "cryo-pyro": "@gmail, cryopyro, failed pw",
+  "cryo-pyro": "@gmail, ukb.cryopyro, appeal@G",
   "ukb-dt": "@gmail, 076, mz, auth, accounts-gh"
 }
 ```
@@ -28,8 +28,8 @@
 - [03](https://abikesa.github.io/repo-03/)
 - [04](https://muzaale.github.io/repo-04/)
 - [05](https://jhustata.github.io/repo-05/)
-- [06](https://pairs-jh.github.io/repos-06/) `repos`
-- [07](https://jhufena.github.io/repos-07/) `repos`
+- [06](https://pairs-jh.github.io/repo-06/) 
+- [07](https://jhufena.github.io/repo-07/) 
 - [08](https://eplnm.github.io/repo-08/)
 - [09](https://ukb-pyro.github.io/repo-09/) 
 - [10](https://cryo-pyro.github.io/repo-10/) ?
