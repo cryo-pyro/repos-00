@@ -43,7 +43,7 @@
 - Topological, Perspectival (**Adversarial**)
 - Ethical, Aesthetic, Computational (**Transactional**)
   
-<figure style="display: flex; flex-direction: column; align-items: center; width: 100%; margin: 2rem 0;">
+<figure style="display: flex; flex-direction: column; align-items: left; width: 100%; margin: 2rem 0;">
   <iframe
     width="56%"
     height="315"
