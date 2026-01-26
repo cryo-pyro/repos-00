@@ -22,7 +22,7 @@
 - [More](https://abikesa.github.io/1y/)        
 - [Orig](https://github.com/abikesa/repos) 
 
-## B
+## [B](https://jhurepos.github.io/repos-XX/)
 - [01](https://ukubona-llc.github.io/repo-01/) 
 - [02](https://jhurepos.github.io/repo-02/) 
 - [03](https://abikesa.github.io/repo-03/)
