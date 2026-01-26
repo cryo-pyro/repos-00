@@ -53,7 +53,7 @@
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen>
   </iframe>
-  <figcaption style="margin-top: 0.5rem; font-size: 0.85em; color: #555; text-align: center;">
+  <figcaption style="margin-top: 0.5rem; font-size: 0.85em; color: #555; text-align: left;">
     Google DeepMind chief warns AI investment looks ‘bubble-like’ <a href="https://eplnm.github.io/iframe/">(8:49)</a> | FT Interview
   </figcaption>
 </figure>
