@@ -37,6 +37,12 @@
     
 ## [C](https://eplnm.github.io/marx-00/)
 
+- Ensemble, [Form](https://eplnm.github.io/repo-08/) (**Invariance**)
+- Scale, [Orientation](https://ukb-dt.github.io/mcgilchrist-00/) (**Trajectory**)
+- Dynamical (**Cooperative**)
+- Topological, Perspectival (**Adversarial**)
+- Ethical, Aesthetic, Computational (**Transactional**)
+  
 <figure style="display: flex; flex-direction: column; align-items: center; width: 100%; margin: 2rem 0;">
   <iframe
     width="56%"
