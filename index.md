@@ -32,7 +32,7 @@
 - [07](https://jhufena.github.io/repo-07/) 
 - [08](https://eplnm.github.io/repo-08/)
 - [09](https://ukb-pyro.github.io/repo-09/) 
-- [10](https://cryo-pyro.github.io/repo-10/) ?
+- [10](https://cryo-pyro.github.io/repo-10/) 
 - [11](https://ukb-dt.github.io/repo-11/)
     
 ## [C](https://eplnm.github.io/marx-00/)
