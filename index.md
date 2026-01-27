@@ -9,8 +9,8 @@
   "jhufena": "@gmail, 240, mz, auth",
   "eplnm": "@gmail, 240, amz, auth",
   "ukb-pyro": "@gmail, okuzuula, underappeal@G",
-  "cryo-pyro": "@gmail, ukb.cryopyro, appeal@G",
-  "ukb-dt": "@gmail, 076, mz, auth, accounts-gh"
+  "cryo-pyro": "@gmail, 240, ukb.cryopyro, appeal@G",
+  "ukb-dt": "@gmail, 076, mz, auth, accounts-gh"      
 }
 ```
 
