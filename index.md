@@ -6,7 +6,7 @@
   "jhurepos": "@gmail, 240, auth, mz@gmail",
   "abikesa": ".sh@gmail, 571, auth",
   "muzaale": "@gmail, mz@icloud", 
-  "jhustata": "@icloud.com, failed pw?",
+  "jhustata": "@icloud.com, feel-the-bern, mobile",
   "pairs-jh": "@jhmi, microsoft auth",
   "jhufena": "@gmail, 240, mz, auth",
   "eplnm": "@gmail, 240, amz, auth",
