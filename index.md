@@ -22,7 +22,7 @@
 - [Prev](https://ukb-dt.github.io/journaling-10/), [Next](https://ukb-dt.github.io/journaling-11/)   
 - [More](https://abikesa.github.io/1y/), [Orig](https://github.com/abikesa/repos) 
 - [Loss](https://ukb-dt.github.io/nkonte-02/) of [Altitude](https://en.wikipedia.org/wiki/Loss_function)
-- [Ukhona](https://ukb-dt.github.io/fibromyalgia/), Ddx=SGD
+- [Ukhona](https://ukb-dt.github.io/fibromyalgia/), [DDx](https://en.wikipedia.org/wiki/Differential_diagnosis)=[SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent)
 
 ## [B](https://jhurepos.github.io/repos-XX/)
 - [01](https://ukubona-llc.github.io/repo-01/) 
