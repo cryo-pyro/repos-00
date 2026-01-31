@@ -23,6 +23,7 @@
 - [More](https://abikesa.github.io/1y/), [Orig](https://github.com/abikesa/repos) 
 - [Loss](https://ukb-dt.github.io/nkonte-02/) [of](https://en.wikipedia.org/wiki/Dissipation) [Altitude](https://en.wikipedia.org/wiki/Loss_function)
 - [Ukhona](https://ukb-dt.github.io/fibromyalgia/), [DDx](https://en.wikipedia.org/wiki/Differential_diagnosis)[=](https://abikesa.github.io/sgd-theology/)[SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent)
+- [SGD-Theology](https://jhufena.github.io/sgd-theology/)
 
 ## [B](https://jhurepos.github.io/repos-XX/)
 - [01](https://ukubona-llc.github.io/repo-01/) 
