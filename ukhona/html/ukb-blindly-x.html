@@ -151,6 +151,326 @@
   <p>In music theory, the logo's 60-second radar is metronomic yet stochastic — like jazz improvisation, feeling the pocket without seeing the score. Ant scouts syncopate: wander off-beat, return on-phrase. Calculus subsumes: descent via rhythmic gradients, minimizing dissonance in the auditory wild.</p>
   <p>Our emblem radars the groove: 360 degrees of harmonic possibility, scanned blindly every measure.</p>
 </section>
+
+<section class="card">
+  <h1>Exploring Ant Foraging Algorithms</h1>
+  <h2>From Biology to Computation</h2>
+  <p>
+    Ant foraging algorithms draw inspiration from the remarkable collective behaviors observed in real ant colonies, 
+    where simple individual actions lead to efficient group-level problem-solving. These biological processes have been 
+    abstracted into computational models, most notably Ant Colony Optimization (ACO), which applies to various optimization 
+    challenges. Below, we delve into the biological foundations, computational adaptations, key examples like the "anternet," 
+    and a practical simulation.
+  </p>
+</section>
+
+<section class="card">
+  <h1>Biological Foundations of Ant Foraging</h1>
+  <h2>I. Stigmergy — Indirect Communication</h2>
+  <h3>1. Pheromone Trails as Collective Memory</h3>
+  <p>
+    Real ants exhibit sophisticated foraging without central control, relying on <strong>stigmergy</strong>—indirect 
+    communication through environmental modifications, primarily via pheromone trails. When an ant discovers food, 
+    it deposits pheromones on its return path to the nest. Other ants detect these chemicals and probabilistically 
+    follow stronger trails, creating positive feedback: successful paths accumulate more pheromones, while unused 
+    ones fade due to evaporation. This balances exploration (random initial searches) and exploitation (reinforcing good paths).
+  </p>
+  
+  <h3>2. The Double-Bridge Experiment</h3>
+  <p>
+    Key experiments, such as the <strong>double-bridge setup</strong>, demonstrate this: ants placed between a nest 
+    and food source with two unequal bridges initially explore randomly but converge on the shorter bridge as 
+    pheromones build faster on it. In dynamic scenarios, evaporation prevents stagnation, allowing adaptation if 
+    food sources change.
+  </p>
+  
+  <h3>3. Gordon's Harvester Ants: Local Interactions, Global Regulation</h3>
+  <p>
+    Deborah Gordon's research on harvester ants highlights how colonies regulate foraging via local interactions: 
+    an ant decides to forage based on the rate of encountering returning foragers with food. This positive feedback 
+    ensures activity scales with resource availability, akin to evolutionary pressures in arid environments where 
+    water conservation influences behavior. Larger, older colonies show more stable responses, ignoring minor disturbances.
+  </p>
+  
+<figure class="responsive-img">
+  <img src="../img/stochastic-foragin-1.jpg" 
+       alt="Ant foraging dynamics diagram showing pheromone trails and recruitment strategies" 
+       loading="lazy">
+  <figcaption>
+    This diagram illustrates ant foraging dynamics, including pheromone trails and recruitment strategies across species.
+  </figcaption>
+</figure>
+</section>
+
+<section class="card">
+  <h1>Ant Colony Optimization (ACO)</h1>
+  <h2>II. From Biology to Computation</h2>
+  <h3>1. The Algorithm Genesis</h3>
+  <p>
+    ACO, first proposed by Marco Dorigo in 1992, mimics ant foraging to solve graph-based optimization problems 
+    like the Traveling Salesman Problem (TSP). Artificial "ants" construct solutions on a graph, depositing virtual 
+    pheromones on promising components, with evaporation promoting diversity.
+  </p>
+  
+  <h3>2. Key Principles</h3>
+  <ul>
+    <li><strong>Pheromone Trails (τ):</strong> Represent solution quality.</li>
+    <li><strong>Heuristic Information (η):</strong> Often inverse distance (e.g., $1/d$ for edges).</li>
+    <li><strong>Probabilistic Choice:</strong> Ants select next steps with probability</li>
+  </ul>
+  
+  $$ p_{xy}^k = \frac{(\tau_{xy}^\alpha) (\eta_{xy}^\beta)}{\sum (\tau_{xz}^\alpha) (\eta_{xz}^\beta)} $$
+  
+  <p>where $\alpha$ and $\beta$ weight pheromone and heuristic.</p>
+  
+  <ul>
+    <li><strong>Updates:</strong> After tours, pheromones evaporate ($\tau \leftarrow (1 - \rho)\tau$) and are reinforced ($\Delta\tau = Q / L$ for tour length $L$).</li>
+    <li><strong>Stigmergy in ACO:</strong> Ants communicate indirectly via a shared pheromone matrix, leading to emergent optimal paths.</li>
+  </ul>
+  
+  <h3>3. Algorithm Steps</h3>
+  <ol>
+    <li>Initialize pheromones uniformly.</li>
+    <li>Each ant builds a solution stochastically.</li>
+    <li>Evaluate solutions (e.g., tour cost).</li>
+    <li>Update pheromones globally, favoring better solutions.</li>
+    <li>Repeat until convergence or max iterations.</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h1>ACO Variants</h1>
+  <h2>III. Evolution of the Algorithm</h2>
+  <h3>1. Taxonomic Overview</h3>
+  
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Key Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ant System (AS)</td>
+          <td>Basic global update; prone to stagnation.</td>
+        </tr>
+        <tr>
+          <td>Ant Colony System (ACS)</td>
+          <td>Local updates during construction; elitist global reinforcement.</td>
+        </tr>
+        <tr>
+          <td>Max-Min Ant System (MMAS)</td>
+          <td>Bounds pheromones to $[\tau_{\min}, \tau_{\max}]$ for better exploration.</td>
+        </tr>
+        <tr>
+          <td>Elitist AS</td>
+          <td>Best solution always deposits extra pheromones.</td>
+        </tr>
+        <tr>
+          <td>Rank-Based AS</td>
+          <td>Weights updates by solution rank.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <h3>2. Applications</h3>
+  <p>ACO excels in NP-hard problems:</p>
+  <ul>
+    <li><strong>Routing:</strong> TSP, vehicle routing.</li>
+    <li><strong>Scheduling:</strong> Job-shop, flow-shop.</li>
+    <li><strong>Assignment:</strong> Quadratic assignment, graph coloring.</li>
+    <li><strong>Other:</strong> Protein folding, network routing, image processing.</li>
+  </ul>
+  <p>It adapts to dynamic environments, like changing graphs in telecom.</p>
+  
+<figure class="responsive-img">
+  <img src="../img/stochastic-foragin-2.jpg" 
+       alt="ACO iterations visualization showing convergence on optimal TSP tour" 
+       loading="lazy">
+  <figcaption>
+    This visualization shows ACO iterations converging on an optimal TSP tour.
+  </figcaption>
+</figure>
+
+</section>
+
+<section class="card">
+  <h1>The "Anternet"</h1>
+  <h2>IV. Parallels to Internet Protocols</h2>
+  <h3>1. TCP in the Wild</h3>
+  <p>
+    Gordon and Balaji Prabhakar discovered that harvester ants' foraging mirrors the Transmission Control Protocol (TCP) 
+    for internet data traffic—coining it the <strong>"anternet."</strong> Ants adjust foraging rates based on returning 
+    foragers' speed, similar to TCP using packet acknowledgments to gauge bandwidth: fast returns increase activity 
+    (like ramping up data flow), slow returns reduce it (avoiding congestion).
+  </p>
+  
+  <h3>2. Experimental Validation</h3>
+  <p>
+    Experiments confirmed this: manipulating return rates matched TCP-inspired predictions, including 
+    <strong>"slow start"</strong> (initial probing) and <strong>"timeout"</strong> (halting if no returns). 
+    This suggests ant algorithms could inspire robust, decentralized networks, such as distributed robotics or sensor systems.
+  </p>
+  
+  <h3>3. Implications for Network Design</h3>
+  <p>
+    The anternet demonstrates that <em>biological systems have independently evolved solutions to computational problems</em>. 
+    Key takeaways for network engineering:
+  </p>
+  <ul>
+    <li>Decentralized control scales better than hierarchical architectures</li>
+    <li>Local feedback (encounter rates) can regulate global behavior (colony foraging efficiency)</li>
+    <li>Adaptive bandwidth allocation emerges without centralized coordination</li>
+    <li>Robustness to node failure is inherent in the protocol</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h1>Practical Simulation</h1>
+  <h2>V. Basic ACO for TSP</h2>
+  <h3>1. Problem Setup</h3>
+  <p>
+    To illustrate, consider a simple Python implementation of Ant System for a 5-city TSP with the distance matrix:
+  </p>
+  
+  $$
+  \begin{bmatrix}
+  0 & 2 & 9 & 10 & 7 \\
+  2 & 0 & 6 & 4 & 3 \\
+  9 & 6 & 0 & 8 & 5 \\
+  10 & 4 & 8 & 0 & 1 \\
+  7 & 3 & 5 & 1 & 0
+  \end{bmatrix}
+  $$
+  
+  <h3>2. Results</h3>
+  <p>
+    Running 10 ants over 50 iterations with parameters ($\alpha=1$, $\beta=5$, $\rho=0.5$, $Q=100$) yields:
+  </p>
+  <ul>
+    <li><strong>Best tour:</strong> $[4, 3, 1, 0, 2, 4]$</li>
+    <li><strong>Best cost:</strong> $21$</li>
+  </ul>
+  
+  <p>
+    The cost stabilizes early, demonstrating convergence via pheromone reinforcement. 
+    In larger problems, variants like MMAS improve performance.
+  </p>
+  
+<figure class="responsive-img">
+  <img src="../img/stochastic-foragin-3.jpg" 
+       alt="ACO simulation for TSP showing path evolution and cost reduction over iterations" 
+       loading="lazy">
+  <figcaption>
+    Another ACO simulation for TSP, displaying path evolution and cost reduction.
+  </figcaption>
+</figure>
+</section>
+
+<section class="card">
+  <h1>Synthesis: Nature's Efficiency</h1>
+  <h2>VI. Decentralized Systems</h2>
+  <h3>1. Emergent Intelligence</h3>
+  <p>
+    Ant foraging algorithms showcase nature's efficiency in decentralized systems, with broad implications for AI, 
+    networking, and optimization. The key insight is that <strong>complex global behavior emerges from simple local rules</strong>:
+  </p>
+  
+  <h3>2. Core Principles Abstracted</h3>
+  <ul>
+    <li><strong>No central coordinator:</strong> Each agent (ant/algorithm) operates independently</li>
+    <li><strong>Stigmergy:</strong> Indirect communication via environment (pheromones/data structures)</li>
+    <li><strong>Positive feedback:</strong> Good solutions are reinforced exponentially</li>
+    <li><strong>Evaporation/forgetting:</strong> Poor solutions fade, maintaining adaptability</li>
+    <li><strong>Stochastic exploration:</strong> Randomness prevents premature convergence</li>
+  </ul>
+  
+  <h3>3. Cross-Domain Applications</h3>
+  <p>
+    The mapping from biological foraging to computational optimization reveals universal patterns:
+  </p>
+  <ul>
+    <li><strong>Logistics:</strong> Vehicle routing, warehouse management</li>
+    <li><strong>Telecommunications:</strong> Network routing, load balancing</li>
+    <li><strong>Manufacturing:</strong> Job scheduling, assembly line optimization</li>
+    <li><strong>Robotics:</strong> Swarm coordination, path planning</li>
+    <li><strong>Finance:</strong> Portfolio optimization, trading strategies</li>
+    <li><strong>Bioinformatics:</strong> Protein structure prediction, DNA sequencing</li>
+  </ul>
+  
+  <h3>4. The Ukubona Connection</h3>
+  <p>
+    Just as ants "see" via pheromone gradients (ukubona — to see blindly), 
+    ACO algorithms navigate solution spaces through indirect feedback. 
+    The 360°/60s compass metaphor applies: each ant's random walk samples the landscape, 
+    and the colony integrates these measurements into an emergent understanding of optimal paths. 
+    This is <em>stochastic foraging</em> distilled into computational form—
+    survival through gradient descent in the dark.
+  </p>
+</section>
+
+<section class="card">
+  <h1>Mathematical Formalism</h1>
+  <h2>VII. The Pheromone Update Rule</h2>
+  <h3>1. Global Update Equation</h3>
+  <p>
+    The complete pheromone update in Ant System combines evaporation and deposition:
+  </p>
+  
+  $$ \tau_{ij}(t+1) = (1-\rho) \cdot \tau_{ij}(t) + \sum_{k=1}^{m} \Delta\tau_{ij}^k $$
+  
+  <p>where:</p>
+  <ul>
+    <li>$\tau_{ij}(t)$ is pheromone on edge $(i,j)$ at time $t$</li>
+    <li>$\rho \in [0,1]$ is evaporation rate</li>
+    <li>$m$ is number of ants</li>
+    <li>$\Delta\tau_{ij}^k$ is pheromone deposited by ant $k$</li>
+  </ul>
+  
+  <h3>2. Ant Deposition Strategy</h3>
+  <p>
+    For ant $k$ that used edge $(i,j)$ in its tour:
+  </p>
+  
+  $$ \Delta\tau_{ij}^k = \begin{cases} 
+  \frac{Q}{L_k} & \text{if edge } (i,j) \text{ in tour } k \\
+  0 & \text{otherwise}
+  \end{cases} $$
+  
+  <p>where $Q$ is a constant and $L_k$ is the total tour length for ant $k$.</p>
+  
+  <h3>3. Probabilistic State Transition</h3>
+  <p>
+    When ant $k$ at city $i$ chooses next city $j$:
+  </p>
+  
+  $$ p_{ij}^k = \begin{cases}
+  \frac{[\tau_{ij}]^\alpha \cdot [\eta_{ij}]^\beta}{\sum_{l \in \mathcal{N}_i^k} [\tau_{il}]^\alpha \cdot [\eta_{il}]^\beta} & \text{if } j \in \mathcal{N}_i^k \\
+  0 & \text{otherwise}
+  \end{cases} $$
+  
+  <p>where:</p>
+  <ul>
+    <li>$\mathcal{N}_i^k$ is the set of feasible cities for ant $k$ at city $i$</li>
+    <li>$\eta_{ij} = 1/d_{ij}$ is heuristic desirability (inverse distance)</li>
+    <li>$\alpha$ controls pheromone influence</li>
+    <li>$\beta$ controls heuristic influence</li>
+  </ul>
+  
+  <h3>4. The Gradient Descent Analogy</h3>
+  <p>
+    Compare to SGD: $\theta_{t+1} = \theta_t - \eta \nabla J(\theta_t)$
+  </p>
+  <p>
+    In ACO, the "gradient" is the pheromone landscape $\tau$, the "learning rate" is $\rho$ (evaporation), 
+    and the "loss" is tour length $L$. Instead of deterministic descent, we have <em>probabilistic ascent</em> 
+    toward high-pheromone regions, with noise ($\beta$ heuristic) preventing local optima.
+  </p>
+</section>
+
   </main>
   <!-- footer -->
   <footer class="footer">
