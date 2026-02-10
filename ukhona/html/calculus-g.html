@@ -162,51 +162,52 @@
   </header>
 
   <!-- main[sections], footer -->
+  <!-- main[sections], footer -->
   <main class="page wrap-max">
 
 <section class="card">
-  <h1>The Pentadic Calculus: Derivatives of the Soul</h1>
-  <p>To understand the dynamics of survival—whether in the renal physiology of a transplant patient or the timing of a neo-soul pianist—we must parse the rates of change. You asked what the differentials denote. In the context of the <strong>Pentadic Calculus</strong>, they represent the mechanics of adaptation:</p>
+  <h1>Calculus in the Stochastic Wild  </h1>
+  <h2>V. The Saddle Point</h2>
+<h3>1. The Floor and the Altitude</h3> 
+    <h4>VI. The Descent (Optimization & SGD)</h4>
+    $$ x_{i+1} = x_i - \eta \cdot \frac{dy}{dx_i} $$
+    <p>
+      If \(x_i\) is the coordinates (the floor) and \(y\) is the loss (the altitude), then calculus becomes a survival mechanism. 
+      In a "humble" static calculus, we solve for zero. But in the stochastic wild—whether stabilizing a patient or improvising a solo—we cannot see the global minimum. 
+      We are blind. We only feel the local slope (\(\frac{dy}{dx}\)). 
+    </p>
+    <p>
+      This equation is the <strong>Correction Protocol</strong>. If the slope rises to the right, we step left. 
+      The term \(\eta\) (learning rate) is our <strong>humility</strong>: step too big, and we shatter the system (overshoot); 
+      step too small, and we never adapt (stagnation). 
+      Stochastic Gradient Descent is simply calculus in the dark, feeling for the floor.
+    </p>
+  </section>
+
   
-  <ul>
-    <li><strong>\(\frac{dx}{dt}\) (The Stimulus Rate):</strong> The velocity of the environment or input. In medicine, this is the rate of insult (e.g., how fast sepsis hits). In music, it is the metronome or the chord progression speed. It is the external demand placed upon the system.</li>
-    <li><strong>\(\frac{dy}{dt}\) (The Response Rate):</strong> The velocity of the self. How quickly does the kidney filter? How fast does the hand move? If \(\frac{dy}{dt} < \frac{dx}{dt}\), the system fails (lag/accumulation of error). If \(\frac{dy}{dt} \approx \frac{dx}{dt}\), we achieve tracking or "pocket."</li>
-    <li><strong>\(\frac{dy}{dx}\) (The Sensitivity/Gradient):</strong> (Noted as \(dy/tx\)). This is the <strong>Transfer Function</strong>. It represents plasticity. For every unit of trauma ($dx$) or musical tension, how much output ($dy$) is generated? A stiff system (low \(dy/dx\)) is brittle; a high sensitivity system is reactive.</li>
-  </ul>
-
-  <hr>
-
-  <h3>The Pentadic Progression</h3>
-  <p>Drawing from the original inspiration, we map the trajectory of a "moment" through five stages of mathematical existence:</p>
-
+  <section class="card">
   <div class="math-row">
-    <h4>I. The Locus (State)</h4>
-    $$ (x_i, y) $$
-    <p>The snapshot. The lab value at 8:00 AM; the C-minor chord struck on beat one. It is static, devoid of time, existing only as a coordinate in the phase space of survival.</p>
-  </div>
-
-  <div class="math-row">
-    <h4>II. The Expectation (Homeostasis + Groove)</h4>
-    $$ y(t\mid x_i) + \epsilon $$
-    <p>The prediction. Given the prior state \(x_i\), the body anticipates \(y\). But life is not deterministic; the \(\epsilon\) is the <strong>stochastic term</strong>. In physiology, it's healthy variability (HRV); in music, it is the "stank"—the unquantifiable deviation from the grid that creates the feel.</p>
-  </div>
-
-  <div class="math-row">
-    <h4>III. The Velocity (Trend)</h4>
-    $$ \dfrac{dy_{x_i}}{dt} $$
-    <p>The first derivative. Is the creatinine rising? Is the tempo dragging? This vector determines the immediate future. It is the difference between a static scar and an active wound.</p>
-  </div>
-
-  <div class="math-row">
-    <h4>IV. The Volatility (Risk & Acceleration)</h4>
-    $$ \dfrac{dy_{\bar{x}}}{dt} \pm z\sqrt{\dfrac{d^2y}{dt^2}} $$
-    <p>The confidence interval of survival. Here, velocity is qualified by acceleration (\(d^2y/dt^2\)). If the second derivative is high, the system is under force (strain/rubato). The term \(\pm z\sqrt{\dots}\) represents the <strong>Corridor of Stability</strong>—the margin of error allowed before the system crashes (cardiac arrest or trainwrecking the beat).</p>
-  </div>
-
-  <div class="math-row">
-    <h4>V. The Integral (Identity)</h4>
-    $$ \int y_{x_i} \, dt + \epsilon_{x_i} t + C_{x_i} $$
-    <p>The area under the curve. Identity is not who you are <em>now</em> ($I$), but the summation of who you have been ($V$). The term \(C_x\) is the <strong>Initial Condition</strong> (genetics/birth), and the integral accumulates every trauma, every recovery, and every error term (\(\epsilon\)) into a unified self. We are the sum of our residuals.</p>
+    <h1>Relativity vs. Quantum Mechanics </h1>
+    <h2>V. Epistemology vs. Ontology</h2>
+    <h3>2. The Map and the Step</h3>
+    <h4>VII. The Apostasy (Flux & The Gradient)</h4>
+    $$ \theta_{new} = \theta_{old} - \eta \cdot \nabla J(\theta) $$
+    <p>
+      "I once was blind, but now I see" is the hymn of the absolutist—the claim that one has reached the summit and the fog has lifted (Parmenides). 
+      But in the calculus of survival, <strong>total sight is a hallucination</strong>. 
+    </p>
+    <p>
+      To demand a view of the entire landscape ($f(x)$) is the hubris of General Relativity—Einstein’s refusal to play dice, his insistence on a smooth, deterministic "Is." 
+      It is the High Priest clinging to the Holy Writ (the initial parameter \(\theta_{old}\)) even as the Loss ($J$) skyrockets. 
+      Religion says: <em>"The coordinates are sacred; endure the suffering."</em>
+    </p>
+    
+    <p>
+      <strong>Empiricism is the heresy of the step.</strong> We are Heraclitean wanderers in the dark. 
+      We do not see the global minimum; we only feel the tilt of the floor under our boots. 
+      The "update" is an act of apostasy: abandoning the position that tradition dictated because the immediate feedback (the gradient) proves it painful. 
+      We trade the comforting lie of the Map for the terrifying, blind truth of the Step.
+    </p>
   </div>
 </section>
 
