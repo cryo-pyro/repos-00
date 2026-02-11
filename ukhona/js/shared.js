@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     ['services-section',  '/assets/html/services-section.html'],
     ['metrics-section',   '/assets/html/metrics-section.html'],
     ['modal-overlay',     '/assets/html/modal-overlay.html'],
-    ['footer-placeholder','/ukhona/html/footer.html'], //edited path 
+    ['footer-placeholder','ukhona/html/footer.html'], //edited path 
   ];
 
   async function inject(id, path){
