@@ -73,4 +73,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     initMenuToggle();
     initScrollProgress();
+    loadFooter(); // ← ADDED THIS LINE
 });
