@@ -1,115 +1,110 @@
-/* Ukubona shared.js - Bulletproof Version (2026-02-13) */
+/**
+ * shared.js - The Unified Ecosystem Script
+ * Handles: Grid Menu, Theme Toggle, Scroll Progress, Footer Injection
+ */
 
-document.addEventListener('DOMContentLoaded', async () => {
-  'use strict';
+document.addEventListener('DOMContentLoaded', () => {
+    'use strict';
 
-  const doc = document;
-  const html = doc.documentElement;
+    // --- 1. THE GRID MENU (The "Fucking Broken" Part) ---
+    const menuBtn = document.getElementById('menuIcon');
+    const menuGrid = document.getElementById('gridMenu');
 
-  // 1. Determine how many levels deep we are to fix relative paths
-  // If we are in ukhona/html/file.html, we need to go up two levels (../..)
-  const pathDepth = window.location.pathname.includes('/ukhona/html/') ? '../../' : './';
+    if (menuBtn && menuGrid) {
+        menuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isActive = menuGrid.classList.toggle('active');
+            
+            // Manual override to bypass any CSS bracket/specificity issues
+            if (isActive) {
+                menuGrid.style.display = 'grid';
+                menuGrid.style.opacity = '1';
+                menuGrid.style.visibility = 'visible';
+                menuGrid.style.pointerEvents = 'auto';
+                menuGrid.style.transform = 'translateY(0)';
+                menuBtn.setAttribute('aria-expanded', 'true');
+            } else {
+                menuGrid.style.opacity = '0';
+                menuGrid.style.visibility = 'hidden';
+                menuGrid.style.pointerEvents = 'none';
+                menuGrid.style.transform = 'translateY(-10px)';
+                menuBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
 
-  // 2. Define exactly where your files actually are based on your tree
-  const PARTIALS = [
-    { id: 'header', path: 'ukhona/html/header.html' },
-    { id: 'footer-placeholder', path: 'ukhona/html/footer.html' }
-  ];
-
-  // 3. The Injector Function
-  async function inject(id, relativePath) {
-    const host = doc.getElementById(id);
-    if (!host) return;
-
-    // Construct the correct URL based on where the current page is located
-    const finalUrl = pathDepth + relativePath;
-
-    try {
-      const res = await fetch(finalUrl, { cache: 'no-cache' });
-      if (!res.ok) throw new Error(`HTTP ${res.status} at ${finalUrl}`);
-      
-      const content = await res.text();
-      host.innerHTML = content;
-      
-      // Re-trigger feather icons if they exist in the loaded HTML
-      if (window.feather) window.feather.replace();
-      
-      console.log(`✅ Loaded ${id} from ${finalUrl}`);
-    } catch (e) {
-      console.error(`❌ Failed to load ${id}:`, e);
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuGrid.contains(e.target) && !menuBtn.contains(e.target)) {
+                menuGrid.classList.remove('active');
+                menuGrid.style.opacity = '0';
+                menuGrid.style.visibility = 'hidden';
+            }
+        });
     }
-  }
 
-  // 4. Run the injections
-  await Promise.all(PARTIALS.map(p => inject(p.id, p.path)));
+    // --- 2. THEME TOGGLE ---
+    const themeBtn = document.getElementById('toggle-theme');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
 
-  /* ======================================================
-     Theme Toggle Logic
-  ====================================================== */
-  const logo = doc.getElementById('logo');
-  const btn = doc.getElementById('toggle-theme');
-  const LIGHT = 'https://abikesa.github.io/logos/assets/ukubona-light.png';
-  const DARK = 'https://abikesa.github.io/logos/assets/ukubona-dark.png';
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeBtn.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        });
+    }
 
-  function setTheme(t) {
-    html.dataset.theme = t;
-    localStorage.setItem('theme', t);
-    if (logo) logo.src = (t === 'dark') ? DARK : LIGHT;
-    if (btn) btn.textContent = (t === 'dark') ? '🌙' : '🌞';
-  }
+    // --- 3. SCROLL PROGRESS ---
+    const progress = document.querySelector('.scroll-progress');
+    if (progress) {
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progress.style.width = scrolled + "%";
+        });
+    }
 
-  setTheme(localStorage.getItem('theme') || 'dark');
+    // --- 4. FOOTER INJECTION & CHORUS ROTATION ---
+    const footerPlaceholder = document.getElementById('footer-placeholder');
+    if (footerPlaceholder) {
+        // Determine path base (GitHub Pages vs Local)
+        const isSubDir = window.location.pathname.includes('/ukhona/html/');
+        const footerPath = isSubDir ? '../html/footer.html' : 'ukhona/html/footer.html';
 
-  if (btn) {
-    btn.addEventListener('click', () => {
-      setTheme(html.dataset.theme === 'dark' ? 'light' : 'dark');
-    });
-  }
+        fetch(footerPath)
+            .then(response => {
+                if (!response.ok) throw new Error('Footer missing');
+                return response.text();
+            })
+            .then(data => {
+                footerPlaceholder.innerHTML = data;
+                initFooterChorus(); // Start rotation once loaded
+            })
+            .catch(err => console.warn("Footer load failed:", err));
+    }
 
-  /* ======================================================
-     Grid Menu Logic
-  ====================================================== */
-  const menu = doc.getElementById('gridMenu');
-  const menuBtn = doc.getElementById('menuIcon');
+    function initFooterChorus() {
+        const box = document.querySelector('.rotating-chorus');
+        if (!box) return;
+        
+        const chips = Array.from(box.querySelectorAll('.chip'));
+        if (chips.length === 0) return;
 
-  if (menu && menuBtn) {
-    menuBtn.onclick = (e) => {
-      e.stopPropagation();
-      menu.classList.toggle('active');
-    };
-    doc.onclick = (e) => {
-      if (!menu.contains(e.target)) menu.classList.remove('active');
-    };
-  }
+        let currentIndex = 0;
+        // Hide all but first
+        chips.forEach((chip, idx) => chip.style.display = idx === 0 ? 'inline' : 'none');
 
-/* ======================================================
-     Footer Rotation Logic (The Chorus)
-  ====================================================== */
-  const rotateChorus = () => {
-    // 1. Find the container in the newly injected footer
-    const box = doc.querySelector('.footer-chorus') || doc.querySelector('.rotating-chorus');
-    if (!box) return;
-
-    // 2. Identify the chips/phrases
-    const chips = Array.from(box.querySelectorAll('.chip'));
-    if (chips.length < 2) return;
-
-    // 3. Initial state: hide everything except the first one
-    chips.forEach((c, i) => {
-      c.style.display = i === 0 ? 'inline' : 'none';
-    });
-
-    let currentIndex = 0;
-
-    // 4. The Loop: Change every 5 seconds (adjust 5000 as needed)
-    setInterval(() => {
-      chips[currentIndex].style.display = 'none';
-      currentIndex = (currentIndex + 1) % chips.length;
-      chips[currentIndex].style.display = 'inline';
-    }, 5000); 
-  };
-
-  // Because the footer is loaded via fetch (async), we need to wait 
-  // a tiny bit for the DOM to catch up before starting the rotation.
-  setTimeout(rotateChorus, 500);
+        setInterval(() => {
+            chips[currentIndex].style.display = 'none';
+            currentIndex = (currentIndex + 1) % chips.length;
+            chips[currentIndex].style.display = 'inline';
+        }, 5000);
+    }
 });
