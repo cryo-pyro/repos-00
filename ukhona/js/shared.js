@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const $  = (s, r = doc) => r.querySelector(s);
   const $$ = (s, r = doc) => Array.from(r.querySelectorAll(s));
 
-  // --- Repo base (project pages vs apex) ---
-  const REPO = '/repos-00/';
+  // --- Repo base (project pages vs apex) --- (now with auto-detection for easier local testing)
+  const REPO = '/' + location.pathname.split('/')[1] + '/';
   const BASE = location.pathname.startsWith(REPO) ? REPO : '';
 
   // --- Cache-bust version (bump when partials change) ---
@@ -38,8 +38,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     ['services-section',  '/assets/html/services-section.html'],
     ['metrics-section',   '/assets/html/metrics-section.html'],
     ['modal-overlay',     '/assets/html/modal-overlay.html'],
-    ['footer-placeholder','ukhona/html/footer.html'], //edited path 
+    ['footer-placeholder','/ukhona/html/footer.html'], // ✅ fixed
   ];
+
 
   async function inject(id, path){
     const host = doc.getElementById(id);
