@@ -223,6 +223,9 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .page {
+        padding-top: 100px;  /* MOBILE FIX - only change made */
+    }
     .nav-links { display: none; }
     .app-grid {
         right: 1rem;
