@@ -112,9 +112,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- THEME TOGGLE ---
     function initThemeToggle() {
         const themeBtn = document.getElementById('toggle-theme');
+        const logo = document.getElementById('logo');
         const savedTheme = localStorage.getItem('theme') || 'dark';
         
         document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Update logo for initial theme
+        if (logo) {
+            const lightSrc = logo.getAttribute('data-light-src');
+            const darkSrc = logo.getAttribute('data-dark-src');
+            logo.src = savedTheme === 'dark' ? darkSrc : lightSrc;
+        }
 
         if (themeBtn) {
             themeBtn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
@@ -126,6 +134,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 themeBtn.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+                
+                // Switch logo
+                if (logo) {
+                    const lightSrc = logo.getAttribute('data-light-src');
+                    const darkSrc = logo.getAttribute('data-dark-src');
+                    logo.src = newTheme === 'dark' ? darkSrc : lightSrc;
+                }
             });
         }
     }
