@@ -1,4 +1,4 @@
-/* ===== HEAD.CSS (Variables removed - now in variables.css) ===== */
+/* ===== HEAD.CSS (Integrated & Full Version) ===== */
 
 /* Base Styles */
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,18 +38,29 @@ body {
 .scroll-indicator { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 1000; background: var(--glass); }
 .scroll-progress { height: 100%; width: 0%; background: var(--primary-gradient); transition: width .3s ease; }
 
-/* HEADER */
+/* HEADER - Scaled for Brand Presence */
 .header {
     position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
     backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
-    background: var(--surface); border-bottom: 1px solid var(--border); min-height: var(--header-h);
+    background: var(--surface); border-bottom: 1px solid var(--border); 
+    min-height: 140px; /* Increased for the 90px logo */
 }
-.nav-container { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; }
+.nav-container { 
+    height: 140px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+}
 
 #logo.logo {
-    width: var(--logo-size); height: var(--logo-size); object-fit: contain;
-    transform-origin: center center; animation: spin var(--logo-spin-duration) linear infinite;
-    display: block; will-change: transform;
+    width: 90px !important; 
+    height: 90px !important; 
+    object-fit: contain;
+    transform-origin: center center; 
+    animation: spin var(--logo-spin-duration) linear infinite;
+    display: block; 
+    will-change: transform;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.1));
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -87,7 +98,7 @@ body {
 
 .app-grid {
     position: fixed;
-    top: calc(var(--header-h) + 8px);
+    top: 148px; /* Adjusted for taller header */
     right: 2rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -221,23 +232,24 @@ body {
     color: var(--text);
 }
 
-/* Responsive */
+/* Responsive - MOBILE HERO FIXES */
 @media (max-width: 768px) {
     .header {
-        min-height: 80px; /* Shrink header on mobile */
+        min-height: 110px; 
     }
     .nav-container {
-        height: 80px;
+        height: 110px;
     }
     #logo.logo {
-        width: 60px;
-        height: 60px;
+        width: 75px !important;
+        height: 75px !important;
     }
     .page {
-        padding-top: 82px;  /* Barely above 80px header */
+        padding-top: 200px !important;  
     }
     .nav-links { display: none; }
     .app-grid {
+        top: 118px;
         right: 1rem;
         left: 1rem;
         grid-template-columns: repeat(2, 1fr);
@@ -268,7 +280,7 @@ body {
     color: #667eea;
 }
 
-/* Footer links: Specific selectors to override after injection */
+/* Footer links */
 .footer a,
 .footer-micro a,
 #footer-placeholder a {
@@ -286,7 +298,7 @@ body {
     border-bottom-color: rgba(102, 126, 234, 0.4) !important;
 }
 
-/* Figcaption links: Ultra subtle */
+/* Figcaption links */
 figcaption a {
     color: inherit;
     text-decoration: none;
