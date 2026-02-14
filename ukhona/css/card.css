@@ -154,7 +154,7 @@ a.cta:hover {
 @media (max-width: 768px) {
   .card {
     margin: 0 auto 48px;
-    padding: 24px 20px;
+    padding: 16px 20px;  /* REDUCED from 24px to 16px for better mobile visibility */
     max-width: 90%;
   }
   
