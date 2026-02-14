@@ -234,7 +234,7 @@ body {
         height: 60px;
     }
     .page {
-        padding-top: 75px;  /* User requested 75px */
+        padding-top: 85px;  /* Header (80px) + 5px gap */
     }
     .nav-links { display: none; }
     .app-grid {
