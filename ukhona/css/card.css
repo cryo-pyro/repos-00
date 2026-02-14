@@ -33,7 +33,7 @@
 }
 
 /* Card headings */
-.card-title { 
+.card-title, .card h1 { 
   margin: 0; 
   font-size: 2rem; 
   font-weight: 800; 
@@ -43,6 +43,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-align: left;
+  display: block; /* Ensures visibility on mobile Safari */
 }
 
 .card-subtitle { 
@@ -153,14 +154,22 @@ a.cta:hover {
 /* Responsive design */
 @media (max-width: 768px) {
   .card {
-    /* Set to 180px to clear the 160px header + padding buffer */
+    /* CRITICAL FIX: Add 180px top margin to clear the 160px header */
+    /* Page padding-top is 180px on desktop but often collapses on mobile */
     margin: 180px auto 48px !important;  
-    padding: 12px 20px;
+    
+    padding: 20px 20px;  
     max-width: 90%;
   }
   
-  .card-title {
+  .card h1 {
     font-size: 1.75rem;
+    margin-bottom: 20px;
+    /* Ensure text renders even if gradient fails */
+    -webkit-text-fill-color: initial;
+    color: var(--text);
+    background: none;
+    -webkit-background-clip: initial;
   }
   
   .card-subtitle {
