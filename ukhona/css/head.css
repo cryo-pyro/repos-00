@@ -234,7 +234,7 @@ body {
         height: 60px;
     }
     .page {
-        padding-top: 100px;  /* Compensate for smaller header */
+        padding-top: 75px;  /* User requested 75px */
     }
     .nav-links { display: none; }
     .app-grid {
