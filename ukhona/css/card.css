@@ -153,8 +153,8 @@ a.cta:hover {
 /* Responsive design */
 @media (max-width: 768px) {
   .card {
-    margin: 0 auto 48px;
-    padding: 16px 20px;  /* REDUCED from 24px to 16px for better mobile visibility */
+    margin: 0 auto 48px;  /* 0 top margin - NO gap */
+    padding: 12px 20px;  /* Even less padding */
     max-width: 90%;
   }
   
