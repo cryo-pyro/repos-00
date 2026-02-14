@@ -1,46 +1,6 @@
-/* ===== 1. ROOT VARIABLES & THEMES ===== */
-:root {
-    /* Ukubona Core Tokens */
-    --max-wrap: 1120px;
-    --pad-x: 24px;
-    --header-h: 80px;
-    --s-1: 8px; --s-2: 12px; --s-3: 16px; --s-4: 24px;
-    --s-5: 32px; --s-6: 48px; --s-7: 64px; --s-8: 96px;
+/* ===== MAIN.CSS (Variables removed - now in variables.css) ===== */
 
-    /* Design Tokens */
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-    
-    --blur: 20px;
-    --radius: 16px;
-    --shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --logo-size: 140px;
-    --logo-spin-duration: 60s;
-}
-
-[data-theme="light"] {
-    --bg: #fafafa;
-    --surface: rgba(255, 255, 255, 0.9);
-    --glass: rgba(0, 0, 0, 0.02);
-    --border: rgba(0, 0, 0, 0.08);
-    --text: #1a1a1a;
-    --text-secondary: rgba(0, 0, 0, 0.7);
-}
-
-[data-theme="dark"] {
-    --bg: #0a0a0f;
-    --surface: rgba(15, 15, 25, 0.8);
-    --glass: rgba(255, 255, 255, 0.05);
-    --border: rgba(255, 255, 255, 0.1);
-    --text: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-}
-
-/* ===== 2. BASE STYLES ===== */
+/* ===== BASE STYLES ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
     font-family: 'Inter', sans-serif;
@@ -67,7 +27,7 @@ body {
     50% { transform: translate(20px, 10px); }
 }
 
-/* ===== 3. HEADER & NAV ===== */
+/* ===== HEADER & NAV ===== */
 .header {
     position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
     backdrop-filter: blur(var(--blur)); background: var(--surface);
@@ -83,6 +43,7 @@ body {
     width: var(--logo-size); height: var(--logo-size);
     animation: spin var(--logo-spin-duration) linear infinite;
     transition: transform 0.3s ease;
+    will-change: transform;
 }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
@@ -95,10 +56,10 @@ body {
 }
 .menu-icon div { width: 6px; height: 6px; background: var(--text); border-radius: 50%; }
 
-/* ===== 4. THE APP GRID (THE FIX) ===== */
+/* ===== APP GRID (FIXED VERSION) ===== */
 .app-grid {
-    position: fixed !important;
-    top: 90px;
+    position: fixed;
+    top: calc(var(--header-h) + 10px);
     right: 2rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -110,8 +71,10 @@ body {
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     z-index: 2000;
+    max-height: 80vh;
+    overflow-y: auto;
     
-    /* State Logic */
+    /* Hidden by default */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -120,10 +83,10 @@ body {
 }
 
 .app-grid.active {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateY(0) !important;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
 .app-grid a {
@@ -133,7 +96,7 @@ body {
 }
 .app-grid a:hover { background: var(--primary-gradient); color: #fff; transform: translateY(-2px); }
 
-/* ===== 5. HERO & CONTENT ===== */
+/* ===== HERO & CONTENT ===== */
 .hero {
     min-height: 80vh; display: flex; align-items: center; justify-content: center;
     text-align: center; padding: 2rem;
@@ -151,7 +114,7 @@ body {
 .cta-primary { background: var(--primary-gradient); color: white; }
 .cta-secondary { background: var(--glass); color: var(--text); border: 1px solid var(--border); }
 
-/* ===== 6. CARDS & METRICS ===== */
+/* ===== CARDS & METRICS ===== */
 .role-grid, .services-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem; padding: 2rem 0;
@@ -167,11 +130,11 @@ body {
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-/* ===== 7. FOOTER ===== */
+/* ===== FOOTER ===== */
 .footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
 .footer-chorus .chip { background: var(--warning-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
 
-/* ===== 8. RESPONSIVE ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 767px) {
     .app-grid {
         right: 1rem; left: 1rem;

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<!-- html, head, body[header, main, footer] -->
 <html lang="en" data-theme="dark">
-<!-- head, body[header, main, footer] -->
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -11,10 +9,8 @@
   <meta name="description" content="The Dude's Rug.">
   <link rel="canonical" href="https://ukb-dt.github.io/repos-00/">
   <meta name="robots" content="index,follow">
-  <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#0a0a0f">
 
-    <!-- Open Graph / Twitter -->
+  <!-- Open Graph / Twitter -->
   <meta property="og:site_name" content="Repos">
   <meta property="og:title" content="The Dude's Rug">
   <meta property="og:description" content="Saddle Point">
@@ -28,62 +24,61 @@
   <meta name="twitter:description" content="Saddle Point">
   <meta name="twitter:image" content="../img/ukb-landscape.jpg"> 
 
-    <!-- Icons / assets -->
+  <!-- Icons / assets -->
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
   <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
   <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS IN ORDER: Variables → Base → Components → Footer -->
+  <link href="../css/variables.css" rel="stylesheet" />
   <link href="../css/head.css" rel="stylesheet" />
+  <link href="../css/card.css" rel="stylesheet" />
+  <link href="../css/footer.css" rel="stylesheet" />
+  
+  <!-- MathJax -->
   <script src="../js/mathjax.js"></script>
-  <script id="MathJax-script" defer
-     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
+  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<!-- body[header, main, footer] -->
+
 <body>
   <div class="scroll-indicator"><div class="scroll-progress"></div></div>
   <div class="bg-pattern"></div>
-  <!-- header, main, footer -->
+
   <header class="header" id="header"></header>
 
-
-  <!-- main[sections], footer -->
   <main class="page wrap-max">
+    <section class="card">
+      <h1>Musick</h1>
+      <h2>∅</h2>
+      <h3>B$^{\flat\varnothing}$</h3>
 
-<!-- G -->
-
-<section class="card">
-  <h1>Logo</h1>
-    <h2>∅</h2>
-    <h3>$\varnothing$</h3>
-
-       <figure style="display: flex; flex-direction: column; align-items: center; width: 100%; margin: 2rem 0;">
-                <iframe
-                    width="65%"
-                    height="315"
-                    src="https://www.youtube.com/embed/RY-3oEcwwzc?start=595"
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
-                <figcaption style="margin-top: 0.5rem; font-size: 0.85em; color: #555; text-align: center;">
-                    Mozart as star. Beethoven as Raindrop | Pop -> Star, <a href="https://ukb-dt.github.io/repos-00/">Art</a> -> Raindrop
-                </figcaption>
-                </figure>
-</section>
-
+      <figure style="display: flex; flex-direction: column; align-items: center; width: 100%; margin: 2rem 0;">
+        <iframe
+          width="65%"
+          height="315"
+          src="https://www.youtube.com/embed/RY-3oEcwwzc?start=595"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+        <figcaption style="margin-top: 0.5rem; font-size: 0.85em; color: var(--text-secondary); text-align: center;">
+          Mozart as star. Beethoven as Raindrop | Pop → Star, <a href="https://ukb-dt.github.io/repos-00/">Art</a> → Raindrop
+        </figcaption>
+      </figure>
+    </section>
   </main>
-  <!-- Centralized footer fetch -->
+
   <div id="footer-placeholder"></div>
 
-  <!-- /ukhona/.. is hardcoded -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
-<script src="../js/shared.js"></script>
-  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+  <script src="../js/shared.js"></script>
+</body>
 </html>

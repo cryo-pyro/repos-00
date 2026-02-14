@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<!-- 1. html, head, body[header, main, footer] -->
 <html lang="en" data-theme="dark">
-<!-- 2. head, body[header, main, footer] -->
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -11,10 +9,8 @@
   <meta name="description" content="The Dude's Rug.">
   <link rel="canonical" href="https://ukb-dt.github.io/repos-00/">
   <meta name="robots" content="index,follow">
-  <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#0a0a0f">
 
-<!-- 3. Open Graph / Twitter -->
+  <!-- Open Graph / Twitter -->
   <meta property="og:site_name" content="Repos">
   <meta property="og:title" content="The Dude's Rug">
   <meta property="og:description" content="Saddle Point">
@@ -28,46 +24,43 @@
   <meta name="twitter:description" content="Saddle Point">
   <meta name="twitter:image" content="ukhona/img/ukb-landscape.jpg"> 
 
-<!-- 4. Icons / assets -->
+  <!-- Icons / assets -->
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
   <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
   <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
 
-<!-- 5. MathJax & Head.css -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS IN ORDER: Variables → Base → Components → Footer -->
+  <link href="ukhona/css/variables.css" rel="stylesheet" />
   <link href="ukhona/css/head.css" rel="stylesheet" />
-  <script id="MathJax-script" defer
-     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
+  <link href="ukhona/css/card.css" rel="stylesheet" />
+  <link href="ukhona/css/footer.css" rel="stylesheet" />
+  
+  <!-- MathJax -->
+  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
-<!-- 6. body[header, main, footer] -->
 <body>
   <div class="scroll-indicator"><div class="scroll-progress"></div></div>
   <div class="bg-pattern"></div>
-  <!-- header, main, footer -->
 
-  <!-- 7. Centralized header fetch -->
   <header class="header" id="header"></header>
 
-  <!-- 8. main[sections], footer -->
   <main class="page wrap-max">
-
-
-<!-- 9. Preface -->
-  <section class="card">
-  </section>
-
+    <section class="card">
+      <!-- Your content here -->
+    </section>
   </main>
 
-<!-- 10. Footer -->
   <div id="footer-placeholder"></div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
   <script src="ukhona/js/shared.js"></script>
-  
 </body> 
 </html>
