@@ -223,8 +223,18 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .header {
+        min-height: 80px; /* Shrink header on mobile */
+    }
+    .nav-container {
+        height: 80px;
+    }
+    #logo.logo {
+        width: 60px;
+        height: 60px;
+    }
     .page {
-        padding-top: 80px;  /* MOBILE FIX - reduced to show H1 and H2 */
+        padding-top: 100px;  /* Compensate for smaller header */
     }
     .nav-links { display: none; }
     .app-grid {
