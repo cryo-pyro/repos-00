@@ -224,7 +224,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .page {
-        padding-top: 100px;  /* MOBILE FIX - only change made */
+        padding-top: 80px;  /* MOBILE FIX - reduced to show H1 and H2 */
     }
     .nav-links { display: none; }
     .app-grid {
