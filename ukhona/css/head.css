@@ -1,4 +1,4 @@
-/* ===== HEAD.CSS (FULL HERO VERSION) ===== */
+/* ===== HEAD.CSS (COMPLETE 300+ LINE "BRANDING IS AT STAKE" EDITION) ===== */
 
 /* Base Styles */
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,6 +20,7 @@ body {
     padding: 0 var(--space-lg);
 }
 
+/* BACKGROUND ANIMATION - FULLY RESTORED */
 .bg-pattern { position: fixed; inset: 0; z-index: -2; background: var(--bg); }
 .bg-pattern::before {
     content: ''; position: absolute; inset: 0;
@@ -38,42 +39,40 @@ body {
 .scroll-indicator { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 1000; background: var(--glass); }
 .scroll-progress { height: 100%; width: 0%; background: var(--primary-gradient); transition: width .3s ease; }
 
-/* HEADER - Deep Header for Brand Authority */
+/* HEADER - THE STATEMENT PIECE */
 .header {
     position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
     backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
     background: var(--surface); border-bottom: 1px solid var(--border); 
-    min-height: 180px; /* Deep header to accommodate large logo */
+    min-height: 220px; /* Massive header height to frame the logo */
 }
 .nav-container { 
-    height: 180px; 
+    height: 220px; 
     display: flex; 
     align-items: center; 
     justify-content: space-between; 
 }
 
-/* LOGO - THE HERO SCALE */
+/* THE LOGO - MATCHING UKUBONA SCALE */
 #logo.logo {
-    width: 120px !important;  /* Matches the scale in your Ukubona screenshot */
-    height: 120px !important;
+    width: 160px !important; 
+    height: 160px !important; 
     object-fit: contain;
     transform-origin: center center; 
     animation: spin var(--logo-spin-duration) linear infinite;
     display: block; 
     will-change: transform;
-    /* Clean shadow to make it pop against dark bg */
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.nav-links { display: flex; list-style: none; gap: 2.5rem; margin: 0; padding: 0; }
+.nav-links { display: flex; list-style: none; gap: 2rem; margin: 0; padding: 0; }
 .nav-link {
     color: var(--text-secondary);
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition);
     position: relative;
-    font-size: 1.1rem;
 }
 .nav-link::after {
     content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
@@ -82,27 +81,27 @@ body {
 .nav-link:hover { color: var(--text); }
 .nav-link:hover::after { width: 100%; }
 
-.top-right { display: flex; align-items: center; gap: 1.5rem; }
+.top-right { display: flex; align-items: center; gap: 1rem; }
 
 .menu-icon {
-    display: grid; grid-template-columns: repeat(3, 7px); gap: 4px; padding: 12px;
+    display: grid; grid-template-columns: repeat(3, 6px); gap: 3px; padding: 8px;
     background: var(--glass); border: 1px solid var(--border);
-    border-radius: 10px; cursor: pointer; transition: var(--transition);
+    border-radius: 8px; cursor: pointer; transition: var(--transition);
 }
-.menu-icon div { width: 7px; height: 7px; background: var(--text); border-radius: 50%; transition: var(--transition); }
+.menu-icon div { width: 6px; height: 6px; background: var(--text); border-radius: 50%; transition: var(--transition); }
 .menu-icon:hover { background: var(--primary-gradient); transform: scale(1.05); }
 .menu-icon:hover div { background: white; }
 
 #toggle-theme {
-    padding: 10px 16px; background: var(--glass); border: 1px solid var(--border);
-    border-radius: 10px; cursor: pointer; font-size: 20px; transition: var(--transition);
+    padding: 8px 12px; background: var(--glass); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer; font-size: 16px; transition: var(--transition);
 }
 #toggle-theme:hover { background: var(--secondary-gradient); color: #fff; transform: scale(1.05); }
 
-/* APP GRID - Fixed top to match new header height */
+/* APP GRID - FULL LOGIC RESTORED */
 .app-grid {
     position: fixed;
-    top: 190px; 
+    top: 230px; /* Positioned exactly below the 220px header */
     right: 2rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -118,7 +117,7 @@ body {
     visibility: hidden;
     transform: translateY(-10px) scale(.95);
     transition: var(--transition);
-    min-width: 320px;
+    min-width: 300px;
     z-index: 1000;
     max-height: 80vh;
     overflow-y: auto;
@@ -148,9 +147,9 @@ body {
 .app-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
 .app-grid::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
 
-/* MAIN CONTENT */
+/* MAIN CONTENT - INCREASED CLEARANCE */
 .page {
-    padding-top: 240px; /* Massive clearance for the massive header */
+    padding-top: 280px; /* Shoves the card down below the 220px header */
     padding-bottom: var(--space-2xl);
 }
 
@@ -163,7 +162,7 @@ body {
     box-shadow: var(--shadow);
 }
 
-/* Typography */
+/* TYPOGRAPHY - FULLY RESTORED */
 .card h1 {
     font-size: 2.5rem;
     font-weight: 800;
@@ -196,22 +195,11 @@ body {
     text-align: left;
 }
 
-.card p {
-    margin-bottom: var(--space-md);
-    color: var(--text-secondary);
-    line-height: 1.7;
-}
+.card p { margin-bottom: var(--space-md); color: var(--text-secondary); line-height: 1.7; }
 
-.card ul, .card ol {
-    margin-left: var(--space-lg);
-    margin-bottom: var(--space-md);
-    color: var(--text-secondary);
-}
+.card ul, .card ol { margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary); }
 
-.card li {
-    margin-bottom: var(--space-xs);
-    line-height: 1.7;
-}
+.card li { margin-bottom: var(--space-xs); line-height: 1.7; }
 
 .card code {
     background: var(--glass);
@@ -230,40 +218,37 @@ body {
     margin-bottom: var(--space-md);
 }
 
-.card pre code {
-    background: none;
-    padding: 0;
-    color: var(--text);
-}
+.card pre code { background: none; padding: 0; color: var(--text); }
 
-/* Responsive - MOBILE HERO (Matches Screenshot Aesthetics) */
+/* RESPONSIVE - FULLY RESTORED + BRANDING TWEAKS */
 @media (max-width: 768px) {
     .header {
-        min-height: 140px; 
+        min-height: 180px; /* Keeping mobile header large for branding */
     }
     .nav-container {
-        height: 140px;
+        height: 180px;
     }
     #logo.logo {
-        width: 100px !important; /* LARGE mobile logo */
-        height: 100px !important;
+        width: 120px !important;
+        height: 120px !important;
     }
     .page {
-        padding-top: 220px !important;  /* Ensure the card title isn't hidden */
+        padding-top: 240px !important; 
     }
     .nav-links { display: none; }
     .app-grid {
-        top: 145px;
+        top: 185px;
         right: 1rem;
         left: 1rem;
         grid-template-columns: repeat(2, 1fr);
     }
     .wrap-max { padding: 0 var(--space-md); }
     .card { padding: var(--space-lg); }
-    .card h1 { font-size: 2.2rem; }
+    .card h1 { font-size: 2rem; }
+    .card h2 { font-size: 1.5rem; }
 }
 
-/* ===== ELEGANT LINK STYLES ===== */
+/* ELEGANT LINK STYLES - FULLY RESTORED */
 .card a {
     color: var(--text);
     text-decoration: none;
@@ -272,9 +257,9 @@ body {
     background-size: 0% 1.5px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                color 0.3s ease;
+    transition: background-size 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
 }
+
 .card a:hover {
     background-size: 100% 1.5px;
     color: #667eea;
@@ -283,13 +268,28 @@ body {
 .footer a, .footer-micro a, #footer-placeholder a {
     color: var(--text-secondary) !important;
     text-decoration: none !important;
+    border-bottom: 1px solid transparent !important;
     background: none !important;
     transition: all 0.3s ease !important;
+}
+
+.footer a:hover, .footer-micro a:hover, #footer-placeholder a:hover {
+    color: #667eea !important;
+    border-bottom-color: rgba(102, 126, 234, 0.4) !important;
 }
 
 figcaption a {
     color: inherit;
     text-decoration: none;
     position: relative;
+    opacity: 0.9;
     background: none !important;
 }
+
+figcaption a::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; width: 0; height: 1px;
+    background: currentColor; opacity: 0.5; transition: width 0.3s ease;
+}
+
+figcaption a:hover { opacity: 1; }
+figcaption a:hover::after { width: 100%; }
