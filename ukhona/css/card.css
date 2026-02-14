@@ -1,18 +1,10 @@
 /* ========== CARD-SPECIFIC STYLES ========== */
-/* Extracted from inline styles to maintain consistency with index.html structure */
 
-/* Symmetric container */
-.wrap-max { 
-  max-width: 1120px; 
-  margin: 0 auto; 
-  padding: 0 24px; 
-}
-
-/* Main card styling */
+/* Main card styling - NO TOP MARGIN (let head.css .page handle spacing) */
 .card {
   max-width: 720px; 
-  margin: 120px auto 64px; 
-  text-align: center;
+  margin: 0 auto 64px; /* 0 top, auto sides, 64px bottom */
+  text-align: left;
   background: rgba(255, 255, 255, 0.05); 
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px; 
@@ -50,6 +42,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-align: left;
 }
 
 .card-subtitle { 
@@ -58,6 +51,7 @@
   opacity: 0.9; 
   font-size: 1.15rem; 
   color: var(--text-secondary);
+  text-align: left;
 }
 
 /* Bio sections */
@@ -73,18 +67,6 @@
 
 .bio-secondary {
   margin-top: 10px;
-}
-
-.bio a { 
-  text-decoration: none; 
-  color: inherit;
-  border-bottom: 1px solid rgba(102, 126, 234, 0.3);
-  transition: border-color 0.3s ease, color 0.3s ease;
-}
-
-.bio a:hover {
-  color: #6366f1;
-  border-bottom-color: #6366f1;
 }
 
 .bio strong {
@@ -168,15 +150,10 @@ a.cta:hover {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Footer spacing harmony */
-#footer-placeholder { 
-  margin-top: 24px; 
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
   .card {
-    margin: 100px auto 48px;
+    margin: 0 auto 48px;
     padding: 24px 20px;
     max-width: 90%;
   }
@@ -201,11 +178,6 @@ a.cta:hover {
   
   a.cta {
     width: 100%;
-    max-width: 280px;
     justify-content: center;
-  }
-  
-  .badges {
-    max-width: none;
   }
 }
