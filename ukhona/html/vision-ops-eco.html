@@ -6,6 +6,42 @@
 <title>Ukubona: Visionaries & Operators — A Self-Generated Geometry</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Bebas+Neue&display=swap" rel="stylesheet">
+        <!--2.0 branded (old)-->
+        <meta name="color-scheme" content="dark light" />
+        <meta name="theme-color" content="#0a0a0f" />
+        <meta name="description" content="The Dude's Rug.">
+        <link rel="canonical" href="https://cryo-pyro.github.io/repos-00/ukhona/html/geodesic.html">
+        <meta name="robots" content="index,follow">
+
+        <meta property="og:site_name" content="Repos">
+        <meta property="og:title" content="The Dude's Rug">
+        <meta property="og:description" content="Saddle Point">
+        <meta property="og:type" content="blog">
+        <meta property="og:url" content="https://cryo-pyro.github.io/repos-00/">
+        <meta property="og:image" content="../img/ukb-landscape.jpg">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="The Dude's Rug">
+        <meta name="twitter:description" content="Saddle Point">
+        <meta name="twitter:image" content="../img/ukb-landscape.jpg">
+
+        <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+        <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+        <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+        <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+        <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,700;1,300;1,400&family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+
+        <link href="../css/variables.css?v=1.1" rel="stylesheet" />
+        <link href="../css/head.css?v=1.1" rel="stylesheet" />
+        <link href="../css/card.css?v=1.1" rel="stylesheet" />
+        <link href="../css/footer.css?v=1.1" rel="stylesheet" />
+
+        <script src="../js/mathjax.js"></script>
+        <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
 <style>
   :root {
     --void: #050508;
@@ -47,12 +83,13 @@
   }
 
   /* HERO */
-  .hero {
+.hero {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;       /* ← center horizontally */
+    text-align: center;        /* ← center text within */
     padding: 8vh 8vw;
     position: relative;
     overflow: hidden;
@@ -119,8 +156,9 @@
     font-weight: 300;
     color: var(--text-muted);
     max-width: 55ch;
-    border-left: 2px solid var(--accent-violet);
-    padding-left: 1.5rem;
+    border-top: 1px solid var(--accent-violet);
+    border-bottom: 1px solid var(--accent-violet);
+    padding: 1rem 0;
     opacity: 0;
     animation: fadeUp 1s 0.6s forwards;
   }
@@ -407,12 +445,17 @@
   }
 
   /* FOOTNOTES */
-  .footnotes {
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    padding: 5vh 8vw;
-  }
+.footnotes {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 5vh 0;
+}
 
+.footnotes-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 8vw;
+}
   .footnotes h2 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.8rem;
@@ -462,12 +505,21 @@
 
   /* FOOTER */
   footer {
-    padding: 3rem 8vw;
-    border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+
+  .footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 8vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
   .footer-brand {
     font-family: 'Bebas Neue', sans-serif;
@@ -496,8 +548,28 @@
     .footer-meta { text-align: center; }
   }
 </style>
+<!--4.0 structure: head, body (old) -->
 </head>
-<body>
+<main>
+
+  <!-- 5.0 Works for header (old) ..  -->
+  <div class="scroll-indicator">
+    <div class="scroll-progress">
+  <!-- Works for header ..  -->
+
+    </div>
+  </div>
+
+  <!-- 6.0 Works for header (old) ..  -->
+  <div class="bg-pattern"></div>
+
+  <!-- 7.0 Injected Ukubona brand header (old) -->
+  <header class="header" id="header"></header>
+
+  <!-- 8.0 Spacing (variable) -->
+  <br> <br> <br> 
+  <br> <br> <br>
+  <br> <br> <br>
 
 <!-- HERO -->
 <header class="hero">
@@ -673,8 +745,9 @@
 </section>
 
 <!-- FOOTNOTES -->
+<!-- FOOTNOTES -->
 <div class="footnotes" id="footnotes">
-  <div style="max-width:1100px;margin:0 auto;">
+  <div class="footnotes-inner">
     <h2>Footnotes · Video Timestamps</h2>
     <ul class="footnote-list">
 
@@ -730,15 +803,23 @@
     </ul>
   </div>
 </div>
-
 <!-- FOOTER -->
 <footer>
-  <div class="footer-brand">Ukubona LLC</div>
-  <div class="footer-meta">
-    Self-Generated Geometry · Manifesto Analysis<br>
-    Landscape → UB → SGD → UI/UX → Ecosystem
+  <div class="footer-inner">
+    <div class="footer-brand">Ukubona LLC</div>
+    <div class="footer-meta">
+      Self-Generated Geometry · Manifesto Analysis<br>
+      Landscape → UB → SGD → UI/UX → Ecosystem
+    </div>
   </div>
 </footer>
+</main>
+    </div><!-- /.layout -->
+  </div><!-- /.page-wrap -->
 
+  <div id="footer-placeholder"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+  <script src="../js/shared.js"></script>
 </body>
 </html>
