@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ukubona — Game of Care (Rehearsal Engine)</title>
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="description" content="The Dude's Rug.">
+  <link rel="canonical" href="https://cryo-pyro.github.io/repos-00/ukhona/html/geodesic.html">
+  <meta name="robots" content="index,follow">
+
+  <meta property="og:site_name" content="Repos">
+  <meta property="og:title" content="The Dude's Rug">
+  <meta property="og:description" content="Saddle Point">
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://cryo-pyro.github.io/repos-00/">
+  <meta property="og:image" content="../img/ukb-landscape.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Dude's Rug">
+  <meta name="twitter:description" content="Saddle Point">
+  <meta name="twitter:image" content="../img/ukb-landscape.jpg">
+
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,700;1,300;1,400&family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+
+  <link href="../css/variables.css?v=1.1" rel="stylesheet" />
+  <link href="../css/head.css?v=1.1" rel="stylesheet" />
+  <link href="../css/card.css?v=1.1" rel="stylesheet" />
+  <link href="../css/footer.css?v=1.1" rel="stylesheet" />
+
+  <script src="../js/mathjax.js"></script>
+  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  .page-wrap { max-width: 1100px; margin: 0 auto; padding-top: 240px; /* adjust to your header height */ }
+  body { margin: 0; }
+  .toc {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 220px;
+    /* keep all your existing .toc styles */
+  }
+  main {
+    width: 100%;
+    max-width: 760px;
+    padding: 3rem 2rem 6rem;
+  }
+  /* DELETE .layout and .sidebar entirely */
+  body { margin: 0; }
+  .toc {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 220px;
+    /* keep all your existing .toc styles */
+  }
+  main {
+    width: 100%;
+    max-width: 760px;
+    padding: 3rem 2rem 6rem;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1a1f2b;
+    --border: #252c3a;
+    --text: #cdd5e0;
+    --muted: #6b7a96;
+    --accent: #4cc9f0;
+    --orange: #FF4D00;
+    --green: #00ff88;
+    --yellow: #ffd166;
+    --code-bg: #0a0c10;
+    --h1: #f0f4ff;
+    --h2: #4cc9f0;
+    --h3: #a8c7fa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+    font-size: 15px;
+  }
+  /* Sidebar TOC */
+  .toc {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 220px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 2rem 1.25rem;
+    z-index: 100;
+  }
+  .toc-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .toc a {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 0.3rem 0;
+    border-left: 2px solid transparent;
+    padding-left: 0.75rem;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .toc a:hover { color: var(--accent); border-left-color: var(--accent); }
+  .toc a.sub { padding-left: 1.5rem; font-size: 0.75rem; }
+  .toc a.sub2 { padding-left: 2.25rem; font-size: 0.7rem; }
+  /* Section labels */
+  .section-label {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+  }
+  .section-label.g { color: var(--accent); border-color: var(--accent); background: rgba(76,201,240,0.08); }
+  .section-label.o { color: var(--yellow); border-color: var(--yellow); background: rgba(255,209,102,0.08); }
+  .section-label.a { color: var(--green); border-color: var(--green); background: rgba(0,255,136,0.08); }
+  .section-label.x { color: var(--orange); border-color: var(--orange); background: rgba(255,77,0,0.08); }
+  /* Typography */
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--h1);
+    margin: 2.5rem 0 1rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--h2);
+    margin: 2.5rem 0 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--h3);
+    margin: 1.75rem 0 0.6rem;
+  }
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 1.25rem 0 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  p { margin-bottom: 1rem; }
+  strong { color: var(--h1); font-weight: 600; }
+  em { color: var(--yellow); font-style: italic; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(76,201,240,0.3); }
+  a:hover { border-bottom-color: var(--accent); }
+  ul, ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  li { margin-bottom: 0.4rem; }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+  /* Blockquote */
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    color: var(--muted);
+    font-style: italic;
+  }
+  /* Inline code */
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82em;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+  /* Code blocks */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    overflow-x: auto;
+    margin: 1.25rem 0 1.75rem;
+    position: relative;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #c9d1d9;
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+  .lang-tag {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  /* Metadata list (top) */
+  .meta-list {
+    list-style: none;
+    padding: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 1rem 0 2rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+  }
+  .meta-list li { margin-bottom: 0.3rem; }
+  .meta-list code { color: var(--yellow); }
+  /* Section dividers */
+  .section-block {
+    border-left: 3px solid var(--border);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+  }
+  .section-block.g { border-color: var(--accent); }
+  .section-block.o { border-color: var(--yellow); }
+  .section-block.a { border-color: var(--green); }
+  .section-block.x { border-color: var(--orange); }
+  /* Roman numeral subsections */
+  .roman-section {
+    margin: 2rem 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .roman-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  @media (max-width: 900px) {
+    .toc { display: none; }
+    main { margin-left: 0; padding: 2rem 1.5rem 4rem; }
+  }
+</style>
+
+</head>
+<body>
+
+  <header class="header" id="header"></header>
+
+  <div class="page-wrap">
+  <div class="layout">
+
+  <div class="scroll-indicator"><div class="scroll-progress"></div></div>
+  <div class="bg-pattern"></div>
+
+  <!-- Injected Ukubona brand header -->
+
+ 
+
+  <hr>
+
+ 
+
+<pre><code class="language-html">🎮 Game of Care (Rehearsal Engine)
+    """
+Ukubona LLC — Gastric Toy Twin Simulation
+==========================================
+A minimal viable "digital twin" for antral gastritis,
+demonstrating multi-objective loss optimization and
+Bayesian uncertainty quantification.
+
+Patient state space:
+    x = [Gastric Inflammation, Lower GI Pathology, Pain Signal, Mucosal Integrity]
+
+Loss functions:
+    L_b  = biological cost (pain + inflammation)
+    L_s  = system cost (procedure expense)
+    L_total = L_b + α·L_s + β·H  (entropy-weighted)
+
+Intervention actions:
+    - PPI Trial     (low cost, high bio effect)
+    - Endoscopy     (medium cost, high info gain for upper GI)
+    - Colonoscopy   (high cost, near-zero info gain given symptom signal)
+
+Run:
+    python ukubona_toy_twin.py
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.gridspec import GridSpec
+from scipy.stats import entropy as scipy_entropy
+
+np.random.seed(42)
+
+# ─────────────────────────────────────────────
+# 1. STATE SPACE
+# ─────────────────────────────────────────────
+# Dimensions: [Gastric Inflammation I, Lower GI Pathology G,
+#              Pain Signal P, Mucosal Integrity M]
+# Values ∈ [0, 1].  Higher = worse, except M (higher = healthier).
+
+INITIAL_STATE = np.array([0.82, 0.04, 0.75, 0.38])
+# Interpretation: high gastric inflammation, negligible lower GI signal,
+# significant pain, compromised mucosa.
+
+# ─────────────────────────────────────────────
+# 2. LOSS FUNCTIONS
+# ─────────────────────────────────────────────
+ALPHA = 0.20   # weight on system/economic loss
+BETA  = 0.10   # weight on entropy (uncertainty cost)
+
+def L_bio(state):
+    I, G, P, M = state
+    return 0.40 * I + 0.40 * P + 0.20 * (1 - M)
+
+def L_sys(cost):
+    return cost
+
+def H_state(state):
+    """Entropy proxy: variance across biological dimensions."""
+    probs = np.abs(state) / (np.sum(np.abs(state)) + 1e-9)
+    return float(scipy_entropy(probs + 1e-9))
+
+def L_total(state, cost):
+    return L_bio(state) + ALPHA * L_sys(cost) + BETA * H_state(state)
+
+# ─────────────────────────────────────────────
+# 3. ACTIONS
+# ─────────────────────────────────────────────
+ACTIONS = {
+    "PPI Trial": {
+        "cost": 0.05,
+        "delta": np.array([-0.30, 0.00, -0.38, +0.22]),   # reduces I, P; improves M
+        "voi":   0.35,   # moderate info gain
+        "label": "Apollonian (Optimal)"
+    },
+    "Endoscopy": {
+        "cost": 0.40,
+        "delta": np.array([-0.05, 0.00, -0.05, +0.05]),   # confirms, minor benefit
+        "voi":   0.88,   # high info gain for upper GI
+        "label": "Apollonian (Diagnostic)"
+    },
+    "Colonoscopy": {
+        "cost": 0.80,
+        "delta": np.array([0.00, 0.00, 0.00, -0.03]),     # no therapeutic effect
+        "voi":   0.02,   # near-zero info gain
+        "label": "Dionysian Error"
+    },
+    "Profit-Optimised": {
+        "cost": 0.80,
+        "delta": np.array([0.00, 0.00, 0.00, -0.03]),
+        "voi":   0.02,
+        "label": "Hidden Loss (System)"
+    },
+}
+
+# ─────────────────────────────────────────────
+# 4. STATE TRANSITION (simple linear ODE step + noise)
+# ─────────────────────────────────────────────
+HORIZON = 12   # time steps (e.g., days / visits)
+SIGMA_PROC = 0.025
+
+def transition(state, delta, sigma=SIGMA_PROC):
+    noise = np.random.normal(0, sigma, size=state.shape)
+    return np.clip(state + delta + noise, 0.0, 1.0)
+
+# ─────────────────────────────────────────────
+# 5. SIMULATION PATHS
+# ─────────────────────────────────────────────
+def simulate_path(initial_state, action_key, horizon=HORIZON):
+    action = ACTIONS[action_key]
+    state  = initial_state.copy()
+    losses = [L_total(state, 0)]
+    lb_arr = [L_bio(state)]
+    H_arr  = [H_state(state)]
+    states = [state.copy()]
+
+    for t in range(horizon):
+        # Apply action effect with decaying magnitude
+        decay  = np.exp(-0.25 * t)
+        effective_delta = action["delta"] * decay
+        cost   = action["cost"] if t == 0 else 0.0
+        state  = transition(state, effective_delta)
+        losses.append(L_total(state, cost))
+        lb_arr.append(L_bio(state))
+        H_arr.append(H_state(state))
+        states.append(state.copy())
+
+    return np.array(losses), np.array(lb_arr), np.array(H_arr), np.array(states)
+
+paths = {}
+for k in ACTIONS:
+    paths[k] = simulate_path(INITIAL_STATE, k)
+
+# ─────────────────────────────────────────────
+# 6. BAYESIAN POSTERIOR (symptom-constrained)
+# ─────────────────────────────────────────────
+def bayesian_voi(action_key):
+    """Value of Information based on symptom gradient alignment."""
+    return ACTIONS[action_key]["voi"]
+
+dims = ["Gastric\nInflammation", "Lower GI\nPathology", "Pain\nSignal", "Mucosal\nIntegrity"]
+posterior_upper_gi = np.array([0.82, 0.05, 0.76, 0.40])
+posterior_lower_gi = np.array([0.08, 0.04, 0.07, 0.95])  # near-zero signal
+
+# ─────────────────────────────────────────────
+# 7. PLOT
+# ─────────────────────────────────────────────
+PALETTE = {
+    "PPI Trial":        "#00C9A7",
+    "Endoscopy":        "#4E9AF1",
+    "Colonoscopy":      "#FF6B6B",
+    "Profit-Optimised": "#FF9F43",
+    "bg":               "#0D1117",
+    "panel":            "#161B22",
+    "text":             "#E6EDF3",
+    "muted":            "#8B949E",
+    "grid":             "#21262D",
+    "accent":           "#F0A500",
+}
+
+STYLE = {
+    "PPI Trial":        {"lw": 2.5, "ls": "-",  "zorder": 4},
+    "Endoscopy":        {"lw": 2.5, "ls": "--", "zorder": 4},
+    "Colonoscopy":      {"lw": 2.0, "ls": ":",  "zorder": 3},
+    "Profit-Optimised": {"lw": 1.5, "ls": "-.", "zorder": 2},
+}
+
+fig = plt.figure(figsize=(18, 13), facecolor=PALETTE["bg"])
+gs  = GridSpec(3, 3, figure=fig,
+               hspace=0.55, wspace=0.40,
+               left=0.07, right=0.97, top=0.90, bottom=0.07)
+
+T = np.arange(HORIZON + 1)
+
+# ── Panel A: Total Loss trajectories ──────────────────────────
+ax_a = fig.add_subplot(gs[0, :2])
+ax_a.set_facecolor(PALETTE["panel"])
+for k, (losses, lb, H, states) in paths.items():
+    c = PALETTE[k]
+    s = STYLE[k]
+    ax_a.plot(T, losses, color=c, label=ACTIONS[k]["label"], **s)
+ax_a.axhline(0.15, color=PALETTE["accent"], lw=1, ls="--", alpha=0.5)
+ax_a.text(HORIZON * 0.98, 0.17, "Target basin", color=PALETTE["accent"],
+          fontsize=7.5, ha="right")
+ax_a.set_title("A — Total Loss Trajectories  L_total = L_b + α·L_s + β·H",
+               color=PALETTE["text"], fontsize=9, pad=8, loc="left")
+ax_a.set_xlabel("Time step (days / visits)", color=PALETTE["muted"], fontsize=8)
+ax_a.set_ylabel("L_total", color=PALETTE["muted"], fontsize=8)
+ax_a.legend(fontsize=7.5, framealpha=0.2, labelcolor=PALETTE["text"],
+            facecolor=PALETTE["panel"], edgecolor=PALETTE["grid"])
+ax_a.tick_params(colors=PALETTE["muted"])
+ax_a.set_xlim(0, HORIZON)
+for spine in ax_a.spines.values():
+    spine.set_edgecolor(PALETTE["grid"])
+ax_a.set_facecolor(PALETTE["panel"])
+ax_a.grid(color=PALETTE["grid"], linewidth=0.5)
+
+# ── Panel B: Value of Information bar chart ────────────────────
+ax_b = fig.add_subplot(gs[0, 2])
+ax_b.set_facecolor(PALETTE["panel"])
+voi_vals  = [bayesian_voi(k) for k in ACTIONS]
+voi_cols  = [PALETTE[k] for k in ACTIONS]
+voi_labs  = [k.replace(" ", "\n") for k in ACTIONS]
+bars = ax_b.barh(voi_labs, voi_vals, color=voi_cols, edgecolor=PALETTE["bg"], height=0.55)
+ax_b.axvline(0.20, color=PALETTE["accent"], lw=1.2, ls="--", alpha=0.7)
+ax_b.text(0.22, 0.05, "Threshold", color=PALETTE["accent"], fontsize=7, rotation=90)
+ax_b.set_xlim(0, 1.05)
+ax_b.set_title("B — Value of Information (VoI)\nper intervention", color=PALETTE["text"],
+               fontsize=9, pad=8, loc="left")
+ax_b.set_xlabel("VoI", color=PALETTE["muted"], fontsize=8)
+ax_b.tick_params(colors=PALETTE["muted"], labelsize=7.5)
+for spine in ax_b.spines.values():
+    spine.set_edgecolor(PALETTE["grid"])
+ax_b.grid(color=PALETTE["grid"], linewidth=0.5, axis="x")
+
+# ── Panel C: Biological loss only ────────────────────────────
+ax_c = fig.add_subplot(gs[1, :2])
+ax_c.set_facecolor(PALETTE["panel"])
+for k, (losses, lb, H, states) in paths.items():
+    c = PALETTE[k]
+    s = STYLE[k]
+    ax_c.plot(T, lb, color=c, **s)
+ax_c.set_title("C — Biological Loss L_b  (inflammation · pain · mucosal deficit)",
+               color=PALETTE["text"], fontsize=9, pad=8, loc="left")
+ax_c.set_xlabel("Time step", color=PALETTE["muted"], fontsize=8)
+ax_c.set_ylabel("L_b", color=PALETTE["muted"], fontsize=8)
+ax_c.tick_params(colors=PALETTE["muted"])
+ax_c.set_xlim(0, HORIZON)
+for spine in ax_c.spines.values():
+    spine.set_edgecolor(PALETTE["grid"])
+ax_c.grid(color=PALETTE["grid"], linewidth=0.5)
+
+# ── Panel D: State evolution (PPI optimal path) ───────────────
+ax_d = fig.add_subplot(gs[1, 2])
+ax_d.set_facecolor(PALETTE["panel"])
+opt_states = paths["PPI Trial"][3]   # shape (HORIZON+1, 4)
+colors_d   = ["#F78166", "#79C0FF", "#D2A8FF", "#56D364"]
+for i, (dim, col) in enumerate(zip(dims, colors_d)):
+    ax_d.plot(T, opt_states[:, i], color=col, lw=2, label=dim.replace("\n", " "))
+ax_d.set_title("D — State evolution\n(PPI optimal path)", color=PALETTE["text"],
+               fontsize=9, pad=8, loc="left")
+ax_d.legend(fontsize=6.5, framealpha=0.2, labelcolor=PALETTE["text"],
+            facecolor=PALETTE["panel"], edgecolor=PALETTE["grid"])
+ax_d.tick_params(colors=PALETTE["muted"])
+ax_d.set_xlim(0, HORIZON)
+for spine in ax_d.spines.values():
+    spine.set_edgecolor(PALETTE["grid"])
+ax_d.grid(color=PALETTE["grid"], linewidth=0.5)
+
+# ── Panel E: Posterior probability radar ─────────────────────
+ax_e = fig.add_subplot(gs[2, 0], polar=True)
+angles = np.linspace(0, 2 * np.pi, len(dims), endpoint=False).tolist()
+angles += angles[:1]
+
+def radar(ax, values, color, label):
+    v = values.tolist() + [values[0]]
+    ax.plot(angles, v, color=color, lw=2, label=label)
+    ax.fill(angles, v, color=color, alpha=0.18)
+
+radar(ax_e, posterior_upper_gi, "#4E9AF1", "Upper GI posterior")
+radar(ax_e, posterior_lower_gi, "#FF6B6B", "Lower GI posterior")
+ax_e.set_thetagrids(np.degrees(angles[:-1]), dims, color=PALETTE["text"], fontsize=7.5)
+ax_e.set_ylim(0, 1)
+ax_e.set_facecolor(PALETTE["panel"])
+ax_e.tick_params(colors=PALETTE["muted"])
+ax_e.grid(color=PALETTE["grid"])
+ax_e.set_title("E — Bayesian posteriors\n(symptom-weighted)", color=PALETTE["text"],
+               fontsize=9, pad=20, loc="left")
+ax_e.legend(loc="upper right", bbox_to_anchor=(1.4, 1.1), fontsize=7.5,
+            framealpha=0.2, labelcolor=PALETTE["text"],
+            facecolor=PALETTE["panel"], edgecolor=PALETTE["grid"])
+
+# ── Panel F: Entropy over time ────────────────────────────────
+ax_f = fig.add_subplot(gs[2, 1])
+ax_f.set_facecolor(PALETTE["panel"])
+for k, (losses, lb, H, states) in paths.items():
+    c = PALETTE[k]
+    s = STYLE[k]
+    ax_f.plot(T, H, color=c, **s)
+ax_f.axhline(0.30, color=PALETTE["accent"], lw=1, ls="--", alpha=0.5)
+ax_f.text(0.3, 0.32, "Explore↑ | Exploit↓", color=PALETTE["accent"], fontsize=7)
+ax_f.set_title("F — Posterior entropy H(p)\n(uncertainty proxy for ε)",
+               color=PALETTE["text"], fontsize=9, pad=8, loc="left")
+ax_f.set_xlabel("Time step", color=PALETTE["muted"], fontsize=8)
+ax_f.set_ylabel("H", color=PALETTE["muted"], fontsize=8)
+ax_f.tick_params(colors=PALETTE["muted"])
+ax_f.set_xlim(0, HORIZON)
+for spine in ax_f.spines.values():
+    spine.set_edgecolor(PALETTE["grid"])
+ax_f.grid(color=PALETTE["grid"], linewidth=0.5)
+
+# ── Panel G: Digital Twin alert mockup ───────────────────────
+ax_g = fig.add_subplot(gs[2, 2])
+ax_g.set_facecolor(PALETTE["panel"])
+ax_g.axis("off")
+alert_text = (
+    "UKUBONA TWIN ALERT\n"
+    "─────────────────────────\n"
+    "p(gastric | symptoms) = 0.94\n"
+    "H (entropy) = 0.31  ←  low\n\n"
+    "VoI [Endoscopy]   = 0.88 ✓\n"
+    "VoI [Colonoscopy] = 0.02 ✗\n\n"
+    "Gradient in lower GI ≈ 0\n"
+    "No bowel-change signal.\n\n"
+    "RECOMMENDATION:\n"
+    "Accept upper endoscopy.\n"
+    "Decline colonoscopy.\n"
+    "→ hidden L_s detected."
+)
+ax_g.text(0.05, 0.97, alert_text, transform=ax_g.transAxes,
+          va="top", ha="left", fontsize=7.5,
+          family="monospace", color="#00C9A7",
+          bbox=dict(boxstyle="round,pad=0.6", facecolor="#0D1117",
+                    edgecolor="#00C9A7", linewidth=1.5))
+
+ax_g.set_title("G — Twin API output\n(pre-colonoscopy alert)", color=PALETTE["text"],
+               fontsize=9, pad=8, loc="left")
+
+# ── Main title ────────────────────────────────────────────────
+fig.suptitle(
+    "Ukubona LLC  ·  Gastric Toy Twin  ·  Antral Gastritis Digital Patient Simulation",
+    color=PALETTE["text"], fontsize=12, fontweight="bold", y=0.96
+)
+fig.text(0.5, 0.93,
+         "State space x = [I, G, P, M]  ·  L_total = L_b + 0.20·L_s + 0.10·H  ·  Horizon = 12 steps  ·  σ_process = 0.025",
+         color=PALETTE["muted"], fontsize=7.5, ha="center")
+
+plt.savefig("/mnt/user-data/outputs/ukubona_toy_twin.png",
+            dpi=150, bbox_inches="tight", facecolor=PALETTE["bg"])
+print("Simulation complete. Image saved.")
+</code></pre>
+
+  </div>
+
+   </main>
+   </div>
+    </div><!-- /.layout -->
+  </div><!-- /.page-wrap -->
+
+  <div id="footer-placeholder"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+  <script src="../js/shared.js"></script>
+</body>
+</html>

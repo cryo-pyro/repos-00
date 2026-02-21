@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ukubona LLC — The Algorithm of Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;600&family=Libre+Franklin:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #080c10;
+    --surface:   #0e1419;
+    --surface2:  #141b23;
+    --border:    #1e2a36;
+    --text:      #d8e6f3;
+    --muted:     #6a8099;
+    --accent:    #00c9a7;
+    --accent2:   #f0a500;
+    --red:       #ff6b6b;
+    --blue:      #4e9af1;
+    --purple:    #c792ea;
+    --mono:      'IBM Plex Mono', monospace;
+    --serif:     'DM Serif Display', serif;
+    --sans:      'Libre Franklin', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.75;
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 2rem 4rem;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,201,167,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,201,167,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridDrift 30s linear infinite;
+  }
+
+  @keyframes gridDrift {
+    from { background-position: 0 0; }
+    to   { background-position: 60px 60px; }
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+  }
+  .orb-a { width: 600px; height: 600px; top: -200px; right: -100px; background: rgba(0,201,167,0.06); }
+  .orb-b { width: 400px; height: 400px; bottom: -100px; left: -100px; background: rgba(78,154,241,0.07); }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #e8f4ff;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s ease forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s ease forwards;
+  }
+
+  .hero-badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s ease forwards;
+  }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    background: var(--surface);
+  }
+  .badge.accent { border-color: var(--accent); color: var(--accent); }
+  .badge.orange { border-color: var(--accent2); color: var(--accent2); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 2.5rem;
+    background: rgba(8,12,16,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── CONTENT ── */
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  section {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  section:first-child { border-top: none; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 60px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    color: #ddeeff;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    color: #c8dff0;
+    margin: 2.5rem 0 0.8rem;
+    font-style: italic;
+  }
+
+  p { margin-bottom: 1.2rem; color: #8ba8c2; }
+  p strong { color: var(--text); font-weight: 600; }
+
+  /* ── FRAMEWORK MAP ── */
+  .framework {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 2.5rem 0;
+  }
+
+  .fw-row {
+    display: grid;
+    grid-template-columns: 100px 120px 1fr;
+    background: var(--surface);
+    transition: background 0.2s;
+  }
+  .fw-row:hover { background: var(--surface2); }
+
+  .fw-cell {
+    padding: 1rem 1.25rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+  .fw-cell:last-child { border-right: none; }
+
+  .fw-id {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .fw-name {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .fw-desc {
+    font-size: 0.88rem;
+    color: #7a9ab8;
+    line-height: 1.5;
+  }
+
+  .fw-header {
+    background: var(--surface2) !important;
+  }
+  .fw-header .fw-id,
+  .fw-header .fw-name,
+  .fw-header .fw-desc {
+    font-size: 0.68rem;
+    font-family: var(--mono);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ── EQUATION BLOCKS ── */
+  .eq-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 1.5rem 1.75rem;
+    margin: 2rem 0;
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 2;
+    overflow-x: auto;
+  }
+
+  .eq-block .eq-comment {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  /* ── LOSS FUNCTION DISPLAY ── */
+  .loss-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .loss-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .loss-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  .loss-card-id {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .loss-card-name {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .loss-card-desc {
+    font-size: 0.84rem;
+    color: #6a8099;
+    line-height: 1.55;
+  }
+
+  /* ── INTERVENTION COMPARISON ── */
+  .intervention-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.875rem;
+  }
+
+  .intervention-table th {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .intervention-table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: #7a9ab8;
+    vertical-align: middle;
+  }
+
+  .intervention-table tr:hover td { background: var(--surface); }
+
+  .intervention-table tr:last-child td { border-bottom: none; }
+
+  .voi-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .voi-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .voi-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+
+  .voi-val {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    min-width: 2.5rem;
+    text-align: right;
+  }
+
+  .tag-good { color: var(--accent); font-family: var(--mono); font-size: 0.72rem; }
+  .tag-bad  { color: var(--red);    font-family: var(--mono); font-size: 0.72rem; }
+  .tag-warn { color: var(--accent2); font-family: var(--mono); font-size: 0.72rem; }
+
+  /* ── SIMULATION IMAGE ── */
+  .sim-wrapper {
+    margin: 2.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .sim-wrapper img {
+    width: 100%;
+    display: block;
+  }
+
+  .sim-caption {
+    padding: 0.75rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── TWIN ALERT ── */
+  .twin-alert {
+    background: #00100d;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 1.75rem 2rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .twin-alert::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  .twin-alert-header {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .pulse {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .twin-alert-body {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: #5de8c8;
+    line-height: 1.9;
+  }
+
+  .twin-alert-body .dim { color: var(--muted); }
+  .twin-alert-body .warn { color: var(--red); }
+  .twin-alert-body .ok { color: var(--accent); }
+
+  /* ── CODE BLOCK ── */
+  .code-wrap {
+    margin: 2rem 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .code-filename {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .code-dots { display: flex; gap: 5px; }
+  .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #28ca41; }
+
+  pre {
+    background: var(--surface);
+    padding: 1.5rem;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: #8badd4;
+    max-height: 400px;
+  }
+
+  .kw  { color: #c792ea; }
+  .fn  { color: #82aaff; }
+  .st  { color: #c3e88d; }
+  .cm  { color: #546e7a; font-style: italic; }
+  .nm  { color: #f78c6c; }
+  .op  { color: #89ddff; }
+
+  .copy-btn {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.7rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    letter-spacing: 0.08em;
+  }
+  .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── INSIGHT CARDS ── */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  .insight-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+  .insight-card:hover { background: var(--surface2); }
+
+  .insight-num {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
+  }
+  .insight-card:hover .insight-num { color: var(--accent); }
+
+  .insight-title {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .insight-text {
+    font-size: 0.88rem;
+    color: #6a8099;
+    line-height: 1.6;
+  }
+
+  /* ── INVERSION BANNER ── */
+  .inversion {
+    background: linear-gradient(135deg, var(--surface2) 0%, #0a1520 100%);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3rem 2.5rem;
+    margin: 3rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .inversion::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(0,201,167,0.06) 0%, transparent 70%);
+  }
+
+  .inversion-text {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    color: var(--text);
+    position: relative;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .inversion-text em { color: var(--accent); font-style: italic; }
+
+  .inversion-sub {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    position: relative;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── ZULU GLOSSARY ── */
+  .glossary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  .gloss-item {
+    background: var(--surface);
+    padding: 1.25rem 1.5rem;
+    transition: background 0.2s;
+  }
+  .gloss-item:hover { background: var(--surface2); }
+
+  .gloss-term {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--accent);
+    font-style: italic;
+    margin-bottom: 0.3rem;
+  }
+
+  .gloss-gloss {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .gloss-def {
+    font-size: 0.85rem;
+    color: #6a8099;
+    line-height: 1.55;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .loss-grid { grid-template-columns: 1fr; }
+    .insight-grid { grid-template-columns: 1fr; }
+    .glossary { grid-template-columns: 1fr; }
+    .fw-row { grid-template-columns: 80px 1fr; }
+    .fw-cell:nth-child(2) { display: none; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">UKUBONA</div>
+  <ul class="nav-links">
+    <li><a href="#framework">Framework</a></li>
+    <li><a href="#math">Math</a></li>
+    <li><a href="#simulation">Simulation</a></li>
+    <li><a href="#twin">Twin</a></li>
+    <li><a href="#code">Code</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb-a"></div>
+  <div class="hero-orb orb-b"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Ukubona LLC &nbsp;·&nbsp; Conceptual Framework &nbsp;·&nbsp; v0.1</div>
+    <h1>The <em>Algorithm</em><br>of Us</h1>
+    <p class="hero-sub">
+      Patient health as a navigable loss landscape. Clinical reasoning
+      as stochastic gradient descent. The digital twin as persistent
+      pheromone infrastructure.
+    </p>
+    <div class="hero-badges">
+      <span class="badge accent">SGD + Bayesian Inference</span>
+      <span class="badge orange">Multi-Objective Optimization</span>
+      <span class="badge">Digital Patient Twins</span>
+      <span class="badge">Non-stationary Biology</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ── FRAMEWORK ─────────────────────────────────────── -->
+<section id="framework">
+  <div class="section-label">I — The Architecture</div>
+  <h2>A Five-Layer Operating System for Patient Navigation</h2>
+  <p>
+    Clinical medicine is conventionally understood as classification—<em>which disease is this?</em>
+    Ukubona reframes diagnosis as <strong>navigation through state space</strong>—<em>where are we,
+    and which direction reduces loss fastest?</em> This requires a layered ontology.
+  </p>
+
+  <div class="framework">
+    <div class="fw-row fw-header">
+      <div class="fw-cell"><div class="fw-id">ID</div></div>
+      <div class="fw-cell"><div class="fw-name">Layer</div></div>
+      <div class="fw-cell"><div class="fw-desc">Function</div></div>
+    </div>
+    <div class="fw-row">
+      <div class="fw-cell"><div class="fw-id">UNIV</div></div>
+      <div class="fw-cell"><div class="fw-name">Landscape Λ</div></div>
+      <div class="fw-cell"><div class="fw-desc">The high-dimensional biological territory—every gene, cellular state, exposure. Indifferent to assumptions. Non-stationary: the terrain moves as treatment changes physiology.</div></div>
+    </div>
+    <div class="fw-row">
+      <div class="fw-cell"><div class="fw-id">UB</div></div>
+      <div class="fw-cell"><div class="fw-name">Scout</div></div>
+      <div class="fw-cell"><div class="fw-desc">The patient as signal emitter. Symptom presentation provides initial coordinates and local gradient. The Scout reports the steepness—or flatness—of each dimension.</div></div>
+    </div>
+    <div class="fw-row">
+      <div class="fw-cell"><div class="fw-id">UKB</div></div>
+      <div class="fw-cell"><div class="fw-name">Witness</div></div>
+      <div class="fw-cell"><div class="fw-desc">Meta-cognition of the process. Stepping outside the algorithm to observe the inputs, the interventions, and the resulting trajectory. Seeing the map and the territory simultaneously.</div></div>
+    </div>
+    <div class="fw-row">
+      <div class="fw-cell"><div class="fw-id">UI</div></div>
+      <div class="fw-cell"><div class="fw-name">Pheromone Infra</div></div>
+      <div class="fw-cell"><div class="fw-desc">Not interface design—persistent externalized memory. Ant colonies leave pheromone trails; medicine keeps memory fragmented across patient recall, physician notes, institutional silos. The twin rebuilds continuity.</div></div>
+    </div>
+    <div class="fw-row">
+      <div class="fw-cell"><div class="fw-id">UX</div></div>
+      <div class="fw-cell"><div class="fw-name">Basin Ω</div></div>
+      <div class="fw-cell"><div class="fw-desc">The low-energy attractor—stable health. The goal is not to name the disease but to guide the patient into the basin with minimum expenditure of trust, resources, and physical integrity.</div></div>
+    </div>
+  </div>
+
+  <div class="glossary">
+    <div class="gloss-item">
+      <div class="gloss-term">Ukubona</div>
+      <div class="gloss-gloss">Zulu · To See</div>
+      <div class="gloss-def">The foundational act—witnessing the process rather than being subjected to it. Meta-cognitive clarity over the optimization landscape.</div>
+    </div>
+    <div class="gloss-item">
+      <div class="gloss-term">Ukhona</div>
+      <div class="gloss-gloss">Zulu · They Are Present</div>
+      <div class="gloss-def">The goal state: settled in the basin, present in the data, safe from the noise. Not just alive but coherently located in state space.</div>
+    </div>
+    <div class="gloss-item">
+      <div class="gloss-term">Apollonian</div>
+      <div class="gloss-gloss">Constrained descent</div>
+      <div class="gloss-def">Following the gradient. Low temperature. High exploitation. The upper endoscopy that confirmed antral gastritis—a logical step along the pheromone trail.</div>
+    </div>
+    <div class="gloss-item">
+      <div class="gloss-term">Dionysian</div>
+      <div class="gloss-gloss">Unconstrained exploration</div>
+      <div class="gloss-def">High-variance foraging across a flat region of the landscape. Useful at the right temperature. Catastrophic when the gradient is already known.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MATH ──────────────────────────────────────────── -->
+<section id="math">
+  <div class="section-label">II — The Mathematics</div>
+  <h2>Formalizing Clinical Error as Optimization Failure</h2>
+
+  <p>
+    Classical SGD requires noise ε—Dionysian exploration—to escape local minima.
+    But the temperature parameter must be calibrated to the gradient. When
+    <strong>the gradient in a dimension is zero, injecting variance into that dimension
+    is not exploration—it is error.</strong>
+  </p>
+
+  <h3>The State Space</h3>
+  <div class="eq-block">
+    <span class="cm"># Patient biological state at time t</span><br>
+    x<sub>t</sub> = [I<sub>t</sub>, G<sub>t</sub>, P<sub>t</sub>, M<sub>t</sub>]<br><br>
+    <span class="cm"># Dimensions:</span><br>
+    I  <span class="op">∈</span> [0,1]  <span class="cm"># Gastric Inflammation</span><br>
+    G  <span class="op">∈</span> [0,1]  <span class="cm"># Lower GI Pathology</span><br>
+    P  <span class="op">∈</span> [0,1]  <span class="cm"># Pain Signal</span><br>
+    M  <span class="op">∈</span> [0,1]  <span class="cm"># Mucosal Integrity (higher = healthier)</span><br><br>
+    <span class="cm"># Transition dynamics (non-stationary!)</span><br>
+    x<sub>t+1</sub> = f(x<sub>t</sub>, u<sub>t</sub>) + ω<sub>t</sub>  <span class="cm"># ω ~ N(0, σ²)</span>
+  </div>
+
+  <h3>Three Hidden Loss Functions</h3>
+  <p>
+    Most clinical over-testing is not noise—it is gradient descent on a
+    <strong>different loss function</strong>. Separating these is the conceptual
+    breakthrough that makes the twin operational rather than metaphorical.
+  </p>
+
+  <div class="loss-grid">
+    <div class="loss-card">
+      <div class="loss-card-id" style="color:var(--accent)">L<sub>b</sub></div>
+      <div class="loss-card-name">Biological Loss</div>
+      <div class="loss-card-desc">Pain · Inflammation · Mucosal deficit. The only loss function that matters for the patient's body.</div>
+    </div>
+    <div class="loss-card">
+      <div class="loss-card-id" style="color:var(--accent2)">L<sub>s</sub></div>
+      <div class="loss-card-name">System Loss</div>
+      <div class="loss-card-desc">Liability, throughput, billing. When negatively weighted, high-cost tests become the global minimum for the institution.</div>
+    </div>
+    <div class="loss-card">
+      <div class="loss-card-id" style="color:var(--blue)">L<sub>c</sub></div>
+      <div class="loss-card-name">Cognitive Loss</div>
+      <div class="loss-card-desc">Uncertainty discomfort. Clinicians over-test to reduce their own epistemic entropy, not the patient's biological loss.</div>
+    </div>
+  </div>
+
+  <div class="eq-block">
+    <span class="cm"># What actually gets optimized:</span><br>
+    L<sub>total</sub> = L<sub>b</sub> + λ₁·L<sub>s</sub> + λ₂·L<sub>c</sub><br><br>
+    <span class="cm"># Patient-set weights via API (Ukubona Twin):</span><br>
+    α = 0.20  <span class="cm"># system/economic weight</span><br>
+    β = 0.10  <span class="cm"># entropy/uncertainty weight</span><br><br>
+    <span class="cm"># Measurable uncertainty proxy (replaces vague "noise"):</span><br>
+    H(p) = -∫ p(x) log p(x) dx  <span class="cm"># posterior entropy</span><br><br>
+    <span class="cm"># Optimal next test = maximize value of information:</span><br>
+    a* = argmax<sub>a</sub>  [H(p) − E[H(p′|a,y)]] / cost(a)
+  </div>
+
+  <h3>The Colonoscopy as Quantified Error</h3>
+
+  <table class="intervention-table">
+    <thead>
+      <tr>
+        <th>Intervention</th>
+        <th>Cost</th>
+        <th>VoI (given symptoms)</th>
+        <th>Verdict</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>PPI Trial</td>
+        <td>0.05</td>
+        <td>
+          <div class="voi-bar">
+            <div class="voi-track"><div class="voi-fill" style="width:35%;background:var(--accent)"></div></div>
+            <span class="voi-val" style="color:var(--accent)">0.35</span>
+          </div>
+        </td>
+        <td><span class="tag-good">✓ OPTIMAL</span></td>
+      </tr>
+      <tr>
+        <td>Upper Endoscopy</td>
+        <td>0.40</td>
+        <td>
+          <div class="voi-bar">
+            <div class="voi-track"><div class="voi-fill" style="width:88%;background:var(--blue)"></div></div>
+            <span class="voi-val" style="color:var(--blue)">0.88</span>
+          </div>
+        </td>
+        <td><span class="tag-good">✓ JUSTIFIED</span></td>
+      </tr>
+      <tr>
+        <td>Colonoscopy</td>
+        <td>0.80</td>
+        <td>
+          <div class="voi-bar">
+            <div class="voi-track"><div class="voi-fill" style="width:2%;background:var(--red)"></div></div>
+            <span class="voi-val" style="color:var(--red)">0.02</span>
+          </div>
+        </td>
+        <td><span class="tag-bad">✗ GRADIENT ≈ 0</span></td>
+      </tr>
+      <tr>
+        <td>Profit-Optimised Path</td>
+        <td>0.80</td>
+        <td>
+          <div class="voi-bar">
+            <div class="voi-track"><div class="voi-fill" style="width:2%;background:var(--accent2)"></div></div>
+            <span class="voi-val" style="color:var(--accent2)">0.02</span>
+          </div>
+        </td>
+        <td><span class="tag-warn">⚠ HIDDEN L<sub>s</sub></span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ── SIMULATION ────────────────────────────────────── -->
+<section id="simulation">
+  <div class="section-label">III — The Toy Twin</div>
+  <h2>Gastric Antral Gastritis — Simulation Results</h2>
+  <p>
+    A minimal viable digital twin for the patient case that motivated this framework.
+    Initial state: <code style="font-family:var(--mono);font-size:0.82rem;color:var(--accent);background:var(--surface);padding:0.1rem 0.4rem;border-radius:2px">x₀ = [0.82, 0.04, 0.75, 0.38]</code>—
+    high gastric inflammation, negligible lower GI signal, significant pain, compromised mucosa.
+    Horizon: 12 time steps. Process noise σ = 0.025.
+  </p>
+
+  <div class="sim-wrapper">
+    <img src="ukubona_toy_twin.png" alt="Ukubona Gastric Toy Twin Simulation — 7-panel figure showing loss trajectories, VoI, state evolution, Bayesian posteriors, entropy, and digital twin alert output">
+    <div class="sim-caption">
+      Fig 1 — Gastric Toy Twin · Antral Gastritis · Ukubona LLC · Seven panels: (A) total loss trajectories, (B) value of information per intervention, (C) biological loss L_b, (D) optimal state evolution, (E) Bayesian posterior radar, (F) entropy over time, (G) digital twin API alert mock-up.
+    </div>
+  </div>
+
+  <p>
+    Panel A quantifies the optimization error visually: the colonoscopy and profit-optimised paths fail to
+    reduce biological loss while carrying the highest system cost. Panel E shows why—the Bayesian posterior
+    over lower GI pathology is essentially flat given the symptom vector. <strong>The gradient was zero.
+    No descent was possible.</strong>
+  </p>
+
+  <div class="inversion">
+    <div class="inversion-text">
+      Instead of physicians being the optimizer<br>and patients being the data—<br>
+      the patient becomes the <em>stateful system</em>,<br>and clinicians become <em>sampling instruments</em>.
+    </div>
+    <div class="inversion-sub">The conceptual mutation that occasionally reshapes entire fields.</div>
+  </div>
+</section>
+
+<!-- ── TWIN ──────────────────────────────────────────── -->
+<section id="twin">
+  <div class="section-label">IV — The Digital Twin</div>
+  <h2>Pheromone Infrastructure & State Continuity</h2>
+
+  <p>
+    Ant colony optimization leaves <strong>externalized memory</strong> in the environment.
+    Medicine currently keeps memory fragmented across patient recall, physician notes, and
+    institutional silos. The Ukubona Digital Twin proposes a
+    <strong>persistent probabilistic memory field</strong> around the patient.
+  </p>
+  <p>
+    This is not digitizing forms. This is digitizing <em>trajectory</em>.
+  </p>
+
+  <div class="insight-grid">
+    <div class="insight-card">
+      <div class="insight-num">01</div>
+      <div class="insight-title">Transparency / Witness Mode</div>
+      <div class="insight-text">Patients see the math: posterior probabilities, entropy values, VoI per proposed test. Decisions are demystified. The algorithm is visible.</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">02</div>
+      <div class="insight-title">Personalization / Pheromone Control</div>
+      <div class="insight-text">Weights in L_total are patient-tunable. Risk-averse? Higher exploration. Cost-sensitive? Reduce system weight. Local priors (geography, demographics) auto-adjusted.</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">03</div>
+      <div class="insight-title">Non-stationarity Handling</div>
+      <div class="insight-text">The twin continuously re-estimates the landscape via online learning. Treatment changes physiology, which changes the terrain being measured. Static risk scores fail chronically ill patients for exactly this reason.</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">04</div>
+      <div class="insight-title">Multi-Loss Detection</div>
+      <div class="insight-text">The twin models which loss function is being optimized at each step. Hidden L_s (system) signals are flagged. Patients learn to recognize when the system is descending on its own gradient, not theirs.</div>
+    </div>
+  </div>
+
+  <h3>What the Twin Would Have Said</h3>
+  <p>
+    Before the colonoscopy was scheduled, a passcode-gated twin API would have returned:
+  </p>
+
+  <div class="twin-alert">
+    <div class="twin-alert-header">
+      <div class="pulse"></div>
+      UKUBONA TWIN &nbsp;·&nbsp; SIGNAL MISALIGNMENT DETECTED
+    </div>
+    <div class="twin-alert-body">
+      <span class="dim">──────────────────────────────────────────────</span><br>
+      CURRENT GRADIENT ANALYSIS<br>
+      <span class="dim">──────────────────────────────────────────────</span><br>
+      p(gastric | symptoms)     = <span class="ok">0.94</span>  <span class="dim">[HIGH CONFIDENCE]</span><br>
+      p(lower GI | symptoms)    = <span class="warn">0.04</span>  <span class="dim">[NEAR-ZERO SIGNAL]</span><br>
+      Posterior entropy H(p)    = <span class="ok">0.31</span>  <span class="dim">[LOW UNCERTAINTY]</span><br><br>
+
+      <span class="dim">──────────────────────────────────────────────</span><br>
+      INTERVENTION EVALUATION<br>
+      <span class="dim">──────────────────────────────────────────────</span><br>
+      VoI [Upper Endoscopy]  = <span class="ok">0.88</span>  ✓ justified<br>
+      VoI [Colonoscopy]      = <span class="warn">0.02</span>  ✗ gradient ≈ 0<br>
+      Cost/benefit [Colon]   = <span class="warn">HIGH COST · NEGLIGIBLE ΔH</span><br><br>
+
+      <span class="dim">──────────────────────────────────────────────</span><br>
+      RECOMMENDATION<br>
+      <span class="dim">──────────────────────────────────────────────</span><br>
+      Accept: Upper Endoscopy<br>
+      <span class="warn">Decline: Colonoscopy  [hidden L_s detected]</span><br><br>
+
+      Ask clinician: "What symptom gradient justifies<br>
+      lower GI exploration given no bowel-change signal?"<br>
+      <span class="dim">──────────────────────────────────────────────</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── CODE ──────────────────────────────────────────── -->
+<section id="code">
+  <div class="section-label">V — Replicate</div>
+  <h2>The Toy Twin — Python Source</h2>
+  <p>
+    Full simulation code. Dependencies: <code style="font-family:var(--mono);font-size:0.82rem;color:var(--accent);background:var(--surface);padding:0.1rem 0.4rem;border-radius:2px">numpy · scipy · matplotlib</code>.
+    Run with <code style="font-family:var(--mono);font-size:0.82rem;color:var(--accent);background:var(--surface);padding:0.1rem 0.4rem;border-radius:2px">python ukubona_toy_twin.py</code>.
+    Extend by replacing the toy ODE with real GI physiology parameters from literature.
+  </p>
+
+  <div class="code-wrap">
+    <div class="code-header">
+      <div class="code-dots">
+        <div class="code-dot dot-r"></div>
+        <div class="code-dot dot-y"></div>
+        <div class="code-dot dot-g"></div>
+      </div>
+      <div class="code-filename">ukubona_toy_twin.py</div>
+      <button class="copy-btn" onclick="copyCode()">COPY</button>
+    </div>
+    <pre id="code-block"><span class="cm">"""
+Ukubona LLC — Gastric Toy Twin Simulation
+==========================================
+State space:   x = [Gastric Inflammation, Lower GI, Pain, Mucosal Integrity]
+Loss:          L_total = L_b + α·L_s + β·H(posterior)
+Horizon:       12 time steps  |  σ_process = 0.025
+"""</span>
+
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">from</span> matplotlib.gridspec <span class="kw">import</span> GridSpec
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> entropy <span class="kw">as</span> scipy_entropy
+
+np.random.seed(<span class="nm">42</span>)
+
+<span class="cm"># ── STATE SPACE ──────────────────────────────────────────</span>
+INITIAL_STATE = np.array([<span class="nm">0.82</span>, <span class="nm">0.04</span>, <span class="nm">0.75</span>, <span class="nm">0.38</span>])
+
+<span class="cm"># ── LOSS FUNCTIONS ───────────────────────────────────────</span>
+ALPHA, BETA = <span class="nm">0.20</span>, <span class="nm">0.10</span>
+
+<span class="kw">def</span> <span class="fn">L_bio</span>(state):
+    I, G, P, M = state
+    <span class="kw">return</span> <span class="nm">0.40</span> * I + <span class="nm">0.40</span> * P + <span class="nm">0.20</span> * (<span class="nm">1</span> - M)
+
+<span class="kw">def</span> <span class="fn">H_state</span>(state):
+    probs = np.abs(state) / (np.sum(np.abs(state)) + <span class="nm">1e-9</span>)
+    <span class="kw">return</span> float(scipy_entropy(probs + <span class="nm">1e-9</span>))
+
+<span class="kw">def</span> <span class="fn">L_total</span>(state, cost):
+    <span class="kw">return</span> L_bio(state) + ALPHA * cost + BETA * H_state(state)
+
+<span class="cm"># ── ACTIONS ──────────────────────────────────────────────</span>
+ACTIONS = {
+    <span class="st">"PPI Trial"</span>:        {<span class="st">"cost"</span>: <span class="nm">0.05</span>, <span class="st">"delta"</span>: np.array([<span class="nm">-0.30</span>, <span class="nm">0.00</span>, <span class="nm">-0.38</span>, <span class="nm">+0.22</span>]), <span class="st">"voi"</span>: <span class="nm">0.35</span>},
+    <span class="st">"Endoscopy"</span>:         {<span class="st">"cost"</span>: <span class="nm">0.40</span>, <span class="st">"delta"</span>: np.array([<span class="nm">-0.05</span>, <span class="nm">0.00</span>, <span class="nm">-0.05</span>, <span class="nm">+0.05</span>]), <span class="st">"voi"</span>: <span class="nm">0.88</span>},
+    <span class="st">"Colonoscopy"</span>:       {<span class="st">"cost"</span>: <span class="nm">0.80</span>, <span class="st">"delta"</span>: np.array([<span class="nm">0.00</span>,  <span class="nm">0.00</span>, <span class="nm">0.00</span>,  <span class="nm">-0.03</span>]), <span class="st">"voi"</span>: <span class="nm">0.02</span>},
+    <span class="st">"Profit-Optimised"</span>: {<span class="st">"cost"</span>: <span class="nm">0.80</span>, <span class="st">"delta"</span>: np.array([<span class="nm">0.00</span>,  <span class="nm">0.00</span>, <span class="nm">0.00</span>,  <span class="nm">-0.03</span>]), <span class="st">"voi"</span>: <span class="nm">0.02</span>},
+}
+
+<span class="cm"># ── SIMULATION ───────────────────────────────────────────</span>
+HORIZON, SIGMA = <span class="nm">12</span>, <span class="nm">0.025</span>
+
+<span class="kw">def</span> <span class="fn">simulate_path</span>(initial_state, action_key, horizon=HORIZON):
+    action = ACTIONS[action_key]
+    state  = initial_state.copy()
+    losses, lb_arr, H_arr, states = [L_total(state, <span class="nm">0</span>)], [L_bio(state)], [H_state(state)], [state.copy()]
+    <span class="kw">for</span> t <span class="kw">in</span> range(horizon):
+        decay = np.exp(<span class="nm">-0.25</span> * t)
+        cost  = action[<span class="st">"cost"</span>] <span class="kw">if</span> t == <span class="nm">0</span> <span class="kw">else</span> <span class="nm">0.0</span>
+        state = np.clip(state + action[<span class="st">"delta"</span>] * decay + np.random.normal(<span class="nm">0</span>, SIGMA, <span class="nm">4</span>), <span class="nm">0</span>, <span class="nm">1</span>)
+        losses.append(L_total(state, cost)); lb_arr.append(L_bio(state)); H_arr.append(H_state(state)); states.append(state.copy())
+    <span class="kw">return</span> np.array(losses), np.array(lb_arr), np.array(H_arr), np.array(states)
+
+paths = {k: simulate_path(INITIAL_STATE, k) <span class="kw">for</span> k <span class="kw">in</span> ACTIONS}
+
+<span class="cm"># ── PLOT (abbreviated — see full file for 7-panel figure) ─</span>
+T = np.arange(HORIZON + <span class="nm">1</span>)
+PALETTE = {<span class="st">"PPI Trial"</span>: <span class="st">"#00C9A7"</span>, <span class="st">"Endoscopy"</span>: <span class="st">"#4E9AF1"</span>,
+           <span class="st">"Colonoscopy"</span>: <span class="st">"#FF6B6B"</span>, <span class="st">"Profit-Optimised"</span>: <span class="st">"#FF9F43"</span>}
+
+fig, ax = plt.subplots(figsize=(<span class="nm">10</span>, <span class="nm">5</span>), facecolor=<span class="st">"#0D1117"</span>)
+ax.set_facecolor(<span class="st">"#161B22"</span>)
+<span class="kw">for</span> k, (losses, _, _, _) <span class="kw">in</span> paths.items():
+    ax.plot(T, losses, color=PALETTE[k], label=k, lw=<span class="nm">2</span>)
+ax.legend(); ax.set_title(<span class="st">"Ukubona Gastric Twin — Loss Trajectories"</span>, color=<span class="st">"white"</span>)
+plt.tight_layout()
+plt.savefig(<span class="st">"ukubona_toy_twin.png"</span>, dpi=<span class="nm">150</span>, bbox_inches=<span class="st">"tight"</span>)
+print(<span class="st">"Simulation complete."</span>)</pre>
+  </div>
+
+  <p style="font-size:0.84rem; color:var(--muted)">
+    The full 7-panel figure code (∼300 lines) is available as a separate download.
+    The toy can be extended with real gastric physiology parameters (mucosal healing rates,
+    PPI pharmacokinetics) and bootstrapped from public datasets such as MIMIC-III.
+    A Kalman filter or particle filter replaces the Gaussian posterior for production use.
+  </p>
+</section>
+
+<!-- ── EPILOGUE ──────────────────────────────────────── -->
+<section>
+  <div class="section-label">VI — The Shift</div>
+  <h2>From Diagnosis as Classification to Diagnosis as Navigation</h2>
+
+  <p>
+    The breakthrough will come when three components crystallize into equations:
+    <strong>entropy</strong> (uncertainty), <strong>cost functions</strong>
+    (multi-objective optimization), and <strong>state transition models</strong>
+    (how physiology actually moves through time).
+  </p>
+  <p>
+    Once those exist, the Digital Twin stops being metaphor and becomes infrastructure.
+    The pheromone trail is laid. Future descents into the same basin will not require
+    the traumatic high-cost sacrifice of blind stochastic foraging.
+    The path will be mapped. The patient will simply follow the optimized trail to health.
+  </p>
+
+  <div class="inversion" style="margin-top:3rem">
+    <div class="inversion-text" style="font-size:1.5rem">
+      <em>Ukhona</em> — they are present,<br>safe from the noise.
+    </div>
+    <div class="inversion-sub" style="margin-top:0.8rem">
+      Ukubona LLC &nbsp;·&nbsp; The Algorithm of Us &nbsp;·&nbsp; v0.1
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">UKUBONA LLC</div>
+  <div class="footer-copy">
+    Conceptual framework document &nbsp;·&nbsp; For internal use and research collaboration
+  </div>
+</footer>
+
+<script>
+  function copyCode() {
+    const code = document.getElementById('code-block').innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'COPIED';
+      btn.style.color = 'var(--accent)';
+      btn.style.borderColor = 'var(--accent)';
+      setTimeout(() => {
+        btn.textContent = 'COPY';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 2000);
+    });
+  }
+
+  // Animate VoI bars on scroll
+  const bars = document.querySelectorAll('.voi-fill');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.style.width; // trigger reflow
+      }
+    });
+  }, { threshold: 0.5 });
+
+  bars.forEach(b => observer.observe(b));
+
+  // Fade-in sections
+  const sections = document.querySelectorAll('section');
+  const sectionObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.05 });
+
+  sections.forEach(s => {
+    s.style.opacity = '0';
+    s.style.transform = 'translateY(16px)';
+    s.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    sectionObs.observe(s);
+  });
+</script>
+
+</body>
+</html>
