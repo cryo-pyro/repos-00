@@ -347,6 +347,46 @@
     color: var(--accent);
   }
 
+  /* Video embed */
+  .video-wrap {
+    margin: 0 0 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.58s forwards;
+  }
+
+  .video-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    background: #000;
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  .video-caption {
+    margin-top: 0.7rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
@@ -368,6 +408,15 @@
     <h1>The Hidden Staircase</h1>
     <p class="subtitle">It climbs from structure to purpose.</p>
   </header>
+
+  <!-- Video embed -->
+  <div class="video-wrap">
+    <div class="video-label">Context &amp; Origin</div>
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/0SkGDmFfpnQ" title="Is There an AI Bubble? Google CEO Pichai Confronted on AI, Defends Massive AI Investments" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="video-caption">Google CEO Sundar Pichai &amp; DeepMind CEO Demis Hassabis at the India AI Impact Summit 2026, New Delhi — the conversation that sparked this analysis.</div>
+  </div>
 
   <!-- Staircase diagram -->
   <div class="staircase">
