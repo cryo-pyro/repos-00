@@ -41,8 +41,7 @@
   <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
+:root {
     --bg: #0b0c10;
     --paper: #111318;
     --gold: #c9a84c;
@@ -51,7 +50,17 @@
     --muted: #7a776e;
     --accent: #e8d9b5;
     --line: rgba(201,168,76,0.18);
-  }
+}
+
+[data-theme="light"] {
+  --bg:      #f5f7fa;
+  --surface: #ffffff;
+  --surface2:#eef1f5;
+  --border:  #d0d8e4;
+  --text:    #1a2533;
+  --muted:   #5a7090;
+}
+  
 
   html { scroll-behavior: smooth; }
 
