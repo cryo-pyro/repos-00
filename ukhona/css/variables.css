@@ -58,6 +58,14 @@
     --dark-border: rgba(255, 255, 255, 0.1);
     --dark-text: #ffffff;
     --dark-text-secondary: rgba(255, 255, 255, 0.7);
+
+    /* Default = DARK */
+    --bg: var(--dark-bg);
+    --surface: var(--dark-surface);
+    --glass: var(--dark-glass);
+    --border: var(--dark-border);
+    --text: var(--dark-text);
+    --text-secondary: var(--dark-text-secondary);
 }
 
 /* Theme Switching */
