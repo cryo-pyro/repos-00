@@ -44,7 +44,7 @@
 
   table {
     border-collapse: collapse;
-    width: min(820px, 100%);
+    width: min(1100px, 100%);
     animation: fadeUp 1s 0.3s ease both;
   }
 
@@ -53,7 +53,7 @@
     font-size: 0.7rem;
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    padding: 0.6rem 2.5rem 1.2rem;
+    padding: 0.6rem 2rem 1.2rem;
     color: #b8965a;
     border-bottom: 1px solid #3a3020;
   }
@@ -74,7 +74,7 @@
   tbody tr:hover td { background: rgba(184,150,90,0.06); }
 
   td {
-    padding: 1.4rem 2.5rem;
+    padding: 1.4rem 2rem;
     transition: background 0.3s ease;
     vertical-align: top;
     line-height: 1.65;
@@ -83,12 +83,12 @@
   td:first-child {
     text-align: right;
     border-right: 1px solid #2e2718;
-    padding-right: 2.5rem;
+    padding-right: 2rem;
   }
 
   td:last-child {
     text-align: left;
-    padding-left: 2.5rem;
+    padding-left: 2rem;
   }
 
   .primary {
@@ -123,6 +123,64 @@
     white-space: nowrap;
   }
 
+  /* Biomass transfer column */
+  .biomass {
+    text-align: center;
+    padding: 1.4rem 1.5rem;
+    vertical-align: middle;
+    border-left: 1px solid #2e2718;
+    border-right: 1px solid #2e2718;
+    max-width: 260px;
+  }
+
+  .biomass-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: #b8965a;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .biomass-body {
+    font-size: 0.83rem;
+    font-style: italic;
+    color: #7a6e5a;
+    line-height: 1.6;
+    display: block;
+  }
+
+  .biomass-arrow {
+    display: block;
+    color: #3a3020;
+    font-size: 0.7rem;
+    margin: 0.2rem 0;
+    letter-spacing: 0.1em;
+  }
+
+  /* footnote */
+  .footnote {
+    width: min(1100px, 100%);
+    margin-top: 2.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid #1e1a10;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #5a5040;
+    line-height: 1.7;
+    animation: fadeUp 1s 1.6s ease both;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+
+  .footnote sup {
+    font-size: 0.65rem;
+    vertical-align: super;
+    color: #b8965a;
+    margin-right: 0.3rem;
+  }
+
   @keyframes fadeDown {
     from { opacity:0; transform:translateY(-16px); }
     to   { opacity:1; transform:translateY(0); }
@@ -149,6 +207,7 @@
     <tr>
       <th>Voice A</th>
       <th style="border-left:none; text-align:center; padding:0.6rem 1rem 1.2rem; color:#3a3020; font-size:0.55rem;"></th>
+      <th style="text-align:center; padding:0.6rem 1.5rem 1.2rem; color:#b8965a; font-family:'Cinzel Decorative',serif; font-size:0.6rem; letter-spacing:0.3em; border-left:1px solid #3a3020; border-right:1px solid #3a3020;">Biomass Transfer</th>
       <th>Voice B</th>
     </tr>
   </thead>
@@ -157,9 +216,13 @@
     <tr>
       <td>
         <span class="primary">Mukutulansanja</span>
-        <span class="secondary"> Mugulansigo<br><em>→ Grappa (January)</em></span>
+        <span class="secondary">Mugulansigo<br><em>→ Grappa (January)</em></span>
       </td>
       <td class="spine">· I ·</td>
+      <td class="biomass">
+        <span class="biomass-label">Soil / Seed-Capital</span>
+        <span class="biomass-body">Dead leaves mulch the earth.<br>Pericarp breaks. Seed enters<br>pre-funded soil.</span>
+      </td>
       <td>
         <span class="primary">Mukulukusabitungotungo</span>
         <span class="secondary"><em>Grain (October)</em></span>
@@ -171,6 +234,10 @@
         <span class="primary">Kafumuulampawu</span>
       </td>
       <td class="spine">· II ·</td>
+      <td class="biomass">
+        <span class="biomass-label">Roots / Hatching Eggs</span>
+        <span class="biomass-body">Hydraulic flush.<br>Subterranean protein erupts —<br>termites, then grasshoppers.</span>
+      </td>
       <td>
         <span class="primary">Museneene</span>
       </td>
@@ -181,6 +248,10 @@
         <span class="primary">Muzigo</span>
       </td>
       <td class="spine">· III ·</td>
+      <td class="biomass">
+        <span class="biomass-label">Flora → Fauna → Fat</span>
+        <span class="biomass-body">Grass → cow → milk → ghee.<br>Ishabwe. Meat. Predators close<br>the trophic chain.<sup>†</sup></span>
+      </td>
       <td>
         <span class="primary">Ntenvu</span>
       </td>
@@ -189,9 +260,13 @@
     <tr>
       <td>
         <span class="primary">Ssebaaseka</span>
-        <span class="secondary"><em>(Dionysian Frenzy) · Kasambula </em></span>
+        <span class="secondary"><em>(Dionysian Frenzy) · Kasambula</em></span>
       </td>
       <td class="spine">· IV ·</td>
+      <td class="biomass">
+        <span class="biomass-label">Produce / Derivatives</span>
+        <span class="biomass-body">Surplus ferments. Banana + omuwemba<br>→ tonto → enguli.<br>Intoxication is the dividend.</span>
+      </td>
       <td>
         <span class="primary">Gatonnya</span>
         <span class="secondary">Mukutulansanja · Mugulansigo<br><em>(Apollonian)</em></span>
@@ -203,6 +278,10 @@
         <span class="primary">Muwakanya</span>
       </td>
       <td class="spine">· V ·</td>
+      <td class="biomass">
+        <span class="biomass-label">Market / Futures</span>
+        <span class="biomass-body">Price discovery. Spot, strike,<br>forward contracts hollered<br>across the marketplace.</span>
+      </td>
       <td>
         <span class="primary">Mutunda</span>
       </td>
@@ -210,6 +289,10 @@
 
   </tbody>
 </table>
+
+<p class="footnote">
+  <sup>†</sup> "A man may fish with the worm that hath eat of a king, and eat of the fish that hath fed of that worm." — Hamlet, IV.iii. The trophic loop is closed. The king is in the soil. The soil is in the grass. The grass is in the cow. The cow is in the ghee. The ghee is on your fingers at Ssebaaseka.
+</p>     
 
 </body>
 </html>
