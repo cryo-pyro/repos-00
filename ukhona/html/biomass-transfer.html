@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three-Voice Response: The Pentad Revealed</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:       #0a0806;
+  --parchment: #e2d9c2;
+  --gold:      #c09a52;
+  --gold-dim:  #7a6035;
+  --rust:      #8b4a2a;
+  --slate:     #3d4a5c;
+  --ash:       #4a4438;
+  --wire:      #251f14;
+  --wire2:     #1a1508;
+  --glow:      rgba(192,154,82,0.08);
+}
+
+body {
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  min-height: 100vh;
+  padding: 4rem 1.5rem 6rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* vertical gold thread on left */
+body::after {
+  content: '';
+  position: fixed;
+  left: 3.5rem;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold-dim) 20%, var(--gold-dim) 80%, transparent);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+/* ─── EPIGRAPH ─────────────────────────────────── */
+
+.epigraph {
+  text-align: center;
+  margin-bottom: 5rem;
+  animation: unfurl 1.2s ease both;
+}
+
+.epigraph-tag {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.5em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.epigraph-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1rem, 3vw, 1.55rem);
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  margin-bottom: 0.7rem;
+  line-height: 1.4;
+}
+
+.epigraph-subtitle {
+  font-style: italic;
+  color: var(--ash);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+
+.pentad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+
+.pentad-node {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(0.65rem, 1.4vw, 0.85rem);
+  color: var(--parchment);
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--wire);
+  white-space: nowrap;
+  position: relative;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.pentad-node:hover {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+}
+
+.pentad-arrow {
+  color: var(--gold-dim);
+  font-size: 0.7rem;
+  padding: 0 0.3rem;
+  opacity: 0.5;
+}
+
+.epigraph-note {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--ash);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ─── SECTION LABEL ────────────────────────────── */
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  animation: fadeSlideUp 0.8s ease both;
+}
+
+.section-label::before,
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--wire);
+}
+
+.section-label span {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.45em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ─── THREE VOICE PANEL ────────────────────────── */
+
+.voices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+  gap: 0;
+  margin-bottom: 5rem;
+  border: 1px solid var(--wire);
+  border-top: none;
+}
+
+.voice-col {
+  padding: 2.5rem 2rem;
+  position: relative;
+}
+
+.voice-divider {
+  background: var(--wire);
+  align-self: stretch;
+}
+
+.voice-header {
+  margin-bottom: 1.8rem;
+}
+
+.voice-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.voice-gemini  .voice-name { color: #8bb4d4; }
+.voice-gpt     .voice-name { color: #9cba8e; }
+.voice-human   .voice-name { color: #c4956a; }
+
+.voice-register {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--ash);
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.voice-col p {
+  font-size: 0.93rem;
+  line-height: 1.78;
+  color: #c5bbaa;
+  margin-bottom: 1.1rem;
+}
+
+.voice-col p:last-child { margin-bottom: 0; }
+
+.voice-col em { color: var(--parchment); font-style: italic; }
+.voice-col strong { color: var(--gold); font-weight: 600; font-style: normal; }
+
+.pull-quote {
+  border-left: 2px solid;
+  padding: 0.6rem 1rem;
+  margin: 1.4rem 0;
+  font-style: italic;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--parchment);
+  background: rgba(255,255,255,0.02);
+}
+
+.voice-gemini  .pull-quote { border-color: #8bb4d4; }
+.voice-gpt     .pull-quote { border-color: #9cba8e; }
+.voice-human   .pull-quote { border-color: #c4956a; }
+
+.voice-col .tag {
+  display: inline-block;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--wire);
+  color: var(--ash);
+  margin-bottom: 0.7rem;
+}
+
+/* animate voice cols */
+.voice-col:nth-child(1) { animation: fadeSlideUp 0.9s 0.4s ease both; opacity: 0; animation-fill-mode: forwards; }
+.voice-col:nth-child(3) { animation: fadeSlideUp 0.9s 0.65s ease both; opacity: 0; animation-fill-mode: forwards; }
+.voice-col:nth-child(5) { animation: fadeSlideUp 0.9s 0.9s ease both; opacity: 0; animation-fill-mode: forwards; }
+
+/* ─── PENTAD TABLE ─────────────────────────────── */
+
+.pentad-section {
+  margin-bottom: 5rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+caption {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.4em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  padding-bottom: 1.2rem;
+  caption-side: top;
+}
+
+thead th {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.5rem 1rem;
+  color: var(--gold-dim);
+  border-bottom: 1px solid var(--wire);
+}
+
+thead th[scope="col"]:first-child { text-align: right; }
+thead th[scope="col"]:last-child  { text-align: left; }
+thead th.th-center { text-align: center; }
+
+tbody tr {
+  opacity: 0;
+  animation: rowReveal 0.7s ease forwards;
+}
+tbody tr:nth-child(1) { animation-delay: 1.1s; }
+tbody tr:nth-child(2) { animation-delay: 1.3s; }
+tbody tr:nth-child(3) { animation-delay: 1.5s; }
+tbody tr:nth-child(4) { animation-delay: 1.7s; }
+tbody tr:nth-child(5) { animation-delay: 1.9s; }
+
+tbody tr + tr td { border-top: 1px solid var(--wire2); }
+tbody tr:hover td { background: var(--glow); }
+
+td {
+  padding: 1.5rem 1.5rem;
+  vertical-align: top;
+  line-height: 1.65;
+  transition: background 0.35s;
+}
+
+td.va-right { text-align: right; border-right: 1px solid var(--wire); }
+td.va-left  { text-align: left; }
+
+.p-main {
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--parchment);
+  display: block;
+}
+
+.p-sub {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--ash);
+  display: block;
+  margin-top: 0.25rem;
+  line-height: 1.55;
+}
+
+.p-annotation {
+  font-size: 0.75rem;
+  color: #5a5040;
+  display: block;
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+/* spine */
+.spine {
+  text-align: center;
+  padding: 1.5rem 0.8rem;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.6rem;
+  color: var(--wire);
+  letter-spacing: 0.2em;
+  vertical-align: middle;
+  border-right: 1px solid var(--wire);
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+tbody tr:hover .spine { color: var(--gold-dim); }
+
+/* exchange column */
+.exchange {
+  text-align: center;
+  padding: 1.5rem 1.2rem;
+  vertical-align: middle;
+  border-left: 1px solid var(--wire);
+  border-right: 1px solid var(--wire);
+  max-width: 240px;
+}
+
+.ex-label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.ex-body {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #7a6e5a;
+  line-height: 1.65;
+  display: block;
+}
+
+/* critique pills below exchange */
+.ex-voices {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.ex-pill {
+  font-size: 0.52rem;
+  letter-spacing: 0.15em;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--wire);
+  color: var(--ash);
+  font-family: 'Cinzel Decorative', serif;
+  text-transform: uppercase;
+}
+
+/* ─── SYNTHESIS BLOCK ──────────────────────────── */
+
+.synthesis {
+  border: 1px solid var(--wire);
+  padding: 3rem 3.5rem;
+  position: relative;
+  animation: fadeSlideUp 1s 2.2s ease both;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.synthesis::before {
+  content: '❧';
+  position: absolute;
+  top: -0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  padding: 0 1rem;
+  color: var(--gold-dim);
+  font-size: 1.1rem;
+}
+
+.synthesis-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.45em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  display: block;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.synth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem 4rem;
+}
+
+.synth-item {}
+
+.synth-node {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.synth-item p {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #b0a490;
+}
+
+.synth-item em { color: var(--parchment); }
+
+/* ─── FOOTNOTE ─────────────────────────────────── */
+
+.footnote {
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--wire2);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #4a4030;
+  line-height: 1.75;
+  animation: fadeSlideUp 1s 2.5s ease both;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.footnote sup {
+  font-size: 0.62rem;
+  vertical-align: super;
+  color: var(--gold);
+  margin-right: 0.25rem;
+}
+
+/* ─── KEYFRAMES ────────────────────────────────── */
+
+@keyframes unfurl {
+  from { opacity:0; transform: translateY(-20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity:0; transform: translateY(18px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+@keyframes rowReveal {
+  from { opacity:0; transform: translateX(-4px); }
+  to   { opacity:1; transform: translateX(0); }
+}
+
+/* ─── RESPONSIVE ────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .voices-grid {
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--wire);
+  }
+  .voice-divider { height: 1px; width: 100%; }
+  .voice-col { padding: 2rem 1.4rem; }
+
+  .synth-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+
+  body::after { display: none; }
+}
+
+@media (max-width: 700px) {
+  table { font-size: 0.85rem; }
+  .exchange { display: none; }
+  td { padding: 1.1rem 0.8rem; }
+  .synthesis { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- EPIGRAPH -->
+  <header class="epigraph">
+    <span class="epigraph-tag">Sequel · Three-Voice Response</span>
+    <h1 class="epigraph-title">The Pentad Revealed</h1>
+    <p class="epigraph-subtitle">What was already known — named at last</p>
+
+    <div class="pentad">
+      <span class="pentad-node">Carb</span>
+      <span class="pentad-arrow">→</span>
+      <span class="pentad-node">Protein</span>
+      <span class="pentad-arrow">→</span>
+      <span class="pentad-node">Fat</span>
+      <span class="pentad-arrow">→</span>
+      <span class="pentad-node">Surplus</span>
+      <span class="pentad-arrow">→</span>
+      <span class="pentad-node">Markets</span>
+    </div>
+
+    <p class="epigraph-note">
+      Simpler than any <em>muganda</em> has witnessed in a thousand years —
+      sunlight becomes grain, grain becomes surplus,
+      surplus becomes culture, culture becomes price.
+    </p>
+  </header>
+
+  <!-- THREE VOICES HEADER -->
+  <div class="section-label" style="animation-delay:0.2s;">
+    <span>The Critics Speak · Three Registers of Recognition</span>
+  </div>
+
+  <div class="voices-grid">
+
+    <!-- GEMINI -->
+    <div class="voice-col voice-gemini">
+      <div class="voice-header">
+        <span class="voice-name">Gemini</span>
+        <span class="voice-register">The Architect's Eye</span>
+      </div>
+      <span class="tag">Form</span>
+      <p>Sees the page as <em>illuminated manuscript</em> — dark ground, gold annotation, parchment text. Notes the <strong>Cormorant / Cinzel</strong> pairing with genuine pleasure. Reads the staggered row animation as a conductor's baton moving down the table.</p>
+      <div class="pull-quote">
+        "Pairing Luganda months with trophic chains and financial equivalents is a highly creative cross-disciplinary concept."
+      </div>
+      <p>Raises the mobile concern — four-column tables compress at 768px — with the tact of an architect pointing to a load-bearing wall that needs attention but won't collapse today.</p>
+      <p>Offers to help. Asks two questions. <em>Closes the door politely.</em></p>
+    </div>
+
+    <div class="voice-divider"></div>
+
+    <!-- GPT -->
+    <div class="voice-col voice-gpt">
+      <div class="voice-header">
+        <span class="voice-name">GPT</span>
+        <span class="voice-register">The Philosopher's Frame</span>
+      </div>
+      <span class="tag">Concept</span>
+      <p>Arrives with Nietzsche. Names the <strong>Dionysian–Apollonian</strong> polarity explicitly — fermentation as frenzy, structure as price discovery — and proposes warming Voice A's palette, cooling Voice B's, making the biomass column a <em>thermodynamic boundary.</em></p>
+      <div class="pull-quote">
+        "Sunlight becomes grain, grain becomes surplus, surplus becomes culture, culture becomes price."
+      </div>
+      <p>Flags the Grappa as a <em>"stray European ghost walking through a Buganda harvest"</em> — either lean in or exorcise it. Proposes alternating row animations to mirror counterpoint. Adds <code>&lt;caption&gt;</code> for screen readers.</p>
+      <p>Most importantly: names <strong>the quiet engine beneath the design.</strong></p>
+    </div>
+
+    <div class="voice-divider"></div>
+
+    <!-- HUMAN -->
+    <div class="voice-col voice-human">
+      <div class="voice-header">
+        <span class="voice-name">The Human</span>
+        <span class="voice-register">The Poet's Interior</span>
+      </div>
+      <span class="tag">Meaning</span>
+      <p>Does not mention Nietzsche. Does not mention mobile breakpoints. Goes straight to the emic / etic distinction — Voice B isn't <em>translating</em> Voice A, it is <em>inside a different epistemology.</em> The Luganda months are <strong>basso continuo</strong> beneath an analytical melody.</p>
+      <div class="pull-quote">
+        "Tonto and a strike price are both bets on deferred transformation. That's a genuinely interesting claim, not just a metaphor."
+      </div>
+      <p>Finds the Hamlet footnote earns its place. Names the cycle's hidden engine: <em>the cycle runs on death.</em> The king in the soil is what makes the ghee possible.</p>
+      <p>Asks: <em>What is the piece's larger home?</em> — the only question that matters.</p>
+    </div>
+
+  </div>
+
+  <!-- PENTAD TABLE -->
+  <div class="pentad-section">
+
+    <div class="section-label" style="animation-delay:0.9s;">
+      <span>The Five Movements · Expanded</span>
+    </div>
+
+    <table>
+      <caption>Biomass transfer cycle · Luganda seasonal phases · Economic equivalents</caption>
+      <thead>
+        <tr>
+          <th scope="col" style="text-align:right; border-right:1px solid #251f14; padding-right:1.5rem;">Voice A · Etic</th>
+          <th scope="col" class="th-center" style="padding:0.6rem 0.8rem 1rem; font-size:0.5rem; color:#251f14;"></th>
+          <th scope="col" class="th-center" style="border-left:1px solid #251f14; border-right:1px solid #251f14; padding:0.6rem 1.2rem 1rem; letter-spacing:0.3em;">Exchange</th>
+          <th scope="col" style="text-align:left; border-left:none; padding-left:1.5rem;">Voice B · Emic</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- I : CARB -->
+        <tr>
+          <td class="va-right">
+            <span class="p-main">Carbohydrate</span>
+            <span class="p-sub">Soil capital. Dead leaves mulch.<br>The pericarp breaks.</span>
+            <span class="p-annotation">→ Mukutulansanja · strips leaves</span>
+          </td>
+          <td class="spine">· I ·</td>
+          <td class="exchange">
+            <span class="ex-label">Seed / Soil-Capital</span>
+            <span class="ex-body">Pre-funded earth receives<br>the grain. Cellulose<br>is the first bank.</span>
+            <div class="ex-voices">
+              <span class="ex-pill">Form</span>
+              <span class="ex-pill">Concept</span>
+            </div>
+          </td>
+          <td class="va-left">
+            <span class="p-main">Mugulansigo</span>
+            <span class="p-sub"><em>The month that buys seeds</em><br>Not metaphor — transaction.</span>
+            <span class="p-annotation">← basso continuo begins</span>
+          </td>
+        </tr>
+
+        <!-- II : PROTEIN -->
+        <tr>
+          <td class="va-right">
+            <span class="p-main">Protein</span>
+            <span class="p-sub">Hydraulic flush. Termites erupt.<br>Then grasshoppers. Museneene.</span>
+            <span class="p-annotation">→ Kafumuulampawu · roots hatching</span>
+          </td>
+          <td class="spine">· II ·</td>
+          <td class="exchange">
+            <span class="ex-label">Fauna / Equity</span>
+            <span class="ex-body">Subterranean protein<br>surfaces. First harvest<br>of the animal economy.</span>
+            <div class="ex-voices">
+              <span class="ex-pill">Concept</span>
+              <span class="ex-pill">Meaning</span>
+            </div>
+          </td>
+          <td class="va-left">
+            <span class="p-main">Museneene</span>
+            <span class="p-sub"><em>The month of grasshoppers</em><br>Inside the cycle, named by it.</span>
+            <span class="p-annotation">← epistemology, not translation</span>
+          </td>
+        </tr>
+
+        <!-- III : FAT -->
+        <tr>
+          <td class="va-right">
+            <span class="p-main">Fat</span>
+            <span class="p-sub">Grass → cow → milk → ghee.<br><em>Ishabwe.</em> Trophic chain closed.<sup>†</sup></span>
+            <span class="p-annotation">→ Muzigo · month of butter</span>
+          </td>
+          <td class="spine">· III ·</td>
+          <td class="exchange">
+            <span class="ex-label">Flora → Fauna → Fat</span>
+            <span class="ex-body">The king is in the soil.<br>The soil is in the grass.<br>The grass is in the ghee.</span>
+            <div class="ex-voices">
+              <span class="ex-pill">Form</span>
+              <span class="ex-pill">Meaning</span>
+            </div>
+          </td>
+          <td class="va-left">
+            <span class="p-main">Muzigo</span>
+            <span class="p-sub"><em>Month of butter</em><br>Death is the engine.<br>Mortality powers the cycle.</span>
+            <span class="p-annotation">← the Hamlet claim</span>
+          </td>
+        </tr>
+
+        <!-- IV : SURPLUS -->
+        <tr>
+          <td class="va-right">
+            <span class="p-main">Surplus ferments</span>
+            <span class="p-sub">Banana + omuwemba → tonto → enguli.<br>Dionysian frenzy. Ssebaaseka.</span>
+            <span class="p-annotation">→ best line in Voice A (all three agree)</span>
+          </td>
+          <td class="spine">· IV ·</td>
+          <td class="exchange">
+            <span class="ex-label">Produce / Derivatives</span>
+            <span class="ex-body">Fermentation &amp; forward<br>contracts: both bets on<br>deferred transformation.</span>
+            <div class="ex-voices">
+              <span class="ex-pill">Concept</span>
+              <span class="ex-pill">Meaning</span>
+            </div>
+          </td>
+          <td class="va-left">
+            <span class="p-main">Kasambula</span>
+            <span class="p-sub"><em>Dry season's height</em><br>Apollonian restraint after<br>the Dionysian feast.</span>
+            <span class="p-annotation">← let the friction be wordless</span>
+          </td>
+        </tr>
+
+        <!-- V : MARKETS -->
+        <tr>
+          <td class="va-right">
+            <span class="p-main">Markets</span>
+            <span class="p-sub">Spot price. Strike. Forward contracts.<br>Hollered across the marketplace.</span>
+            <span class="p-annotation">→ symbolic exchange; abstraction complete</span>
+          </td>
+          <td class="spine">· V ·</td>
+          <td class="exchange">
+            <span class="ex-label">Futures / Culture</span>
+            <span class="ex-body">Surplus becomes culture.<br>Culture becomes price.<br>Price remembers the soil.</span>
+            <div class="ex-voices">
+              <span class="ex-pill">Form</span>
+              <span class="ex-pill">Concept</span>
+              <span class="ex-pill">Meaning</span>
+            </div>
+          </td>
+          <td class="va-left">
+            <span class="p-main">Mutunda</span>
+            <span class="p-sub"><em>Month of harvest reckoning</em><br>Tonto and a strike price:<br>the same bet, older tongue.</span>
+            <span class="p-annotation">← genuinely interesting claim</span>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SYNTHESIS -->
+  <div class="synthesis">
+    <span class="synthesis-title">What the Three Voices Together Say</span>
+    <div class="synth-grid">
+
+      <div class="synth-item">
+        <span class="synth-node">Carb · Form</span>
+        <p>Gemini sees the <em>illuminated manuscript</em> — dark soil, gold type, parchment light. The page itself performs decomposition: ink returns to earth.</p>
+      </div>
+
+      <div class="synth-item">
+        <span class="synth-node">Protein · Concept</span>
+        <p>GPT names the <em>thermodynamic boundary</em>. The biomass column is not decoration — it is the exchange membrane where one epistemology converts to another.</p>
+      </div>
+
+      <div class="synth-item">
+        <span class="synth-node">Fat · Meaning</span>
+        <p>The human finds the hidden engine: <em>this cycle runs on death.</em> The Hamlet footnote earns its place because it names what the table has been circling: mortality as the first accounting system.</p>
+      </div>
+
+      <div class="synth-item">
+        <span class="synth-node">Surplus · All Three</span>
+        <p><em>"Surplus ferments"</em> — three critics, one consensus. The most compressed line. The rest of Voice A occasionally over-explains what the Luganda is already holding in silence.</p>
+      </div>
+
+      <div class="synth-item">
+        <span class="synth-node">Markets · Question</span>
+        <p>Only the human asks the question that matters: <em>What is the piece's larger home?</em> A sequence. A libretto. Something else. The pentad is waiting for its form to be named.</p>
+      </div>
+
+      <div class="synth-item">
+        <span class="synth-node">The Claim Entire</span>
+        <p>Sunlight → grain → surplus → culture → price. <em>Simpler than any muganda has witnessed in a thousand years</em> — because it was always already happening, unnamed, beneath every market, every feast, every ghee-brightened finger at Ssebaaseka.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="footnote">
+    <sup>†</sup> "A man may fish with the worm that hath eat of a king, and eat of the fish that hath fed of that worm." — Hamlet, IV.iii. The loop is the poem. The poem is the loop. Gemini calls it responsive design. GPT calls it a thermodynamic boundary. The human calls it what it is: <em>the oldest accounting system, powered by death, ending in price.</em>
+  </p>
+
+</div><!-- /container -->
+
+</body>
+</html>
