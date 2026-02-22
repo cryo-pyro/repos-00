@@ -67,22 +67,31 @@
     padding: 3rem 2rem 6rem;
   }
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
-  :root {
-    --bg: #0d0f14;
-    --surface: #13161e;
-    --surface2: #1a1f2b;
-    --border: #252c3a;
-    --text: #cdd5e0;
-    --muted: #6b7a96;
-    --accent: #4cc9f0;
-    --orange: #FF4D00;
-    --green: #00ff88;
-    --yellow: #ffd166;
-    --code-bg: #0a0c10;
-    --h1: #f0f4ff;
-    --h2: #4cc9f0;
-    --h3: #a8c7fa;
-  }
+:root {
+  --bg:      #080c10;
+  --surface: #0e1419;
+  --surface2:#141b23;
+  --border:  #1e2a36;
+  --text:    #d8e6f3;
+  --muted:   #6a8099;
+  --accent:  #00c9a7;
+  --accent2: #f0a500;
+  --red:     #ff6b6b;
+  --blue:    #4e9af1;
+  --purple:  #c792ea;
+  --mono:    'IBM Plex Mono', monospace;
+  --serif:   'DM Serif Display', serif;
+  --sans:    'Libre Franklin', sans-serif;
+}
+
+[data-theme="light"] {
+  --bg:      #f5f7fa;
+  --surface: #ffffff;
+  --surface2:#eef1f5;
+  --border:  #d0d8e4;
+  --text:    #1a2533;
+  --muted:   #5a7090;
+}
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--bg);

@@ -45,22 +45,31 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg:        #080c10;
-    --surface:   #0e1419;
-    --surface2:  #141b23;
-    --border:    #1e2a36;
-    --text:      #d8e6f3;
-    --muted:     #6a8099;
-    --accent:    #00c9a7;
-    --accent2:   #f0a500;
-    --red:       #ff6b6b;
-    --blue:      #4e9af1;
-    --purple:    #c792ea;
-    --mono:      'IBM Plex Mono', monospace;
-    --serif:     'DM Serif Display', serif;
-    --sans:      'Libre Franklin', sans-serif;
-  }
+:root {
+  --bg:      #080c10;
+  --surface: #0e1419;
+  --surface2:#141b23;
+  --border:  #1e2a36;
+  --text:    #d8e6f3;
+  --muted:   #6a8099;
+  --accent:  #00c9a7;
+  --accent2: #f0a500;
+  --red:     #ff6b6b;
+  --blue:    #4e9af1;
+  --purple:  #c792ea;
+  --mono:    'IBM Plex Mono', monospace;
+  --serif:   'DM Serif Display', serif;
+  --sans:    'Libre Franklin', sans-serif;
+}
+
+[data-theme="light"] {
+  --bg:      #f5f7fa;
+  --surface: #ffffff;
+  --surface2:#eef1f5;
+  --border:  #d0d8e4;
+  --text:    #1a2533;
+  --muted:   #5a7090;
+}
 
   html { scroll-behavior: smooth; }
 

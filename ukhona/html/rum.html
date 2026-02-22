@@ -42,7 +42,21 @@
   <script src="../js/mathjax.js"></script>
   <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
-  :root {
+:root {
+  --bg:      #080c10;
+  --surface: #0e1419;
+  --surface2:#141b23;
+  --border:  #1e2a36;
+  --text:    #d8e6f3;
+  --muted:   #6a8099;
+  --accent:  #00c9a7;
+  --accent2: #f0a500;
+  --red:     #ff6b6b;
+  --blue:    #4e9af1;
+  --purple:  #c792ea;
+  --mono:    'IBM Plex Mono', monospace;
+  --serif:   'DM Serif Display', serif;
+  --sans:    'Libre Franklin', sans-serif;
     --void: #050508;
     --deep: #0a0a14;
     --surface: #0f0f1e;
@@ -56,7 +70,17 @@
     --text-primary: #e8e6f0;
     --text-muted: #7a7890;
     --text-dim: #3a3850;
-  }
+}
+
+[data-theme="light"] {
+  --bg:      #f5f7fa;
+  --surface: #ffffff;
+  --surface2:#eef1f5;
+  --border:  #d0d8e4;
+  --text:    #1a2533;
+  --muted:   #5a7090;
+}
+
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
