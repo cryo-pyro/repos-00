@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two-Part Invention</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel+Decorative:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0d0b08;
+    color: #e8dfc8;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    animation: fadeDown 1s ease both;
+  }
+
+  header h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    letter-spacing: 0.3em;
+    color: #b8965a;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  header p {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #7a6e5a;
+    letter-spacing: 0.08em;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: min(820px, 100%);
+    animation: fadeUp 1s 0.3s ease both;
+  }
+
+  thead th {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    padding: 0.6rem 2.5rem 1.2rem;
+    color: #b8965a;
+    border-bottom: 1px solid #3a3020;
+  }
+
+  thead th:first-child { text-align: right; border-right: 1px solid #3a3020; }
+  thead th:last-child  { text-align: left;  }
+
+  tbody tr {
+    opacity: 0;
+    animation: rowIn 0.6s ease forwards;
+  }
+  tbody tr:nth-child(1) { animation-delay: 0.5s; }
+  tbody tr:nth-child(2) { animation-delay: 0.7s; }
+  tbody tr:nth-child(3) { animation-delay: 0.9s; }
+  tbody tr:nth-child(4) { animation-delay: 1.1s; }
+  tbody tr:nth-child(5) { animation-delay: 1.3s; }
+
+  tbody tr:hover td { background: rgba(184,150,90,0.06); }
+
+  td {
+    padding: 1.4rem 2.5rem;
+    transition: background 0.3s ease;
+    vertical-align: top;
+    line-height: 1.65;
+  }
+
+  td:first-child {
+    text-align: right;
+    border-right: 1px solid #2e2718;
+    padding-right: 2.5rem;
+  }
+
+  td:last-child {
+    text-align: left;
+    padding-left: 2.5rem;
+  }
+
+  .primary {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #e8dfc8;
+    display: block;
+  }
+
+  .secondary {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: #8a7e65;
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  tbody tr + tr td {
+    border-top: 1px solid #1e1a10;
+  }
+
+  /* Roman numerals column — center spine */
+  .spine {
+    text-align: center;
+    padding: 1.4rem 1rem;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.65rem;
+    color: #3a3020;
+    letter-spacing: 0.2em;
+    vertical-align: middle;
+    border-right: 1px solid #2e2718;
+    white-space: nowrap;
+  }
+
+  @keyframes fadeDown {
+    from { opacity:0; transform:translateY(-16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes rowIn {
+    from { opacity:0; transform:translateX(-6px); }
+    to   { opacity:1; transform:translateX(0); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Two-Part Invention</h1>
+  <p>Two voices in counterpoint — neither primary</p>
+</header>
+
+<table>
+  <thead>
+    <tr>
+      <th>Voice A</th>
+      <th style="border-left:none; text-align:center; padding:0.6rem 1rem 1.2rem; color:#3a3020; font-size:0.55rem;"></th>
+      <th>Voice B</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>
+        <span class="primary">Gatonnya</span>
+        <span class="secondary">Mukutulansanja · Mugulansigo<br><em>→ Grappa (January)</em></span>
+      </td>
+      <td class="spine">· I ·</td>
+      <td>
+        <span class="primary">Mukulukusabitungotungo</span>
+        <span class="secondary"><em>Grain (October)</em></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="primary">Kafumuulampawu</span>
+      </td>
+      <td class="spine">· II ·</td>
+      <td>
+        <span class="primary">Museneene</span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="primary">Muzigo</span>
+      </td>
+      <td class="spine">· III ·</td>
+      <td>
+        <span class="primary">Ntenvu</span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="primary">Ssebaaseka</span>
+        <span class="secondary"><em>(Dionysian Frenzy) · Kasambula </em></span>
+      </td>
+      <td class="spine">· IV ·</td>
+      <td>
+        <span class="primary">Gatonnya</span>
+        <span class="secondary">Mukutulansanja · Mugulansigo<br><em>(Apollonian)</em></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span class="primary">Muwakanya</span>
+      </td>
+      <td class="spine">· V ·</td>
+      <td>
+        <span class="primary">Mutunda</span>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+</body>
+</html>
