@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEDSI — Ukubona LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+:root {
+  --paper: #f5f0e8;
+  --paper2: #ede7d9;
+  --paper3: #e4dccb;
+  --ink: #1a1410;
+  --ink2: #3d3228;
+  --ink3: #6b5d50;
+  --ink4: #9a8e83;
+  --red: #c0392b;
+  --red2: #e74c3c;
+  --ochre: #c0831a;
+  --ochre2: #e8a020;
+  --teal: #1a6b5a;
+  --teal2: #27ae8f;
+  --blue: #1a3a6b;
+  --blue2: #2962c0;
+  --rule: rgba(26,20,16,0.15);
+  --rule-heavy: rgba(26,20,16,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* GRAIN TEXTURE */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* LAYOUT */
+.page { max-width: 780px; margin: 0 auto; padding: 0 2.5rem; }
+.page-wide { max-width: 1000px; margin: 0 auto; padding: 0 2.5rem; }
+
+/* ═══════════════════════════════════
+   MASTHEAD
+═══════════════════════════════════ */
+.masthead {
+  border-bottom: 3px double var(--rule-heavy);
+  padding: 3rem 0 2rem;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.masthead-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.masthead-kicker::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.masthead h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.masthead h1 .b { color: var(--red); }
+.masthead h1 .e { color: var(--ochre); }
+.masthead h1 .d { color: var(--teal); }
+.masthead h1 .s { color: var(--blue); }
+.masthead h1 .i { color: var(--ink2); }
+
+.masthead-expansion {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 1.5rem 0;
+}
+
+.expansion-cell {
+  padding: 0.8rem 1rem;
+  border-right: 1px solid var(--rule);
+}
+.expansion-cell:last-child { border-right: none; }
+
+.expansion-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.expansion-word {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.expansion-gloss {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--ink3);
+  line-height: 1.4;
+}
+
+.expansion-cell:nth-child(1) .expansion-letter { color: var(--red); }
+.expansion-cell:nth-child(2) .expansion-letter { color: var(--ochre); }
+.expansion-cell:nth-child(3) .expansion-letter { color: var(--teal); }
+.expansion-cell:nth-child(4) .expansion-letter { color: var(--blue); }
+.expansion-cell:nth-child(5) .expansion-letter { color: var(--ink2); }
+
+.masthead-deck {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--ink2);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════
+   LANDSCAPE SVG — THE LOSS SURFACE
+═══════════════════════════════════ */
+.landscape-section {
+  background: var(--paper2);
+  border-top: 1px solid var(--rule-heavy);
+  border-bottom: 1px solid var(--rule-heavy);
+  padding: 2.5rem 0;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.landscape-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.landscape-svg-wrap {
+  position: relative;
+}
+
+.landscape-svg-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* BEDSI ANNOTATIONS ON SVG */
+.svg-annotation {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  fill: var(--ink2);
+}
+
+/* ═══════════════════════════════════
+   SECTION HEADERS
+═══════════════════════════════════ */
+.section-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: baseline;
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--rule-heavy);
+}
+
+.section-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.section-title-block { }
+
+.section-word {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  display: block;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+/* ═══════════════════════════════════
+   PHASE SECTIONS
+═══════════════════════════════════ */
+.phase {
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+
+.phase:last-of-type { border-bottom: none; }
+
+.phase p { margin-bottom: 1.2rem; color: var(--ink2); }
+.phase p:last-child { margin-bottom: 0; }
+.phase strong { color: var(--ink); }
+.phase em { color: var(--ink2); }
+
+/* MARGIN NOTE */
+.margin-grid {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.margin-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--ink3);
+  border-left: 2px solid var(--rule);
+  padding-left: 1rem;
+  position: sticky;
+  top: 2rem;
+}
+
+.margin-note .mn-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* ═══════════════════════════════════
+   CODE / MATH BLOCKS
+═══════════════════════════════════ */
+.code-block {
+  background: var(--ink);
+  color: #c8bfb0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  line-height: 1.9;
+  padding: 1.8rem 2rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow-x: auto;
+}
+
+.code-block .cb-label {
+  position: absolute;
+  top: 0.6rem; right: 1rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(200,191,176,0.3);
+}
+
+.code-block .c-comment { color: #6b8a6b; }
+.code-block .c-key { color: #e8c090; }
+.code-block .c-val { color: #90c8b0; }
+.code-block .c-op { color: #c08060; }
+.code-block .c-highlight { color: #f0c860; font-weight: 700; }
+.code-block .c-red { color: #e07060; }
+.code-block .c-blue { color: #80a8e0; }
+
+.math-block {
+  background: var(--paper3);
+  border-left: 4px solid var(--ink);
+  padding: 1.5rem 2rem;
+  margin: 2rem 0;
+  overflow-x: auto;
+  font-size: 1.05rem;
+}
+
+.math-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+/* ═══════════════════════════════════
+   PARAMETER TABLE
+═══════════════════════════════════ */
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.88rem;
+}
+
+.param-table thead tr {
+  border-bottom: 2px solid var(--ink);
+}
+
+.param-table th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  color: var(--ink3);
+}
+
+.param-table td {
+  padding: 0.9rem 1rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule);
+}
+
+.param-table tr:hover td { background: var(--paper2); }
+
+.param-sym {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.param-b .param-sym { color: var(--red); }
+.param-e .param-sym { color: var(--ochre); }
+.param-d .param-sym { color: var(--teal); }
+.param-s .param-sym { color: var(--blue); }
+.param-i .param-sym { color: var(--ink2); }
+
+.param-desc { color: var(--ink2); font-size: 0.85rem; }
+.param-sgd { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--ink3); }
+.param-clinical { font-style: italic; color: var(--ink3); font-size: 0.82rem; }
+
+/* ═══════════════════════════════════
+   RIDGE DIAGRAM (ASCII-STYLE)
+═══════════════════════════════════ */
+.ridge-diagram {
+  background: var(--paper2);
+  border: 1px solid var(--rule-heavy);
+  padding: 2rem;
+  margin: 2rem 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  position: relative;
+}
+
+.ridge-diagram .rd-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.ridge-art {
+  color: var(--ink3);
+  white-space: pre;
+  position: relative;
+}
+
+.rd-b { color: var(--red); font-weight: 700; }
+.rd-e { color: var(--ochre); font-weight: 700; }
+.rd-d { color: var(--teal); font-weight: 700; }
+.rd-s { color: var(--blue); font-weight: 700; }
+.rd-i { color: var(--ink2); font-weight: 700; }
+.rd-ridge { color: var(--red); }
+
+/* ═══════════════════════════════════
+   CASE BOXES
+═══════════════════════════════════ */
+.case-box {
+  border: 1px solid var(--rule-heavy);
+  margin: 2.5rem 0;
+  position: relative;
+}
+
+.case-box-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+}
+
+.case-box-header .case-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.case-box-header .case-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.case-box-body { padding: 1.5rem; }
+
+.case-phase-row {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+
+.case-phase-row:last-child { border-bottom: none; }
+
+.case-phase-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.tag-b { background: rgba(192,57,43,0.1); color: var(--red); border: 1px solid rgba(192,57,43,0.3); }
+.tag-e { background: rgba(192,131,26,0.1); color: var(--ochre); border: 1px solid rgba(192,131,26,0.3); }
+.tag-d { background: rgba(26,107,90,0.1); color: var(--teal); border: 1px solid rgba(26,107,90,0.3); }
+.tag-s { background: rgba(26,58,107,0.1); color: var(--blue); border: 1px solid rgba(26,58,107,0.3); }
+.tag-i { background: rgba(26,20,16,0.06); color: var(--ink2); border: 1px solid var(--rule); }
+
+.case-phase-content { font-size: 0.9rem; color: var(--ink2); line-height: 1.65; }
+.case-phase-content strong { color: var(--ink); }
+
+/* ═══════════════════════════════════
+   PULL QUOTES
+═══════════════════════════════════ */
+.pull-quote {
+  border-top: 3px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding: 1.5rem 0;
+  margin: 3rem 0;
+}
+
+.pull-quote p {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink) !important;
+  margin-bottom: 0 !important;
+}
+
+.pull-quote .pq-attr {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-top: 0.8rem;
+  display: block;
+}
+
+/* ═══════════════════════════════════
+   INLINE CALLOUTS
+═══════════════════════════════════ */
+.callout {
+  background: var(--paper3);
+  border-left: 3px solid;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.callout-b { border-color: var(--red); }
+.callout-e { border-color: var(--ochre); }
+.callout-d { border-color: var(--teal); }
+.callout-s { border-color: var(--blue); }
+.callout-i { border-color: var(--ink); }
+
+.callout-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+/* ═══════════════════════════════════
+   CYCLE DIAGRAM
+═══════════════════════════════════ */
+.cycle-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 2.5rem 0;
+  flex-wrap: wrap;
+}
+
+.cycle-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.8rem;
+  min-width: 80px;
+}
+
+.cycle-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.cycle-word {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-top: 0.3rem;
+  text-align: center;
+}
+
+.cycle-arrow {
+  font-size: 1.2rem;
+  color: var(--ink4);
+  padding: 0 0.2rem;
+  padding-top: 0.5rem;
+}
+
+.cycle-node:nth-child(1) .cycle-letter { color: var(--red); }
+.cycle-node:nth-child(3) .cycle-letter { color: var(--ochre); }
+.cycle-node:nth-child(5) .cycle-letter { color: var(--teal); }
+.cycle-node:nth-child(7) .cycle-letter { color: var(--blue); }
+.cycle-node:nth-child(9) .cycle-letter { color: var(--ink2); }
+.cycle-repeat {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--ink4);
+  padding-top: 0.8rem;
+  letter-spacing: 0.15em;
+}
+
+/* ═══════════════════════════════════
+   COLOPHON / FOOTER
+═══════════════════════════════════ */
+.colophon {
+  border-top: 3px double var(--rule-heavy);
+  padding: 3rem 0 5rem;
+  margin-top: 4rem;
+}
+
+.colophon-word {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  font-style: italic;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.colophon-gloss {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--ink3);
+  text-transform: uppercase;
+}
+
+/* RESPONSIVE */
+@media (max-width: 680px) {
+  .masthead-expansion { grid-template-columns: repeat(3, 1fr); }
+  .expansion-cell:nth-child(4), .expansion-cell:nth-child(5) { border-top: 1px solid var(--rule); }
+  .margin-grid { grid-template-columns: 1fr; }
+  .margin-note { position: static; }
+  .cycle-diagram { gap: 0; }
+  .cycle-node { min-width: 55px; padding: 0.5rem 0.3rem; }
+  .cycle-letter { font-size: 1.6rem; }
+}
+
+/* ENTRANCE ANIMATION */
+.masthead h1 { opacity: 0; animation: inkIn 0.8s 0.1s forwards; }
+.masthead-expansion { opacity: 0; animation: inkIn 0.8s 0.4s forwards; }
+.masthead-deck { opacity: 0; animation: inkIn 0.8s 0.7s forwards; }
+
+@keyframes inkIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ MASTHEAD ═══════ -->
+<div class="page">
+<header class="masthead">
+  <div class="masthead-kicker">
+    Ukubona LLC &nbsp;·&nbsp; Clinical Navigation Framework &nbsp;·&nbsp; 2026
+  </div>
+
+  <h1>
+    <span class="b">B</span><span class="e">E</span><span class="d">D</span><span class="s">S</span><span class="i">I</span>
+  </h1>
+
+  <div class="masthead-expansion">
+    <div class="expansion-cell">
+      <span class="expansion-letter">B</span>
+      <span class="expansion-word">Basin</span>
+      <span class="expansion-gloss">The current attractor. Low energy. Stable — until it isn't.</span>
+    </div>
+    <div class="expansion-cell">
+      <span class="expansion-letter">E</span>
+      <span class="expansion-word">Escape</span>
+      <span class="expansion-gloss">Anti-gradient energy input. The ridge must be crossed.</span>
+    </div>
+    <div class="expansion-cell">
+      <span class="expansion-letter">D</span>
+      <span class="expansion-word">Descent</span>
+      <span class="expansion-gloss">Gradient becomes visible. Optimization begins.</span>
+    </div>
+    <div class="expansion-cell">
+      <span class="expansion-letter">S</span>
+      <span class="expansion-word">Sample</span>
+      <span class="expansion-gloss">Low-ε probing of nearby minima. Targeted, not wild.</span>
+    </div>
+    <div class="expansion-cell">
+      <span class="expansion-letter">I</span>
+      <span class="expansion-word">Integrate</span>
+      <span class="expansion-gloss">Update the pheromone map. Return to Basin. Repeat.</span>
+    </div>
+  </div>
+
+  <p class="masthead-deck">
+    Bedside manner in a post-metaphor world. Five phases of biological optimization,
+    rendered in the literal mathematics of stochastic gradient descent —
+    with two anonymized clinical cases as ground truth.
+  </p>
+</header>
+</div>
+
+<!-- ═══════ LOSS LANDSCAPE SVG ═══════ -->
+<div class="landscape-section">
+  <div class="page">
+    <div class="landscape-label">The Loss Landscape L(θ) — BEDSI mapped onto energy terrain</div>
+    <div class="landscape-svg-wrap">
+      <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" aria-label="BEDSI loss landscape diagram">
+        <defs>
+          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ede7d9"/>
+            <stop offset="100%" stop-color="#f5f0e8"/>
+          </linearGradient>
+          <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c4b8a8" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#c4b8a8" stop-opacity="0.05"/>
+          </linearGradient>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#3d3228"/>
+          </marker>
+          <marker id="arrow-r" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#c0392b"/>
+          </marker>
+          <marker id="arrow-t" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#1a6b5a"/>
+          </marker>
+        </defs>
+
+        <!-- Background -->
+        <rect width="800" height="320" fill="url(#skyGrad)"/>
+
+        <!-- Grid lines (faint) -->
+        <g stroke="#1a1410" stroke-opacity="0.05" stroke-width="0.5">
+          <line x1="0" y1="80" x2="800" y2="80"/>
+          <line x1="0" y1="160" x2="800" y2="160"/>
+          <line x1="0" y1="240" x2="800" y2="240"/>
+          <line x1="160" y1="0" x2="160" y2="320"/>
+          <line x1="320" y1="0" x2="320" y2="320"/>
+          <line x1="480" y1="0" x2="480" y2="320"/>
+          <line x1="640" y1="0" x2="640" y2="320"/>
+        </g>
+
+        <!-- LOSS SURFACE PATH -->
+        <!-- Basin B (left): deep well around x=120 -->
+        <!-- Ridge (E): peak around x=280 -->
+        <!-- Descent (D): slope from x=280 to x=460 -->
+        <!-- Sample zone (S): shallow bumps around x=500-580 -->
+        <!-- New Basin I: attractor around x=660 -->
+
+        <path d="
+          M 0,220
+          C 30,218 60,215 90,230
+          C 110,240 120,280 140,280
+          C 155,280 165,240 185,200
+          C 200,170 210,150 220,130
+          C 240,90  260,70  280,65
+          C 300,60  310,62  320,68
+          C 340,80  360,110 380,150
+          C 400,185 420,210 440,220
+          C 455,225 465,222 480,215
+          C 495,208 505,195 515,188
+          C 525,181 535,182 545,188
+          C 555,194 565,198 575,193
+          C 585,188 595,180 610,185
+          C 625,190 640,210 660,230
+          C 675,245 685,260 700,262
+          C 720,264 740,255 760,240
+          C 775,228 790,220 800,218
+        " fill="none" stroke="#3d3228" stroke-width="2.5"/>
+
+        <!-- Fill under curve -->
+        <path d="
+          M 0,220
+          C 30,218 60,215 90,230
+          C 110,240 120,280 140,280
+          C 155,280 165,240 185,200
+          C 200,170 210,150 220,130
+          C 240,90  260,70  280,65
+          C 300,60  310,62  320,68
+          C 340,80  360,110 380,150
+          C 400,185 420,210 440,220
+          C 455,225 465,222 480,215
+          C 495,208 505,195 515,188
+          C 525,181 535,182 545,188
+          C 555,194 565,198 575,193
+          C 585,188 595,180 610,185
+          C 625,190 640,210 660,230
+          C 675,245 685,260 700,262
+          C 720,264 740,255 760,240
+          C 775,228 790,220 800,218
+          L 800,320 L 0,320 Z
+        " fill="url(#fillGrad)"/>
+
+        <!-- ── BASIN B marker ── -->
+        <circle cx="130" cy="279" r="5" fill="#c0392b"/>
+        <text x="105" y="300" font-family="IBM Plex Mono" font-size="9" fill="#c0392b" font-weight="700" text-anchor="middle">B</text>
+        <text x="105" y="311" font-family="IBM Plex Mono" font-size="7" fill="#c0392b" text-anchor="middle">BASIN</text>
+        <!-- Bracket indicating basin depth -->
+        <line x1="60" y1="220" x2="60" y2="280" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="55" y1="220" x2="65" y2="220" stroke="#c0392b" stroke-width="1"/>
+        <line x1="55" y1="280" x2="65" y2="280" stroke="#c0392b" stroke-width="1"/>
+        <text x="45" y="253" font-family="IBM Plex Mono" font-size="7" fill="#c0392b" text-anchor="middle">ΔL</text>
+
+        <!-- ── RIDGE / ESCAPE E ── -->
+        <circle cx="280" cy="65" r="5" fill="#c0831a"/>
+        <!-- Upward arrow indicating anti-gradient escape energy -->
+        <line x1="175" y1="200" x2="268" y2="75" stroke="#c0831a" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arrow-r)"/>
+        <text x="195" y="155" font-family="IBM Plex Mono" font-size="8" fill="#c0831a" font-weight="700">E · RIDGE</text>
+        <text x="285" y="55" font-family="IBM Plex Mono" font-size="9" fill="#c0831a" font-weight="700">CREST</text>
+        <!-- temperature annotation -->
+        <text x="155" y="175" font-family="IBM Plex Mono" font-size="7" fill="#c0831a">ε → large</text>
+        <text x="155" y="184" font-family="IBM Plex Mono" font-size="7" fill="#c0831a">(anti-grad)</text>
+
+        <!-- ── DESCENT D ── -->
+        <line x1="295" y1="80" x2="435" y2="218" stroke="#1a6b5a" stroke-width="2" marker-end="url(#arrow-t)"/>
+        <text x="350" y="140" font-family="IBM Plex Mono" font-size="9" fill="#1a6b5a" font-weight="700">D · DESCENT</text>
+        <text x="350" y="151" font-family="IBM Plex Mono" font-size="7" fill="#1a6b5a">∇L visible, η·∇L</text>
+
+        <!-- ── SAMPLE S ── -->
+        <rect x="468" y="175" width="120" height="55" fill="rgba(26,58,107,0.05)" stroke="#1a3a6b" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="528" y="168" font-family="IBM Plex Mono" font-size="9" fill="#1a3a6b" font-weight="700" text-anchor="middle">S · SAMPLE</text>
+        <text x="528" y="242" font-family="IBM Plex Mono" font-size="7" fill="#1a3a6b" text-anchor="middle">low-ε probing</text>
+        <!-- small bumps labels -->
+        <text x="510" y="173" font-family="IBM Plex Mono" font-size="7" fill="#1a3a6b">local minima</text>
+
+        <!-- ── INTEGRATE / NEW BASIN I ── -->
+        <circle cx="693" cy="261" r="5" fill="#3d3228"/>
+        <text x="715" y="258" font-family="IBM Plex Mono" font-size="9" fill="#3d3228" font-weight="700">I</text>
+        <text x="715" y="268" font-family="IBM Plex Mono" font-size="7" fill="#3d3228">NEW BASIN</text>
+        <!-- curved arrow back to start suggesting cycle -->
+        <path d="M 730,262 C 790,262 800,40 760,30 C 720,20 40,20 20,40 C 0,55 0,200 50,220" fill="none" stroke="#3d3228" stroke-width="1" stroke-dasharray="3,3" stroke-opacity="0.35" marker-end="url(#arrow)"/>
+        <text x="390" y="22" font-family="IBM Plex Mono" font-size="7" fill="#3d3228" fill-opacity="0.5" text-anchor="middle">CYCLE REPEATS →</text>
+
+        <!-- AXES -->
+        <line x1="20" y1="305" x2="785" y2="305" stroke="#1a1410" stroke-width="0.8" stroke-opacity="0.3"/>
+        <text x="790" y="309" font-family="IBM Plex Mono" font-size="8" fill="#3d3228" fill-opacity="0.5">θ</text>
+        <line x1="20" y1="305" x2="20" y2="20" stroke="#1a1410" stroke-width="0.8" stroke-opacity="0.3"/>
+        <text x="24" y="18" font-family="IBM Plex Mono" font-size="8" fill="#3d3228" fill-opacity="0.5">L(θ)</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ INTRO TEXT ═══════ -->
+<div class="page">
+
+<div class="pull-quote">
+  <p>The patient is never in the gradient. The patient is in the basin. Diagnosis doesn't begin until the ridge is crossed.</p>
+  <span class="pq-attr">Ukubona · BEDSI · The Inversion</span>
+</div>
+
+<!-- PARAMETER TABLE -->
+<section class="phase">
+  <div class="section-header">
+    <span class="section-letter" style="color:var(--ink3); font-size:1.5rem; padding-top:0.4rem;">SGD</span>
+    <div class="section-title-block">
+      <span class="section-word">The Literal Mathematics</span>
+      <span class="section-title">What BEDSI actually is in parameter space</span>
+    </div>
+  </div>
+
+  <p>The SGD update rule is not a metaphor here. It is the operational description of what a biological system — and a clinician — is doing at each phase. The parameters map exactly.</p>
+
+  <div class="math-block">
+    <span class="math-label">Core SGD Update Rule</span>
+    \[ \theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}(\theta_t) + \epsilon_t \]
+    \[ \text{where } \epsilon_t \sim \mathcal{N}(0,\, \sigma^2 I) \text{ and } \eta \text{ is the learning rate} \]
+  </div>
+
+  <table class="param-table">
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>Symbol</th>
+        <th>Word</th>
+        <th>SGD Role</th>
+        <th>Clinical Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="param-b">
+        <td><span class="case-phase-tag tag-b">B</span></td>
+        <td class="param-sym">θ*_local</td>
+        <td>Basin</td>
+        <td class="param-sgd">Local minimum of L(θ).<br>∇L ≈ 0 here.<br>System is stable.</td>
+        <td class="param-clinical">Patient in "normal" state. Labs stable. No visible gradient. May be compensated (defended stability) or genuine low-energy health.</td>
+      </tr>
+      <tr class="param-e">
+        <td><span class="case-phase-tag tag-e">E</span></td>
+        <td class="param-sym">ε_escape</td>
+        <td>Escape</td>
+        <td class="param-sgd">Anti-gradient perturbation.<br>Energy injected against ∇L.<br>Must exceed basin wall ΔL to cross ridge.</td>
+        <td class="param-clinical">Disease progression, aging, stress, pregnancy cumulative extraction. The cry. The symptom. The phase transition. <strong>Not the clinician's doing.</strong></td>
+      </tr>
+      <tr class="param-d">
+        <td><span class="case-phase-tag tag-d">D</span></td>
+        <td class="param-sym">η∇L</td>
+        <td>Descent</td>
+        <td class="param-sgd">Gradient now visible post-ridge.<br>Step = η · ∇L.<br>η must be calibrated.</td>
+        <td class="param-clinical">Diagnosis + initial treatment. The gradient is real, directional, measurable. Intervention choices determine η. Miscalibrate η → overshoot or stagnate.</td>
+      </tr>
+      <tr class="param-s">
+        <td><span class="case-phase-tag tag-s">S</span></td>
+        <td class="param-sym">ε_local</td>
+        <td>Sample</td>
+        <td class="param-sgd">Small-ε perturbations near candidate minimum.<br>Tests nearby basins.<br>VoI = ΔH / cost.</td>
+        <td class="param-clinical">Targeted follow-up testing. Differential pruning. "Is this the right basin or is there a deeper one nearby?" Low cost, high information per test.</td>
+      </tr>
+      <tr class="param-i">
+        <td><span class="case-phase-tag tag-i">I</span></td>
+        <td class="param-sym">C_x, p(θ)</td>
+        <td>Integrate</td>
+        <td class="param-sgd">Update pheromone map.<br>Posterior p(θ|data) revised.<br>New basin becomes new B.<br>Cycle restarts.</td>
+        <td class="param-clinical">Digital twin updates trajectory model. Next clinician inherits the map. Patient carries persistent probabilistic memory. Prevention of next ridge approach built in.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="math-block">
+    <span class="math-label">Multi-Objective Loss — What is actually being optimized</span>
+    \[ \mathcal{L}_{total} = \mathcal{L}_b(\theta) + \alpha \mathcal{L}_s(\theta) + \beta \mathcal{L}_c(\theta) \]
+    \[ \mathcal{L}_b = \text{biological loss (pain, pathology, risk)} \]
+    \[ \mathcal{L}_s = \text{system loss (liability, throughput, billing)} \]
+    \[ \mathcal{L}_c = H\bigl(p(\theta \mid \text{data})\bigr) = \text{cognitive loss (clinician uncertainty)} \]
+  </div>
+
+  <div class="callout callout-e">
+    <span class="callout-label">Critical distinction</span>
+    Most clinical "over-testing" is gradient descent on <strong>L_s</strong> misrepresented as descent on <strong>L_b</strong>. 
+    The colonoscopy in Case I was not high-ε stochastic foraging. It was a different loss function entirely — 
+    one the patient didn't consent to optimize.
+  </div>
+</section>
+
+<!-- ═══════ RIDGE SECTION ═══════ -->
+<section class="phase">
+  <div class="section-header">
+    <span class="section-letter" style="color:var(--ochre);">E</span>
+    <div class="section-title-block">
+      <span class="section-word">Phase Two · Escape</span>
+      <span class="section-title">The Ridge: not a gate, a geometry</span>
+    </div>
+  </div>
+
+  <div class="margin-grid">
+    <div>
+      <p>The ridge is the energy barrier between two attractor basins. It is not a gate — a gate is binary and instantaneous. A <strong>ridge is geometric</strong>: it has height, width, curvature. You can approach it slowly for decades and cross it in a moment.</p>
+
+      <p>This distinction matters clinically because it changes what the digital twin watches for. A gate model asks: did the signal cross threshold? A ridge model asks: <em>how close is the system to the crest, and how fast is it approaching?</em></p>
+
+      <p>The ridge crest is the point where ∇L reverses sign — uphill on one side, downhill on the other. Before the crest: no visible gradient, compensated homeostasis, "normal labs." At the crest: the phase transition, the cry, the acute presentation. After the crest: gradient descent becomes possible for the first time.</p>
+
+      <div class="math-block">
+        <span class="math-label">Ridge Crossing Condition</span>
+        \[ \text{Escape iff: } \epsilon_t > \Delta\mathcal{L}_{ridge} = \mathcal{L}(\theta_{ridge}) - \mathcal{L}(\theta^*_{basin}) \]
+        \[ \text{Pre-ridge: } \nabla\mathcal{L} \approx 0 \text{ (gradient invisible to clinician)} \]
+        \[ \text{Post-ridge: } \nabla\mathcal{L} \gg 0 \text{ (gradient now actionable)} \]
+      </div>
+
+      <p>The twin's pre-ridge job is to estimate ΔL_ridge — the remaining reserve — from trajectory data. Decades of calcium extraction, declining renal hydroxylase, falling magnesium. The ridge is approaching. The labs still look normal. The twin knows the distance is shrinking.</p>
+
+      <div class="callout callout-e">
+        <span class="callout-label">Why "ridge" not "gate"</span>
+        A gate is crossed once, irreversibly, like a switch. A ridge has <strong>curvature</strong> — 
+        the second derivative of L tells you whether the region near the crest is broad and gradual 
+        or sharp and catastrophic. High curvature = sudden presentation. 
+        Low curvature = gradual symptom onset. Same ridge, different geometry, different clinical experience.
+      </div>
+    </div>
+
+    <div class="margin-note">
+      <span class="mn-label">Ridge Geometry</span>
+      In the loss landscape, the ridge is a saddle point — a maximum in one direction (the direction of escape) and a minimum in the orthogonal direction.<br><br>
+      The Hessian H = ∂²L/∂θ² determines ridge sharpness. Negative eigenvalue in the escape direction = confirmed ridge, not plateau.<br><br>
+      <strong>Clinical proxy:</strong> Abruptness of symptom onset ↔ curvature of ridge. Sudden cry after apparent wellness = sharp ridge, rapidly approached.
+    </div>
+  </div>
+
+  <!-- RIDGE ASCII ART -->
+  <div class="ridge-diagram">
+    <span class="rd-label">Energy profile along escape coordinate — cross-section of loss landscape</span>
+    <div class="ridge-art">
+<span style="color:var(--ink3)">L(θ)</span>
+  ↑
+  │                      <span class="rd-e">◄── RIDGE CREST ──►</span>
+  │                     <span class="rd-e">╱▔▔▔▔▔▔▔▔▔▔▔╲</span>
+  │                   <span class="rd-e">╱               ╲</span>
+  │                 <span class="rd-e">╱   ε must exceed   ╲</span>    <span class="rd-d">gradient visible</span>
+  │               <span class="rd-e">╱     ΔL to escape      ╲</span>   <span class="rd-d">descent begins</span>
+  │             <span class="rd-e">╱                          ╲</span>  <span class="rd-d">↓</span>
+  │           <span class="rd-e">╱</span>                            <span class="rd-d">╲</span>
+  │         <span class="rd-b">╲</span>  <span class="rd-e">←— ΔL_ridge —→</span>               <span class="rd-d">╲</span>
+  │       <span class="rd-b">╲___╱</span>                                 <span class="rd-d">╲__</span><span class="rd-s">╲╱╲╱╲</span><span class="rd-i">___</span>
+  │      <span class="rd-b">θ*_B</span>                                               <span class="rd-i">θ*_I</span>
+  │    <span class="rd-b">(basin B)</span>              <span class="rd-s">[sample zone]</span>         <span class="rd-i">(basin I)</span>
+  └──────────────────────────────────────────────────────────────► θ
+     <span class="rd-b">compensated</span>    <span class="rd-e">ridge</span>     <span class="rd-d">descent</span>  <span class="rd-s">sample</span>  <span class="rd-i">integrated</span>
+     <span class="rd-b">"normal labs"</span>  <span class="rd-e">"the cry"</span>  <span class="rd-d">∇L·η</span>    <span class="rd-s">VoI/cost</span> <span class="rd-i">twin updated</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ DESCENT ═══════ -->
+<section class="phase">
+  <div class="section-header">
+    <span class="section-letter" style="color:var(--teal);">D</span>
+    <div class="section-title-block">
+      <span class="section-word">Phase Three · Descent</span>
+      <span class="section-title">Four fates of the gradient once visible</span>
+    </div>
+  </div>
+
+  <p>Post-ridge, the gradient is real. Now everything depends on η — the learning rate, the intervention calibration. The gradient can be:</p>
+
+  <div class="code-block">
+    <span class="cb-label">GRADIENT FATE — PSEUDOCODE</span>
+<span class="c-comment"># Post-ridge descent options</span>
+<span class="c-comment"># θ_t = current patient state, ∇L = visible gradient</span>
+
+<span class="c-key">def</span> <span class="c-highlight">descend</span>(θ_t, ∇L, η, intervention):
+
+  <span class="c-key">if</span> intervention == <span class="c-val">"correct_cause"</span>:
+    <span class="c-comment">  # STEEPENED — gradient accelerates toward minimum</span>
+    θ_next = θ_t - <span class="c-highlight">η_large</span> * ∇L
+    <span class="c-comment">  # e.g. VitD loading + ferritin repletion → PTH quiets,</span>
+    <span class="c-comment">  # BAP falls, neuromuscular misfiring stops</span>
+
+  <span class="c-key">elif</span> intervention == <span class="c-val">"partial_correct"</span>:
+    <span class="c-comment">  # FLATTENED — gradient exists but descent slows</span>
+    θ_next = θ_t - <span class="c-op">η_small</span> * ∇L
+    <span class="c-comment">  # e.g. VitD repleted but renal 1α-hydroxylase limits</span>
+    <span class="c-comment">  # active conversion → storage D up, symptoms persist</span>
+
+  <span class="c-key">elif</span> intervention == <span class="c-val">"wrong_axis"</span>:
+    <span class="c-comment">  # CANCELLED on that axis — but new gradient revealed</span>
+    θ_next = θ_t - η * ∇L_<span class="c-op">RLS</span>  <span class="c-comment"># ferritin → dopamine axis</span>
+    <span class="c-comment">  # independent of mineral axis, cancels that gradient</span>
+    <span class="c-comment">  # separately. Two gradients, two cancellations required.</span>
+
+  <span class="c-key">elif</span> intervention == <span class="c-val">"twin_monitored"</span>:
+    <span class="c-comment">  # PREVENTED — twin tracks approach to next ridge</span>
+    ΔL_ridge_remaining = <span class="c-highlight">twin.estimate_reserve</span>(θ_t)
+    <span class="c-key">if</span> ΔL_ridge_remaining < <span class="c-red">THRESHOLD_WARN</span>:
+      alert(<span class="c-val">"Ridge approach detected. Intervene now."</span>)
+    <span class="c-comment">  # Prevents escape from occurring at all</span>
+    <span class="c-comment">  # Basin walls maintained through abundance, not depletion</span>
+
+  <span class="c-key">return</span> θ_next
+  </div>
+
+  <div class="math-block">
+    <span class="math-label">Learning Rate Calibration — the η problem</span>
+    \[ \eta_{optimal} = \arg\min_\eta \mathbb{E}\bigl[\mathcal{L}(\theta_{t+k})\bigr] \]
+    \[ \text{Overshoot: } \eta \gg \eta_{opt} \Rightarrow \theta \text{ oscillates, misses basin} \]
+    \[ \text{Understep: } \eta \ll \eta_{opt} \Rightarrow \text{descent stalls, symptom persists} \]
+    \[ \text{Wrong axis: } \nabla_\theta\mathcal{L} \perp \nabla_\phi\mathcal{L} \Rightarrow \text{two separate descents required} \]
+  </div>
+</section>
+
+<!-- ═══════ SAMPLE ═══════ -->
+<section class="phase">
+  <div class="section-header">
+    <span class="section-letter" style="color:var(--blue);">S</span>
+    <div class="section-title-block">
+      <span class="section-word">Phase Four · Sample</span>
+      <span class="section-title">Low-ε probing: VoI / cost is the only justification</span>
+    </div>
+  </div>
+
+  <p>Sampling is not escape. The temperatures are different. Escape requires enough ε to clear the ridge wall — externally driven, often involuntary. Sampling is deliberate, low-amplitude probing <em>from within the descent</em>, near a candidate minimum.</p>
+
+  <div class="code-block">
+    <span class="cb-label">VALUE OF INFORMATION — TEST SELECTION</span>
+<span class="c-comment"># Should we order this test?</span>
+
+<span class="c-key">def</span> <span class="c-highlight">should_sample</span>(test, posterior_p, current_H):
+
+  VoI = current_H - expected_H_after_test(test, posterior_p)
+  cost = test.invasiveness + test.financial + test.patient_burden
+
+  ratio = VoI / cost
+
+  <span class="c-comment">  # The colonoscopy in Case I:</span>
+  <span class="c-comment">  # p(lower_GI_pathology | no_bowel_sx) ≈ 0.03</span>
+  <span class="c-comment">  # VoI ≈ 0.02 bits  (posterior already near-flat)</span>
+  <span class="c-comment">  # cost = high (invasive, expensive, traumatic)</span>
+  <span class="c-comment">  # ratio → 0.02 / HIGH ≈ 0  → DO NOT SAMPLE</span>
+
+  <span class="c-comment">  # VitD + ferritin in Case II:</span>
+  <span class="c-comment">  # H(posterior) HIGH (mechanism unknown)</span>
+  <span class="c-comment">  # VoI ≈ large (two missing variables explain everything)</span>
+  <span class="c-comment">  # cost = LOW (blood draw)</span>
+  <span class="c-comment">  # ratio → LARGE / LOW → SAMPLE IMMEDIATELY</span>
+
+  <span class="c-key">return</span> ratio > <span class="c-highlight">THRESHOLD_WORTH_IT</span>
+  </div>
+
+  <div class="callout callout-s">
+    <span class="callout-label">The colonoscopy error, formally</span>
+    The colonoscopy was presented as diagnostic sampling (low-ε exploration). 
+    It was actually descent on <strong>L_s</strong> (liability minimization) disguised as L_b (biological) exploration. 
+    The VoI was near zero. The cost was high. A rational sampler would have rejected it. 
+    The twin would have shown the math.
+  </div>
+</section>
+
+<!-- ═══════ INTEGRATE ═══════ -->
+<section class="phase">
+  <div class="section-header">
+    <span class="section-letter" style="color:var(--ink2);">I</span>
+    <div class="section-title-block">
+      <span class="section-word">Phase Five · Integrate</span>
+      <span class="section-title">The pheromone update. Then Basin again.</span>
+    </div>
+  </div>
+
+  <p>Integration is what separates a clinical episode from a trajectory. Every descent, every sample, every basin reached — if integrated into the twin — becomes prior knowledge that reshapes the next cycle's landscape model.</p>
+
+  <div class="code-block">
+    <span class="cb-label">BAYESIAN TWIN UPDATE — POSTERIOR → NEW PRIOR</span>
+<span class="c-comment"># After each BEDSI cycle, update the twin's model</span>
+
+<span class="c-key">def</span> <span class="c-highlight">integrate</span>(twin, trajectory, outcome):
+
+  <span class="c-comment">  # Update posterior over patient state</span>
+  twin.posterior = bayesian_update(
+    prior    = twin.prior,
+    evidence = trajectory.observations,
+    model    = twin.dynamics_model
+  )
+
+  <span class="c-comment">  # Update landscape model — non-stationary terrain</span>
+  twin.L_estimate = online_learn(
+    twin.L_estimate,
+    new_data = trajectory.state_transitions
+  )
+
+  <span class="c-comment">  # Update ridge proximity estimate</span>
+  twin.reserve_estimate = estimate_basin_wall(
+    twin.posterior,
+    twin.L_estimate
+  )
+
+  <span class="c-comment">  # New basin IS new prior for next cycle</span>
+  twin.prior = twin.posterior
+
+  <span class="c-comment">  # The pheromone trail is now richer</span>
+  <span class="c-comment">  # Next clinician inherits the map, not a blank chart</span>
+  <span class="c-key">return</span> twin  <span class="c-comment"># → B (next basin) → cycle restarts</span>
+  </div>
+
+  <p>The cycle is not a loop that closes. It is a <em>spiral</em>. Each iteration of BEDSI lands in a deeper, better-mapped basin, with a richer posterior and a more accurate landscape model. The twin accumulates what individuals forget. The colony benefits from every scout that returned.</p>
+</section>
+
+<!-- ═══════ CYCLE DISPLAY ═══════ -->
+<div class="pull-quote">
+  <p>The patient is never done. They are always in some phase. The twin knows which one.</p>
+  <span class="pq-attr">Ukubona · BEDSI · Persistent State</span>
+</div>
+
+<div class="cycle-diagram">
+  <div class="cycle-node">
+    <span class="cycle-letter">B</span>
+    <span class="cycle-word">Basin</span>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <div class="cycle-node">
+    <span class="cycle-letter">E</span>
+    <span class="cycle-word">Escape</span>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <div class="cycle-node">
+    <span class="cycle-letter">D</span>
+    <span class="cycle-word">Descent</span>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <div class="cycle-node">
+    <span class="cycle-letter">S</span>
+    <span class="cycle-word">Sample</span>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <div class="cycle-node">
+    <span class="cycle-letter">I</span>
+    <span class="cycle-word">Integrate</span>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <span class="cycle-repeat">B′ →<br>deeper</span>
+</div>
+
+<!-- ═══════ TWO CASES ═══════ -->
+<div class="divider" style="border-top: 2px solid var(--rule-heavy); margin: 3rem 0; padding-top: 2rem;">
+  <div style="font-family:'IBM Plex Mono',monospace; font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--ink3); margin-bottom:1.5rem;">
+    Two Anonymized Cases — BEDSI Applied
+  </div>
+</div>
+
+<!-- CASE I -->
+<div class="case-box">
+  <div class="case-box-header">
+    <span class="case-num">Case I</span>
+    <span class="case-title">The Over-Sampled Basin — Upper GI with spurious lower exploration</span>
+  </div>
+  <div class="case-box-body">
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-b">B<br><span style="font-size:0.5rem; letter-spacing:0.05em;">BASIN</span></div>
+      <div class="case-phase-content">
+        Patient in a stable attractor: mild dyspepsia, functional GI state. The basin is shallow — 
+        <strong>compensated gastric mucosal irritation</strong> held at low energy by dietary buffering and 
+        intermittent acid suppression. The ridge distance is shrinking: H. pylori activity (or equivalent 
+        irritant) is slowly raising the basin floor.
+      </div>
+    </div>
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-e">E<br><span style="font-size:0.5rem; letter-spacing:0.05em;">ESCAPE</span></div>
+      <div class="case-phase-content">
+        <strong>Epigastric pain radiating retrosternally</strong> — the ridge is crossed. ε_escape came from 
+        dietary trigger + mucosal breakdown. The system tips over the barrier. 
+        ΔL_ridge was small; the crest was near. 
+        The gradient is now visible in the upper GI coordinate: ∇L_upper = 0.88. 
+        ∇L_lower ≈ 0.03. <strong>No bowel changes</strong> — the lower GI gradient does not exist.
+      </div>
+    </div>
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-d">D<br><span style="font-size:0.5rem; letter-spacing:0.05em;">DESCENT</span></div>
+      <div class="case-phase-content">
+        Upper endoscopy: <strong>correct</strong>. Apollonian descent along the visible gradient. 
+        Confirms antral gastritis. Gradient direction is known. PPI prescribed. η is appropriate. 
+        The loss function is decreasing. This descent phase executed correctly.
+      </div>
+    </div>
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-s">S<br><span style="font-size:0.5rem; letter-spacing:0.05em;">SAMPLE</span></div>
+      <div class="case-phase-content">
+        <strong>Colonoscopy ordered</strong> — critical error here. 
+        VoI = H(posterior_lower) − E[H(posterior_lower | colonoscopy)] ≈ 0.02 bits. 
+        p(lower pathology | no bowel symptoms) ≈ 0.03. 
+        Cost: HIGH (invasive, expensive, boundary violation). 
+        Ratio → near zero. <strong>This was not a Sample. It was descent on L_s 
+        (liability) wearing Sample's clothing.</strong> The twin would have rejected it: VoI/cost &lt; threshold.
+      </div>
+    </div>
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-i">I<br><span style="font-size:0.5rem; letter-spacing:0.05em;">INTEGRATE</span></div>
+      <div class="case-phase-content">
+        Antral gastritis confirmed as the basin. PPI treatment descends toward healing. 
+        The twin updates: upper GI sensitivity noted, dietary triggers flagged, H. pylori status to be 
+        monitored. <strong>The colonoscopy results are integrated as baseline noise — 
+        not as a pheromone trail to follow in future episodes.</strong> 
+        Next clinician inherits the map: don't forage lower GI without explicit new signal.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CASE II -->
+<div class="case-box">
+  <div class="case-box-header">
+    <span class="case-num">Case II</span>
+    <span class="case-title">The Compensated Gradient — Decades of mineral debt, suddenly visible</span>
+  </div>
+  <div class="case-box-body">
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-b">B<br><span style="font-size:0.5rem; letter-spacing:0.05em;">BASIN</span></div>
+      <div class="case-phase-content">
+        An elderly multiparous woman of African ancestry in apparent metabolic stability. 
+        Calcium 2.51 mmol/L — normal. PTH 40 pg/mL — mid-range. BAP 16 µg/L — active but within reference. 
+        <strong>This basin is not low-energy health. It is defended homeostasis.</strong> 
+        The basin floor is rising. The walls are thinning. Eight pregnancies of calcium extraction, 
+        melanin + latitude vitamin D deficit, eGFR 79 limiting 1α-hydroxylase activity, 
+        magnesium at the absolute floor of normal. The ridge is close. The twin would see it. The chart does not.
+      </div>
+    </div>
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-e">E<br><span style="font-size:0.5rem; letter-spacing:0.05em;">ESCAPE</span></div>
+      <div class="case-phase-content">
+        <strong>Paroxysmal, rest-triggered, cry-level limb pain.</strong> 
+        The ridge is crossed. ε_escape came from decades of cumulative mineral debt — 
+        not an acute event. The presentation feels sudden because ridge curvature was high: 
+        a sharp crest, approached gradually, crossed quickly. 
+        NSAID failure removes prostaglandin-mediated pathways from the graph. 
+        Rest-trigger with activity suppression eliminates most structural and inflammatory differentials. 
+        The gradient is now visible. The question is: <em>in which coordinate?</em>
+      </div>
+    </div>
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-d">D<br><span style="font-size:0.5rem; letter-spacing:0.05em;">DESCENT</span></div>
+      <div class="case-phase-content">
+        Two candidate descent axes, both real, potentially independent:
+        <strong>(1) Mineral axis</strong>: vitamin D deficiency → secondary hyperparathyroidism (PTH should be elevated but Mg deficit suppresses it — doubly compromised) → osteomalacic muscle irritability. 
+        <strong>(2) Dopaminergic axis</strong>: ferritin &lt; 75 µg/L → iron deficiency in basal ganglia → RLS misfire at rest. 
+        Optimal η: high-dose cholecalciferol loading + ferritin repletion. 
+        Wrong η: NSAIDs (already failed), or imaging before biochemistry is complete.
+      </div>
+    </div>
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-s">S<br><span style="font-size:0.5rem; letter-spacing:0.05em;">SAMPLE</span></div>
+      <div class="case-phase-content">
+        <strong>VoI-justified sampling</strong> — the model here is textbook correct: 
+        25-OH Vitamin D (unmeasured, high prior probability of deficiency, explains full picture, cost = blood draw) 
+        and Serum Ferritin (unmeasured, RLS threshold at 75 µg/L, cost = blood draw). 
+        VoI/cost ratio: extremely high for both. 
+        These are the two missing variables that either confirm the working hypothesis or 
+        close those basins and redirect to imaging/neurology. 
+        <strong>No further sampling justified until these return.</strong>
+      </div>
+    </div>
+
+    <div class="case-phase-row">
+      <div class="case-phase-tag tag-i">I<br><span style="font-size:0.5rem; letter-spacing:0.05em;">INTEGRATE</span></div>
+      <div class="case-phase-content">
+        Twin updates: mineral trajectory model now includes confirmed renal hydroxylation bottleneck, 
+        Mg–PTH paradox documented, pregnancy history encoded as persistent calcium extraction signal. 
+        <strong>Future ridge proximity monitoring built in.</strong> 
+        Next episode of illness, immobility, or stress — the twin flags: reserve depleted once, 
+        ridge distance is now shorter. Intervene early. 
+        <em>Ukhona</em> — she is present in the data, across time, across providers, 
+        permanently mapped.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════ BEDSIDE TRANSLATION ═══════ -->
+<section class="phase" style="border-top: 2px solid var(--rule-heavy); margin-top: 3rem;">
+  <div class="section-header">
+    <span class="section-letter" style="color:var(--ink3); font-size:1.3rem; padding-top:0.5rem;">∴</span>
+    <div class="section-title-block">
+      <span class="section-word">Bedside · Post-Metaphor</span>
+      <span class="section-title">What BEDSI sounds like without the math</span>
+    </div>
+  </div>
+
+  <p>The framework is computational. The bedside is human. Here is the translation — what a twin-informed clinician says to the patient at each phase, without losing the mathematics underneath:</p>
+
+  <div class="code-block" style="background: #1a1410;">
+    <span class="cb-label">BEDSIDE TRANSLATION</span>
+<span class="c-blue">B — Basin:</span>
+<span class="c-val">  "You've been stable — but stable can mean different things.</span>
+<span class="c-val">   Your labs look normal. Your twin shows the walls are thinning."</span>
+
+<span class="c-op">E — Escape (Ridge Crossed):</span>
+<span class="c-val">  "The cry tells us the system crossed a threshold.</span>
+<span class="c-val">   This didn't start today. Today it became visible."</span>
+
+<span class="c-highlight">D — Descent:</span>
+<span class="c-val">  "Now we can move. The gradient is real.</span>
+<span class="c-val">   Here is the direction. Here is what we're descending toward."</span>
+
+<span class="c-blue">S — Sample:</span>
+<span class="c-val">  "Two tests. That's it. Not because we're being thorough —</span>
+<span class="c-val">   because those two are the only ones that will move the model."</span>
+
+<span class="c-green">I — Integrate:</span>
+<span class="c-val">  "We now know something we didn't. The twin remembers.</span>
+<span class="c-val">   The next doctor will inherit this map, not a blank chart."</span>
+  </div>
+
+  <div class="pull-quote" style="margin-top: 2.5rem;">
+    <p>The patient is the stateful system. The clinician is a sampling instrument. The twin is the map that survives them both.</p>
+    <span class="pq-attr">Ukubona · BEDSI · The Inversion</span>
+  </div>
+</section>
+
+<!-- ═══════ COLOPHON ═══════ -->
+<div class="colophon">
+  <span class="colophon-word">Ukubona</span>
+  <span class="colophon-gloss">To See · Zulu · The act of witnessing the gradient · Ukubona LLC · 2026</span>
+</div>
+
+</div><!-- /page -->
+
+<script>
+// Scroll-triggered reveal for case boxes and sections
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.case-box, .math-block, .code-block, .ridge-diagram, .callout, .pull-quote, .cycle-diagram').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(14px)';
+  el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+  observer.observe(el);
+});
+
+// Stagger case-phase-rows inside revealed case boxes
+document.querySelectorAll('.case-phase-row').forEach((row, i) => {
+  row.style.opacity = '0';
+  row.style.transform = 'translateX(-8px)';
+  row.style.transition = `opacity 0.5s ${i * 0.08}s ease, transform 0.5s ${i * 0.08}s ease`;
+  observer.observe(row);
+});
+</script>
+
+</body>
+</html>

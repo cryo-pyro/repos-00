@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Threshold Gate — Ukubona LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #10101a;
+    --surface2: #15152a;
+    --border: rgba(180,160,255,0.12);
+    --accent-violet: #a78bfa;
+    --accent-amber: #f59e0b;
+    --accent-teal: #2dd4bf;
+    --accent-rose: #fb7185;
+    --accent-lime: #a3e635;
+    --text: #e8e4f0;
+    --text-dim: rgba(232,228,240,0.55);
+    --text-faint: rgba(232,228,240,0.28);
+    --glow-violet: rgba(167,139,250,0.15);
+    --glow-amber: rgba(245,158,11,0.12);
+    --glow-teal: rgba(45,212,191,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ANIMATED GRADIENT BG */
+  .bg-mesh {
+    position: fixed; inset: 0; z-index: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(88,28,235,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(6,182,212,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 60% 40%, rgba(245,158,11,0.04) 0%, transparent 50%),
+      var(--bg);
+    animation: meshPulse 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes meshPulse {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+  }
+
+  /* LAYOUT */
+  .content { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 0 4rem;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent-violet);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.4s forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent-amber);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    max-width: 600px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s forwards;
+  }
+
+  .hero-formula {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    border-left: 2px solid var(--accent-violet);
+    padding-left: 1rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.8s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 5rem 0 4rem;
+  }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+
+  /* STACK LEGEND */
+  .stack-legend {
+    display: flex;
+    gap: 0;
+    margin-bottom: 5rem;
+    opacity: 0;
+    animation: fadeUp 1s 1s forwards;
+  }
+  .stack-step {
+    flex: 1;
+    text-align: center;
+    padding: 1rem 0.5rem;
+    border: 1px solid var(--border);
+    border-right: none;
+    transition: background 0.3s, border-color 0.3s;
+    cursor: default;
+  }
+  .stack-step:last-child { border-right: 1px solid var(--border); }
+  .stack-step:hover { background: rgba(167,139,250,0.05); }
+  .stack-step .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .stack-step .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+  }
+  .stack-step.active-univ .name { color: var(--accent-violet); }
+  .stack-step.active-ub .name { color: var(--accent-amber); }
+  .stack-step.active-ukb .name { color: var(--accent-teal); }
+  .stack-step.active-ui .name { color: var(--accent-rose); }
+  .stack-step.active-ux .name { color: var(--accent-lime); }
+
+  /* INTRO BLOCK */
+  .intro-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-violet);
+    padding: 2rem 2.5rem;
+    margin-bottom: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .intro-block::before {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 40%;
+    background: var(--glow-violet);
+    pointer-events: none;
+  }
+  .intro-block p { color: var(--text-dim); font-size: 1rem; }
+  .intro-block p + p { margin-top: 1rem; }
+  .intro-block strong { color: var(--text); font-weight: 600; }
+
+  /* PHASE TAG */
+  .phase-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid;
+    margin-bottom: 1.5rem;
+  }
+  .phase-tag.phase-ii { color: var(--accent-amber); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.06); }
+  .phase-tag.phase-iii { color: var(--accent-teal); border-color: rgba(45,212,191,0.3); background: rgba(45,212,191,0.06); }
+  .phase-tag .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* SCENARIO CARD */
+  .scenario { margin-bottom: 6rem; }
+
+  .scenario-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 2.2rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .scenario-subtitle {
+    color: var(--text-faint);
+    font-style: italic;
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* LAYER CARDS */
+  .layers { display: flex; flex-direction: column; gap: 1px; margin-bottom: 2rem; }
+
+  .layer {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .layer:hover { background: var(--surface2); }
+
+  .layer-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .layer-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+
+  .layer-univ .layer-code { color: var(--accent-violet); border-color: rgba(167,139,250,0.3); }
+  .layer-ub .layer-code { color: var(--accent-amber); border-color: rgba(245,158,11,0.3); }
+  .layer-ukb .layer-code { color: var(--accent-teal); border-color: rgba(45,212,191,0.3); }
+  .layer-ui .layer-code { color: var(--accent-rose); border-color: rgba(251,113,133,0.3); }
+  .layer-ux .layer-code { color: var(--accent-lime); border-color: rgba(163,230,53,0.3); }
+
+  .layer-univ { border-left: 3px solid var(--accent-violet); }
+  .layer-ub { border-left: 3px solid var(--accent-amber); }
+  .layer-ukb { border-left: 3px solid var(--accent-teal); }
+  .layer-ui { border-left: 3px solid var(--accent-rose); }
+  .layer-ux { border-left: 3px solid var(--accent-lime); }
+
+  .layer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    letter-spacing: 0.01em;
+  }
+
+  .layer p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+  .layer p + p { margin-top: 0.6rem; }
+
+  .layer .highlight { color: var(--text); font-style: italic; }
+
+  /* GRADIENT INDICATOR */
+  .gradient-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .gradient-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+  .gradient-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .gradient-fill {
+    height: 100%;
+    border-radius: 2px;
+    position: relative;
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .gradient-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  /* THE GATE VISUALIZER */
+  .gate-container {
+    margin: 2rem 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gate-container::before {
+    content: 'THRESHOLD';
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.3em;
+    color: var(--text-faint);
+  }
+
+  .gate-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 1.5rem;
+  }
+
+  .gate-track {
+    height: 60px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 4px;
+    position: relative;
+    overflow: visible;
+    margin-bottom: 0.5rem;
+  }
+
+  .gate-fill {
+    height: 100%;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 1rem;
+    transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gate-label-inside {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(0,0,0,0.7);
+    font-weight: 700;
+  }
+
+  .threshold-line {
+    position: absolute;
+    top: -8px; bottom: -8px;
+    width: 2px;
+    background: var(--accent-rose);
+    box-shadow: 0 0 12px var(--accent-rose);
+  }
+
+  .threshold-marker {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--accent-rose);
+    white-space: nowrap;
+  }
+
+  .gate-outcome {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+
+  .gate-outcome-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid;
+  }
+
+  .gate-outcome-badge.pass { color: var(--accent-lime); border-color: rgba(163,230,53,0.4); background: rgba(163,230,53,0.08); }
+  .gate-outcome-badge.fail { color: var(--accent-rose); border-color: rgba(251,113,133,0.4); background: rgba(251,113,133,0.08); }
+  .gate-outcome-badge.blocked { color: var(--accent-amber); border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.08); }
+
+  .gate-outcome-text { font-size: 0.9rem; color: var(--text-dim); font-style: italic; }
+
+  /* SIGNAL VECTORS */
+  .signal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+  }
+
+  .signal-cell {
+    background: var(--surface);
+    padding: 1.2rem 1.5rem;
+  }
+
+  .signal-cell:nth-child(odd) { background: var(--surface2); }
+
+  .signal-cell-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.4rem;
+  }
+
+  .signal-cell-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+  }
+
+  .signal-high { color: var(--accent-amber); }
+  .signal-zero { color: var(--text-faint); text-decoration: line-through; }
+  .signal-low { color: var(--accent-teal); }
+  .signal-alert { color: var(--accent-rose); }
+
+  /* LOSS MULTI-OBJ */
+  .loss-display {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 2;
+    color: var(--text-dim);
+  }
+
+  .loss-display .eq { color: var(--text); }
+  .loss-display .lb { color: var(--accent-teal); }
+  .loss-display .ls { color: var(--accent-rose); }
+  .loss-display .lc { color: var(--accent-amber); }
+  .loss-display .good { color: var(--accent-lime); }
+  .loss-display .bad { color: var(--accent-rose); }
+
+  /* TWIN READOUT */
+  .twin-readout {
+    background: #0d0d18;
+    border: 1px solid rgba(167,139,250,0.2);
+    border-left: 3px solid var(--accent-violet);
+    padding: 1.8rem 2rem;
+    margin: 2rem 0;
+    position: relative;
+  }
+
+  .twin-readout::before {
+    content: 'UKUBONA TWIN · SIGNAL ANALYSIS';
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.25em;
+    color: var(--accent-violet);
+    margin-bottom: 1.2rem;
+    opacity: 0.7;
+  }
+
+  .twin-alert {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1.9;
+    color: var(--text-dim);
+  }
+
+  .twin-alert .key { color: var(--accent-amber); }
+  .twin-alert .val { color: var(--accent-teal); }
+  .twin-alert .warn { color: var(--accent-rose); font-weight: 700; }
+  .twin-alert .good { color: var(--accent-lime); }
+
+  /* THE GRAND SYNTHESIS */
+  .synthesis {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 3rem;
+    margin: 4rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .synthesis::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 100% 0%, rgba(88,28,235,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .synthesis h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .synthesis p { color: var(--text-dim); font-size: 1rem; margin-bottom: 1rem; }
+  .synthesis strong { color: var(--text); }
+
+  /* MATH BLOCK */
+  .math-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    color: var(--accent-teal);
+    font-size: 1.1rem;
+    overflow-x: auto;
+  }
+
+  /* GRADIENT FATE TABLE */
+  .fate-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9rem;
+  }
+
+  .fate-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-align: left;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .fate-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+
+  .fate-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .fate-verb {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .fate-steepened { color: var(--accent-lime); }
+  .fate-flattened { color: var(--accent-teal); }
+  .fate-cancelled { color: var(--accent-amber); }
+  .fate-prevented { color: var(--accent-rose); }
+
+  .fate-table td:nth-child(3) { color: var(--text-dim); font-style: italic; font-size: 0.9rem; }
+
+  /* CODA */
+  .coda {
+    text-align: center;
+    padding: 6rem 0;
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+  }
+
+  .coda-word {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--accent-violet);
+    display: block;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1.5s 0.2s forwards;
+  }
+
+  .coda-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    opacity: 0;
+    animation: fadeUp 1.5s 0.6s forwards;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.3); border-radius: 2px; }
+
+  /* ANIMATED BARS ON SCROLL */
+  .gradient-fill { width: 0; }
+  .gate-fill { width: 0; }
+
+  /* FOOTNOTE */
+  .footnote {
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    font-style: italic;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* PHASE HEADER */
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .phase-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--text-faint);
+    flex-shrink: 0;
+    opacity: 0.4;
+  }
+
+  /* CONNECTORS */
+  .connector {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 0;
+    padding: 0.6rem 2rem;
+    background: transparent;
+    border-left: 3px solid var(--border);
+    margin-left: 1.2rem;
+  }
+
+  .connector-arrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 640px) {
+    .signal-grid { grid-template-columns: 1fr; }
+    .stack-step .label { display: none; }
+    .stack-step .name { font-size: 0.75rem; }
+    .hero h1 { font-size: 2.5rem; }
+    .twin-alert { font-size: 0.65rem; }
+    .synthesis { padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+
+<div class="content">
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Ukubona LLC · Clinical Navigation Framework · 2026</p>
+    <h1>The Threshold,<br>the <em>Gate</em>,<br>and the Gradient</h1>
+    <p class="hero-sub">
+      Two anonymized clinical cases, mapped onto the SGD framework. 
+      Phase II is a gate — all or nothing. Phase III is a gradient — 
+      steepened, flattened, cancelled, or <em>prevented from ever being</em>.
+      That distinction reshapes what diagnosis means.
+    </p>
+    <div class="hero-formula">
+      θ_{t+1} = θ_t − η∇L(θ_t) + ε &nbsp;·&nbsp; where ε in Phase II = threshold dynamics
+    </div>
+
+    <div class="stack-legend" style="margin-top: 3rem;">
+      <div class="stack-step active-univ">
+        <span class="label">I</span>
+        <span class="name">UNIV</span>
+      </div>
+      <div class="stack-step active-ub">
+        <span class="label">II</span>
+        <span class="name">UB</span>
+      </div>
+      <div class="stack-step active-ukb">
+        <span class="label">III</span>
+        <span class="name">UKB</span>
+      </div>
+      <div class="stack-step active-ui">
+        <span class="label">IV</span>
+        <span class="name">UI</span>
+      </div>
+      <div class="stack-step active-ux">
+        <span class="label">V</span>
+        <span class="name">UX</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <div class="intro-block">
+    <p>
+      Classic SGD metaphors treat the loss landscape as continuous — the gradient exists everywhere, 
+      optimization is smooth descent. But biological systems are not smooth. They have <strong>gates</strong>.
+    </p>
+    <p>
+      A gate is a threshold event: below it, the gradient doesn't exist. Above it, the gradient is suddenly 
+      visible — and everything downstream changes. This is why "normal labs" can be profoundly misleading. 
+      The system is operating in pre-gate territory, maintaining homeostasis at metabolic cost. 
+      The <strong>cry, the symptom, the breakdown</strong> — these are the gate firing.
+    </p>
+    <p>
+      Phase II dynamics (threshold) and Phase III dynamics (gradient fate) are clinically distinct. 
+      Mixing them up produces the wrong interventions. These two cases illuminate the difference.
+    </p>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-label">Case I · The Zero Gradient Error</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- SCENARIO 1 -->
+  <section class="scenario">
+    <div class="phase-tag phase-ii">
+      <span class="dot"></span>
+      Phase II Dynamics · Threshold Gate
+    </div>
+
+    <h2 class="scenario-title">The Over-Sampled Basin</h2>
+    <p class="scenario-subtitle">
+      A middle-aged adult with upper gastrointestinal symptoms and a physician 
+      who mistook ε-injection for diagnostic rigor.
+    </p>
+
+    <!-- LAYERS -->
+    <div class="layers">
+
+      <!-- UNIV -->
+      <div class="layer layer-univ">
+        <div class="layer-header">
+          <span class="layer-code">UNIV</span>
+          <span class="layer-title">The Landscape — High-Dimensional Biological Territory</span>
+        </div>
+        <p>The patient's state space: a body with localized gastric inflammation, 
+        anatomically bounded in the antrum. The landscape has a <span class="highlight">clear basin</span> 
+        in the upper GI coordinate. Elsewhere — the lower GI, the colon — the terrain is flat. 
+        Gradient ≈ 0.</p>
+        <p>This is not a diffuse disease. This is a pinpoint. The UNIV is cooperative here — 
+        it is <em>telling you where the sugar is</em>.</p>
+      </div>
+
+      <!-- UB -->
+      <div class="layer layer-ub">
+        <div class="layer-header">
+          <span class="layer-code">UB</span>
+          <span class="layer-title">The Scout Signal — Patient Symptom Vector</span>
+        </div>
+        <div class="signal-grid">
+          <div class="signal-cell">
+            <div class="signal-cell-label">Primary signal</div>
+            <div class="signal-cell-value signal-high">Epigastric pain, retrosternal radiation</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">Lower GI gradient</div>
+            <div class="signal-cell-value signal-zero">No bowel changes (∇ = 0)</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">Inflammatory signal</div>
+            <div class="signal-cell-value signal-low">Afebrile (L_b stable)</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">Scout verdict</div>
+            <div class="signal-cell-value">Upper GI basin confirmed</div>
+          </div>
+        </div>
+        <p>The scout returned with a precise coordinate. The pheromone trail is 
+        <span class="highlight">unambiguous</span>. The colony (clinic) received a clean, 
+        high-information signal pointing to a single region of the loss landscape.</p>
+        <div class="gradient-bar">
+          <span class="gradient-label">Upper GI ∇L</span>
+          <div class="gradient-track">
+            <div class="gradient-fill" id="g1a" style="width:88%; background: linear-gradient(90deg, var(--accent-amber), var(--accent-lime));"></div>
+          </div>
+          <span class="gradient-value">0.88</span>
+        </div>
+        <div class="gradient-bar">
+          <span class="gradient-label">Lower GI ∇L</span>
+          <div class="gradient-track">
+            <div class="gradient-fill" id="g1b" style="width:3%; background: var(--text-faint);"></div>
+          </div>
+          <span class="gradient-value">0.03</span>
+        </div>
+      </div>
+
+      <!-- UKB -->
+      <div class="layer layer-ukb">
+        <div class="layer-header">
+          <span class="layer-code">UKB</span>
+          <span class="layer-title">Ukubona — Witnessing the Optimization Failure</span>
+        </div>
+        <p>The endoscopy was Apollonian: it followed the gradient, descended into the upper GI basin, 
+        and confirmed antral gastritis. This was correct. The loss function decreased.</p>
+        <p>Then something broke. A <strong>second procedure</strong> — a colonoscopy — was added. 
+        But here is the key insight the framework makes visible:</p>
+
+        <!-- THE GATE -->
+        <div class="gate-container" style="margin-top: 1.2rem;">
+          <div class="gate-title">Phase II Gate: Does the colonoscopy signal cross the diagnostic threshold?</div>
+
+          <div class="gate-track">
+            <div class="threshold-line" style="left: 50%;">
+              <span class="threshold-marker">THRESHOLD</span>
+            </div>
+            <div class="gate-fill" style="width: 7%; background: linear-gradient(90deg, rgba(251,113,133,0.6), rgba(251,113,133,0.4));">
+              <span class="gate-label-inside"></span>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:0.4rem;">
+            <span style="font-family:'Space Mono',monospace; font-size:0.5rem; color:var(--text-faint);">∇ = 0.03 (no bowel sx)</span>
+            <span style="font-family:'Space Mono',monospace; font-size:0.5rem; color:var(--text-faint);">GATE = 0.50</span>
+            <span style="font-family:'Space Mono',monospace; font-size:0.5rem; color:var(--accent-lime);">familial risk / anemia</span>
+          </div>
+
+          <div class="gate-outcome">
+            <span class="gate-outcome-badge fail">GATE CLOSED</span>
+            <span class="gate-outcome-text">Signal never crossed threshold. The gradient did not exist. Foraging was unjustified.</span>
+          </div>
+        </div>
+
+        <p style="margin-top:1rem;">The colonoscopy was not "high ε." It was descent on a <em>different loss function entirely</em> — 
+        the systemic-liability loss (L_s). The patient paid L_b costs for the clinic's L_s optimization.</p>
+      </div>
+
+      <!-- UI: LOSS FUNCTIONS -->
+      <div class="layer layer-ui">
+        <div class="layer-header">
+          <span class="layer-code">UI</span>
+          <span class="layer-title">Pheromone Infrastructure — What the Digital Twin Would Have Said</span>
+        </div>
+
+        <div class="loss-display">
+          <div><span class="lb">L_b</span> = 0.60×Pain + 0.30×Inflammation + 0.10×Structural &nbsp;→&nbsp; <span class="good">↓ after endoscopy</span></div>
+          <div><span class="ls">L_s</span> = 0.10×Tests + 0.40×Liability &nbsp;→&nbsp; <span class="bad">↑ drove colonoscopy</span></div>
+          <div><span class="lc">L_c</span> = H(posterior) &nbsp;→&nbsp; <span class="good">LOW (upper GI confirmed)</span></div>
+          <div style="border-top:1px solid var(--border); margin-top:0.5rem; padding-top:0.5rem;">
+            <span class="eq">L_total = <span class="lb">L_b</span> + α<span class="ls">L_s</span> + β<span class="lc">L_c</span></span>
+            &nbsp;&nbsp;<span style="color:var(--text-faint)">// α was weighted heavily by clinic, not patient</span>
+          </div>
+        </div>
+
+        <div class="twin-readout">
+          <div class="twin-alert">
+            <div><span class="key">GRADIENT STATUS:</span> <span class="val">Upper GI basin confirmed. ∇L_b = 0.88. Entropy H = 0.18 (low).</span></div>
+            <div style="margin-top:0.5rem;"><span class="key">PROPOSED ACTION:</span> <span class="warn">Colonoscopy — VoI ≈ 0.03. Cost-to-benefit: UNFAVORABLE.</span></div>
+            <div style="margin-top:0.5rem;"><span class="key">HIDDEN SIGNAL:</span> <span class="warn">L_s dominance detected. Clinician optimizing liability, not biology.</span></div>
+            <div style="margin-top:0.5rem;"><span class="key">RECOMMENDATION:</span> <span class="good">Decline colonoscopy. Accept PPI trial. Re-evaluate at 4 weeks.</span></div>
+            <div style="margin-top:0.5rem;"><span class="key">PATIENT SCRIPT:</span> <span class="val">"What is the expected information gain from the colonoscopy given zero lower GI symptoms?"</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UX -->
+      <div class="layer layer-ux">
+        <div class="layer-header">
+          <span class="layer-code">UX</span>
+          <span class="layer-title">The Basin — Settling Into Healing</span>
+        </div>
+        <p>The biological basin was already located: antral gastritis, treatable with a proton pump inhibitor. 
+        The path to UX required <strong>one step</strong> — endoscopy, confirm, treat. 
+        The ε-injection (colonoscopy) did not deepen the basin. It was noise paid in patient cost, 
+        trust, and physical boundary.</p>
+        <p>The patient is now in the basin. But the pheromone trail is polluted. 
+        The <span class="highlight">colony (future patients like her)</span> may follow the wrong path.</p>
+        <div class="footnote">
+          Note: This case illustrates Phase II gate dynamics — the lower GI gradient was never above threshold. 
+          No ε calibration would have justified exploration there. This is not a temperature problem. 
+          It is a loss-function-identity problem.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-label">Case II · The Compensated Gradient</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- SCENARIO 2 -->
+  <section class="scenario">
+    <div class="phase-tag phase-iii">
+      <span class="dot"></span>
+      Phase III Dynamics · Gradient Fate
+    </div>
+
+    <h2 class="scenario-title">Homeostasis at Metabolic Cost</h2>
+    <p class="scenario-subtitle">
+      An elderly woman with paroxysmal nocturnal limb pain and labs that look 
+      normal — until the framework reveals they are <em>not normal. They are defended.</em>
+    </p>
+
+    <!-- LAYERS -->
+    <div class="layers">
+
+      <!-- UNIV -->
+      <div class="layer layer-univ">
+        <div class="layer-header">
+          <span class="layer-code">UNIV</span>
+          <span class="layer-title">The Landscape — A Terrain Shaped by Decades</span>
+        </div>
+        <p>The loss landscape of an 80-year-old multiparous woman of African ancestry 
+        was never flat. Eight pregnancies — each a <span class="highlight">calcium extraction event</span>. 
+        Lifelong vitamin D insufficiency from melanin + latitude. A kidney functioning at 
+        G2 CKD, silently distorting the mineral axis over years. Declining estrogen removing 
+        bone protective signals.</p>
+        <p>The terrain was already deeply furrowed before the first visible symptom. 
+        The landscape was <em>loaded</em>. The gradient was real, large, and building — 
+        <strong>but the biological gate had not yet fired</strong>.</p>
+      </div>
+
+      <!-- UB -->
+      <div class="layer layer-ub">
+        <div class="layer-header">
+          <span class="layer-code">UB</span>
+          <span class="layer-title">The Scout Signal — The Cry as Phase Transition</span>
+        </div>
+        <div class="signal-grid">
+          <div class="signal-cell">
+            <div class="signal-cell-label">Symptom character</div>
+            <div class="signal-cell-value signal-high">Paroxysmal, rest-triggered</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">Activity response</div>
+            <div class="signal-cell-value signal-alert">Suppressed by movement ← key</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">NSAID response</div>
+            <div class="signal-cell-value signal-zero">Failed (∴ not prostaglandin)</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">Stoic threshold</div>
+            <div class="signal-cell-value signal-alert">Cry-level pain. Gate fired.</div>
+          </div>
+        </div>
+        <p>The "cry" is the signal. This patient has tolerated significant discomfort throughout 
+        a life of labor and loss. That she is crying means the loss function exceeded her 
+        <span class="highlight">subjective threshold parameter</span> — a threshold likely calibrated 
+        very high. The cry is not melodrama. It is <strong>phase transition evidence</strong>.</p>
+      </div>
+
+      <!-- THE GATE FIRES -->
+      <div class="layer layer-ukb" style="background: rgba(45,212,191,0.04);">
+        <div class="layer-header">
+          <span class="layer-code">UKB</span>
+          <span class="layer-title">The Critical Insight — "Normal" Labs Are Not Normal</span>
+        </div>
+
+        <div class="gate-container">
+          <div class="gate-title">Phase II Gate: Did the system's reserve capacity cross a threshold?</div>
+
+          <div class="gate-track">
+            <div class="threshold-line" style="left: 65%;">
+              <span class="threshold-marker">HOMEOSTASIS LIMIT</span>
+            </div>
+            <div class="gate-fill" style="width: 72%; background: linear-gradient(90deg, rgba(245,158,11,0.4), rgba(251,113,133,0.6));">
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:0.4rem;">
+            <span style="font-family:'Space Mono',monospace; font-size:0.5rem; color:var(--text-faint);">decades of mineral debt</span>
+            <span style="font-family:'Space Mono',monospace; font-size:0.5rem; color:var(--accent-rose);">GATE = 0.65 (subjective threshold)</span>
+            <span style="font-family:'Space Mono',monospace; font-size:0.5rem; color:var(--accent-lime);">full reserve</span>
+          </div>
+
+          <div class="gate-outcome">
+            <span class="gate-outcome-badge fail">GATE FIRED</span>
+            <span class="gate-outcome-text">Reserve exhausted. Homeostasis breaks. The cry was the gate.</span>
+          </div>
+        </div>
+
+        <p style="margin-top:1.2rem;">Now the labs: calcium is <em>upper-normal</em>, PTH is <em>mid-range</em>, 
+        magnesium is at the <em>floor of normal</em>. The naive read: all fine. 
+        The framework's read: <strong>the system is spending metabolic currency to hold these numbers stable</strong>. 
+        Normal calcium while bone turnover is elevated (BAP: 16.0 µg/L) means the parathyroid 
+        is actively mining the skeleton to maintain the appearance of normalcy.</p>
+
+        <div class="signal-grid" style="margin-top:1.2rem;">
+          <div class="signal-cell">
+            <div class="signal-cell-label">Calcium 2.51 mmol/L</div>
+            <div class="signal-cell-value signal-alert">Upper-normal = compensated, not stable</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">BAP 16.0 µg/L</div>
+            <div class="signal-cell-value signal-high">Skeleton actively remodeling — WHY?</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">PTH 40 pg/mL</div>
+            <div class="signal-cell-value signal-alert">Mid-normal with low D = suspiciously quiet</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">Vitamin D</div>
+            <div class="signal-cell-value signal-zero">NOT MEASURED — the missing variable</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">Magnesium 0.73</div>
+            <div class="signal-cell-value signal-alert">Floor of normal = PTH suppressed by Mg deficit</div>
+          </div>
+          <div class="signal-cell">
+            <div class="signal-cell-label">Ferritin</div>
+            <div class="signal-cell-value signal-zero">NOT MEASURED — RLS substrate</div>
+          </div>
+        </div>
+
+        <p style="margin-top:1rem;">The Mg–PTH paradox is key: if vitamin D is severely deficient, 
+        PTH should be <em>elevated</em> (secondary hyperparathyroidism). It is not. 
+        Why? Because PTH secretion requires magnesium. At Mg 0.73, the gland 
+        <span class="highlight">cannot mount the appropriate response</span>. 
+        So the lab appears "normal" while the actual biological state is 
+        <strong>doubly compromised</strong>.</p>
+      </div>
+
+      <!-- GRADIENT FATE TABLE -->
+      <div class="layer layer-ui">
+        <div class="layer-header">
+          <span class="layer-code">UI</span>
+          <span class="layer-title">Phase III — The Four Fates of a Gradient</span>
+        </div>
+        <p style="margin-bottom:1.5rem;">Once a gradient is identified, the clinical intervention either 
+        steepens it, flattens it, cancels it, or prevents it from ever forming again. 
+        In this patient, the renal-mineral-neurological gradient is the primary axis. 
+        Here are its possible fates:</p>
+
+        <table class="fate-table">
+          <thead>
+            <tr>
+              <th>Gradient Fate</th>
+              <th>Mechanism</th>
+              <th>Clinical Implication</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="fate-verb fate-steepened">Steepened</span></td>
+              <td style="font-size:0.9rem; color:var(--text-dim);">Vitamin D repleted → PTH finally suppressed → bone turnover decreases → BAP falls → pain resolves</td>
+              <td>High-dose cholecalciferol loading. This is the intended descent path. The gradient becomes <em>more visible</em>, descent accelerates.</td>
+            </tr>
+            <tr>
+              <td><span class="fate-verb fate-flattened">Flattened</span></td>
+              <td style="font-size:0.9rem; color:var(--text-dim);">Partial repletion, inadequate ferritin, renal conversion bottleneck limits active 1,25(OH)₂D despite adequate storage D</td>
+              <td>Symptoms partially improve. The eGFR 79 may blunt hydroxylase activity — storage D is necessary but not sufficient. Monitor active vitamin D conversion.</td>
+            </tr>
+            <tr>
+              <td><span class="fate-verb fate-cancelled">Cancelled</span></td>
+              <td style="font-size:0.9rem; color:var(--text-dim);">Iron supplementation addresses ferritin &lt; 75 µg/L → restores dopaminergic substrate → RLS resolves, separate from bone axis</td>
+              <td>If the primary driver is RLS / small-fiber neuropathy, ferritin repletion cancels that gradient entirely — independent of the mineral axis. Two gradients, two cancellations required.</td>
+            </tr>
+            <tr>
+              <td><span class="fate-verb fate-prevented">Prevented</span></td>
+              <td style="font-size:0.9rem; color:var(--text-dim);">Twin-guided monitoring of Mg, D, ferritin, and PTH from here forward — before compensation collapses again</td>
+              <td>The digital twin maintains pheromone memory. The next calcium extraction event — illness, immobility, stress — doesn't reach crisis because the reserve is maintained, not depleted.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="twin-readout">
+          <div class="twin-alert">
+            <div><span class="key">LANDSCAPE STATUS:</span> <span class="val">Compensated depletion. Gate fired (cry). Reserve ≈ 10–15% remaining.</span></div>
+            <div style="margin-top:0.5rem;"><span class="key">MISSING VARIABLES:</span> <span class="warn">25-OH Vitamin D and Ferritin. All downstream inference is incomplete without these.</span></div>
+            <div style="margin-top:0.5rem;"><span class="key">GRADIENT ORIGIN:</span> <span class="val">Decades. Eight pregnancies. Melanin + latitude. CKD G2. Not acute.</span></div>
+            <div style="margin-top:0.5rem;"><span class="key">INTERVENTION PATH:</span> <span class="good">Measure → Replicate. Vitamin D loading + Ferritin check. Ionized Ca if available. Reassess 6–8 weeks.</span></div>
+            <div style="margin-top:0.5rem;"><span class="key">PHASE III GOAL:</span> <span class="good">Steepen the gradient to its resolution basin. Then prevent its recurrence via persistent twin monitoring.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UX -->
+      <div class="layer layer-ux">
+        <div class="layer-header">
+          <span class="layer-code">UX</span>
+          <span class="layer-title">The Basin — Healing as Deferred Invoice Paid</span>
+        </div>
+        <p>The basin for this patient is a state of <strong>mineral abundance</strong>, not mineral equilibrium. 
+        The body should not have to fight to maintain calcium. PTH should be quiet. BAP should fall. 
+        The neuromuscular system should stop misfiring at rest.</p>
+        <p>This basin was robbed over decades. Pregnancy, latitude, melanin, age, and a kidney 
+        that no longer fully converts the molecule it receives. The path to UX is 
+        <span class="highlight">not a diagnosis — it is a restitution</span>.</p>
+        <p>The Digital Twin's job: remember the gradient. Track the repletion. Flag the next 
+        approach to the gate — before the cry, before the threshold, before the bill falls due again.</p>
+        <p><em>Ukhona</em> — she is present. And now the system sees her.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-label">Synthesis</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- SYNTHESIS -->
+  <div class="synthesis">
+    <h3>The Gate and the Gradient Are Not the Same Thing</h3>
+
+    <p>These two cases reveal a distinction that the SGD framework makes visible and classical diagnosis obscures:</p>
+
+    <p><strong>Phase II (Gate):</strong> The loss landscape has a threshold. Below it, no gradient exists — no optimization is possible, and attempting to descend in that region is pure noise (or hidden L_s foraging). 
+    The colonoscopy was injected into a zero-gradient region. The gate had not fired. 
+    The signal never crossed the threshold. There was nothing to optimize.</p>
+
+    <p><strong>Phase III (Gradient Fate):</strong> A gradient exists — it is real, large, and loading. 
+    But homeostasis can hide it. "Normal labs" are not evidence of no gradient. 
+    They are evidence of a system spending reserve to maintain the <em>appearance</em> of no gradient. 
+    The cry was the gate. Once the gate fires, the gradient becomes visible. 
+    Now the question is: will it be steepened, flattened, cancelled, or prevented?</p>
+
+    <div class="math-block">
+      \[ \text{Phase II: } \exists \text{ gate } g \text{ s.t. } \nabla L = 0 \text{ if } \text{signal} &lt; g \]
+      \[ \text{Phase III: } \frac{d(\nabla L)}{dt} \in \{+, -, 0, \text{prevented}\} \text{ depending on intervention} \]
+    </div>
+
+    <p>The Digital Twin's power lies precisely here. It carries <strong>temporal memory</strong> — 
+    the decades of calcium extraction, the eroding renal mass, the slowly falling magnesium. 
+    It can see that "normal" is defended, not stable. It knows when the reserve is at 15%, 
+    not 100%. It can compute the gradient before the cry — and act in the flat region, 
+    before the gate fires, to prevent the threshold from ever being reached.</p>
+
+    <p>That is not just better diagnosis. That is a different philosophy of medicine entirely. 
+    The patient as <strong>stateful system</strong>, not snapshot. The clinician as <strong>sampling instrument</strong>, 
+    not oracle. The twin as <strong>gradient tracker</strong> across a lifetime — not a chart note 
+    filed and forgotten.</p>
+
+    <p>This is what <em>Ukubona</em> means. To see. Not the snapshot. The trajectory.</p>
+  </div>
+
+  <!-- CODA -->
+  <div class="coda">
+    <span class="coda-word">Ukhona</span>
+    <p class="coda-sub">They are present · The scout returned · The gradient is mapped</p>
+  </div>
+
+</div>
+
+<script>
+  // Animate gradient bars on load
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.gradient-fill').forEach(el => {
+      const target = el.style.width;
+      el.style.width = '0';
+      setTimeout(() => { el.style.width = target; }, 300);
+    });
+    document.querySelectorAll('.gate-fill').forEach(el => {
+      const target = el.style.width;
+      el.style.width = '0';
+      setTimeout(() => { el.style.width = target; }, 600);
+    });
+  });
+
+  // Intersection observer for scroll-triggered reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.layer, .gate-container, .twin-readout, .synthesis, .fate-table').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
