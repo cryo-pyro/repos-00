@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Grand Unified Map — From Chaos to the Ledger</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root {
+    --void: #04030a;
+    --deep: #080614;
+    --cosmic: #0d0b1e;
+    --nebula: #12102a;
+    --gold: #c8a84b;
+    --gold-bright: #e8c96a;
+    --gold-pale: #f5e4a8;
+    --ember: #c04a1a;
+    --olympian: #4a9edd;
+    --olympian-bright: #7ec8f5;
+    --silver: #8899bb;
+    --mist: #aabbcc;
+    --text: #d4c9b0;
+    --text-dim: #8a7d68;
+    --glow-gold: rgba(200, 168, 75, 0.15);
+    --glow-blue: rgba(74, 158, 221, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* STAR FIELD */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 40% 8%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 25%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(2px 2px at 80% 55%, rgba(200,168,75,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 35% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 5% 50%, rgba(74,158,221,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 20% 20%, rgba(255,255,255,0.6) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold) 40%, var(--ember) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.4s forwards;
+  }
+
+  .hero-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--silver);
+    letter-spacing: 0.05em;
+    max-width: 680px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .hero-sequence {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.8s forwards;
+  }
+
+  .seq-item {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgba(200,168,75,0.3);
+    color: var(--gold);
+    border-radius: 2px;
+    background: rgba(200,168,75,0.04);
+  }
+
+  .seq-arrow {
+    color: var(--text-dim);
+    font-size: 1.2rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION STRUCTURE */
+  section {
+    padding: 5rem 0;
+    border-top: 1px solid rgba(200,168,75,0.08);
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-pale), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2.5rem;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--gold-bright);
+    margin: 2.5rem 0 0.8rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  p {
+    color: var(--text);
+    margin-bottom: 1.2rem;
+    max-width: 72ch;
+  }
+
+  em { color: var(--gold-pale); font-style: italic; }
+  strong { color: var(--gold-bright); font-weight: 600; font-style: normal; }
+
+  /* GRAND TABLE */
+  .grand-table-wrap {
+    overflow-x: auto;
+    margin: 2rem 0;
+    border: 1px solid rgba(200,168,75,0.2);
+    border-radius: 4px;
+    background: rgba(200,168,75,0.02);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  thead tr {
+    background: rgba(200,168,75,0.08);
+    border-bottom: 2px solid rgba(200,168,75,0.3);
+  }
+
+  th {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0.9rem 1.2rem;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(200,168,75,0.08);
+    transition: background 0.2s;
+  }
+
+  tbody tr:hover { background: rgba(200,168,75,0.04); }
+  tbody tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 0.9rem 1.2rem;
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  td:first-child {
+    color: var(--gold-bright);
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  td:nth-child(2) { color: var(--olympian-bright); font-style: italic; }
+  td:nth-child(3) { color: var(--mist); }
+
+  /* EQUATION BLOCK */
+  .eq-block {
+    background: linear-gradient(135deg, rgba(200,168,75,0.06) 0%, rgba(74,158,221,0.04) 100%);
+    border: 1px solid rgba(200,168,75,0.25);
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 2rem 2.5rem;
+    margin: 2.5rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .eq-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(200,168,75,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .eq-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  .eq-block .MathJax { font-size: 1.3em !important; }
+
+  /* PHASE CARDS */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .phase-card {
+    background: var(--nebula);
+    border: 1px solid rgba(200,168,75,0.15);
+    border-radius: 4px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .phase-card:hover {
+    border-color: rgba(200,168,75,0.4);
+    transform: translateY(-3px);
+  }
+
+  .phase-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: -0.5rem; right: 1rem;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: rgba(200,168,75,0.06);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .phase-card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .phase-card-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.3rem;
+    color: var(--gold-pale);
+    margin-bottom: 0.8rem;
+  }
+
+  .phase-card p {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin: 0;
+    max-width: none;
+  }
+
+  /* INLINE QUOTE / CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, rgba(74,158,221,0.06) 0%, rgba(200,168,75,0.04) 100%);
+    border: 1px solid rgba(74,158,221,0.2);
+    border-left: 3px solid var(--olympian);
+    border-radius: 4px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--mist);
+  }
+
+  .callout strong { color: var(--olympian-bright); }
+
+  /* MAPPING SECTION: side-by-side columns */
+  .double-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .double-col { grid-template-columns: 1fr; }
+    .phase-grid { grid-template-columns: 1fr; }
+  }
+
+  .col-card {
+    background: var(--nebula);
+    border: 1px solid rgba(200,168,75,0.12);
+    border-radius: 4px;
+    padding: 1.5rem;
+  }
+
+  .col-card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(200,168,75,0.15);
+  }
+
+  .col-card ul { list-style: none; }
+  .col-card ul li {
+    font-size: 0.9rem;
+    color: var(--text);
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(200,168,75,0.05);
+    display: flex;
+    gap: 0.8rem;
+  }
+  .col-card ul li:last-child { border-bottom: none; }
+  .col-card ul li span.k { color: var(--gold-bright); font-style: italic; min-width: 7rem; flex-shrink: 0; }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .divider-glyph {
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--gold);
+    font-size: 1.2rem;
+  }
+
+  /* SYNTHESIS BLOCK */
+  .synthesis {
+    background: linear-gradient(135deg, rgba(200,168,75,0.08) 0%, rgba(192,74,26,0.06) 50%, rgba(74,158,221,0.06) 100%);
+    border: 1px solid rgba(200,168,75,0.3);
+    border-radius: 6px;
+    padding: 3rem;
+    margin: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .synthesis::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 30% 30%, rgba(200,168,75,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 70%, rgba(74,158,221,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .synthesis h3 { margin-top: 0; }
+
+  /* FOOTER */
+  footer {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(200,168,75,0.08);
+  }
+
+  footer p {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--text-dim);
+    max-width: none;
+  }
+
+  /* SCROLL FADE-IN */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* MathJax color override */
+  .MathJax { color: var(--gold-pale) !important; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Hellenic Theogony · Relativistic Information Theory · Computational Reality</p>
+  <h1 class="hero-title">The Grand Unified Map</h1>
+  <p class="hero-sub">From Entropy to Ledger — The Physical Cost of Being Certain</p>
+  <div class="hero-sequence">
+    <span class="seq-item">Chaos</span><span class="seq-arrow">→</span>
+    <span class="seq-item">Gaia</span><span class="seq-arrow">→</span>
+    <span class="seq-item">Ouranos</span><span class="seq-arrow">→</span>
+    <span class="seq-item">Titans</span><span class="seq-arrow">→</span>
+    <span class="seq-item">Olympians</span>
+  </div>
+</div>
+
+<!-- THE THEOGONY DECODED -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Part I — The Theogony Decoded</p>
+  <h2>The Myth as Science</h2>
+
+  <p>Ancient myths were often early humanity's way of doing <em>"science"</em> — trying to explain the physical evolution of their environment and the sociological evolution of their species without having the modern vocabulary for it.</p>
+
+  <div class="phase-grid">
+    <div class="phase-card" data-num="0">
+      <div class="phase-card-title">Phase 0</div>
+      <div class="phase-card-name">Chaos</div>
+      <p>The Universe / Entropy. Before form, there was just the vast, unorganized void. The raw potential of the cosmos before the Big Bang or planetary accretion.</p>
+    </div>
+    <div class="phase-card" data-num="1">
+      <div class="phase-card-title">Phase 1</div>
+      <div class="phase-card-name">Gaia</div>
+      <p>The Local Basin / Earth. Matter coalesces. The ground beneath our feet becomes a tangible, solid reality that early humans could comprehend and stand on.</p>
+    </div>
+    <div class="phase-card" data-num="2">
+      <div class="phase-card-title">Phase 2</div>
+      <div class="phase-card-name">Ouranos</div>
+      <p>Terraforming / The Atmosphere. Gaia "gives birth" to the sky to cover herself — the Earth developing its atmosphere, creating a closed system where weather and life can eventually exist.</p>
+    </div>
+    <div class="phase-card" data-num="3">
+      <div class="phase-card-title">Phase 3</div>
+      <div class="phase-card-name">Titans</div>
+      <p>Weather / Raw Natural Forces. Not just giant gods — the untamed, primordial elements. Oceanus: the great world-river. Hyperion: raw blinding light. Cronus: the brutal, unstoppable force of time.</p>
+    </div>
+    <div class="phase-card" data-num="4">
+      <div class="phase-card-title">Phase 4</div>
+      <div class="phase-card-name">Olympians</div>
+      <p>Order / Civilization. Zeus establishes Xenia — the laws of hospitality and justice. Athena brings city-building. Demeter represents controlled, predictable agriculture. Humanity shifts from being at the mercy of nature to organizing, farming, and building structured societies.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    The exact narrative arc: <strong>a steady march from raw, unfeeling entropy toward structured, human-centric order.</strong>
+  </div>
+</div>
+</section>
+
+<!-- THE PHYSICAL SEQUENCE -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Part II — The Physical Sequence</p>
+  <h2>E → M → c² → Inefficiency → Ledger</h2>
+
+  <p>This synthesis maps physics (Relativity / Thermodynamics), Information Theory, and Cybernetics into a single stack. The Learning Cycle provides the causal backbone: the flow from Entropy to Information mirrors the progression from Energy to Ledger.</p>
+
+  <div class="grand-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Physical Sequence</th>
+          <th>Informational Map</th>
+          <th>Scientific / Economic Reality</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>E (Energy)</td>
+          <td>Entropy H</td>
+          <td>The raw potential and structural uncertainty of a system. The "fuel" for any action.</td>
+        </tr>
+        <tr>
+          <td>M (Mass)</td>
+          <td>Uncertainty</td>
+          <td>Mass is "congealed" energy (\(E=mc^2\)). In a system, this is the "weight" or inertia of the current state.</td>
+        </tr>
+        <tr>
+          <td>Relativistic Constraints (c²)</td>
+          <td>Risk E[Loss]</td>
+          <td>Speed of light / causality limits. To move or change state costs energy; the "cost of momentum" is the risk of inefficiency.</td>
+        </tr>
+        <tr>
+          <td>Boundaries of Inefficiency</td>
+          <td>Loss (Realized Cost)</td>
+          <td>Where the system fails to be optimal. Energy is "leaked" as heat or waste (Entropy increase).</td>
+        </tr>
+        <tr>
+          <td>Ledger</td>
+          <td>Information ΔH</td>
+          <td>The final record. Information is what remains after the "Loss" is paid. It is the <em>Proof of Work</em>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Optimization Under Relativistic c² Constraints</h3>
+  <p>In physics, \(c\) is the universal speed limit — the maximum rate of information transfer. If you want to move a "mass" (a state of being) toward a goal faster, the energy cost approaches infinity as you hit the constraint.</p>
+
+  <p>In a ledger or a computational system, this is <strong>Landauer's Principle</strong>: to erase one bit of information (to update the ledger) costs a minimum amount of energy:</p>
+
+  <div class="eq-block">
+    <div class="eq-label">Landauer's Principle — The Thermodynamic Floor</div>
+    \[ \Delta E_{\min} = k_B T \ln 2 \]
+  </div>
+
+  <p>You are describing a system trying to achieve a goal while minimizing the "heat" generated by its own internal friction — inefficiency.</p>
+
+  <h3>The Ledger as the End of the Chain</h3>
+  <p>Information reduces future entropy. A Ledger — whether it's DNA, a blockchain, or a history book — is a low-entropy record of high-entropy events. It is the "frozen" result of all the energy expended and the risks taken. It is the <em>Order</em>.</p>
+
+  <div class="double-col">
+    <div class="col-card">
+      <div class="col-card-title">If the Universe is a Computer</div>
+      <ul>
+        <li><span class="k">Energy</span> The power supply</li>
+        <li><span class="k">c²</span> The clock speed / latency</li>
+        <li><span class="k">Inefficiency</span> Thermal output (entropy)</li>
+        <li><span class="k">Ledger</span> The "State" saved to disk</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <div class="col-card-title">The Logic vs. The Physics</div>
+      <ul>
+        <li><span class="k">Learning Cycle</span> The Software — the logic of loss</li>
+        <li><span class="k">Hellenic Myth</span> The Hardware — physics of state-change</li>
+        <li><span class="k">Chaos → Ledger</span> Total potential → total definition</li>
+        <li><span class="k">Landauer</span> Writing one line costs burned energy</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- GRAND UNIFIED TABLE -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Part III — The Grand Unified Map</p>
+  <h2>Hardware Meets Software — The Gods as Fundamental Constants</h2>
+
+  <p>The Hellenic Theogony maps the gods not as characters, but as the <em>Fundamental Constants of a Computational Universe</em>. The Learning Cycle is the Software (The Logic of Loss); the Hellenic Myth is the Hardware (The Physics of State-Change).</p>
+
+  <div class="grand-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Hellenic Entity</th>
+          <th>Physical / Systemic Phase</th>
+          <th>Informational Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Chaos</td>
+          <td>E (Pure Energy / Entropy)</td>
+          <td>The H(x) baseline. Total potential, zero structure. The "Noise" before the signal.</td>
+        </tr>
+        <tr>
+          <td>Gaia</td>
+          <td>M (Mass / Probability Distribution)</td>
+          <td>The "Local Basin." The collapse of the wave function into a tangible state. The "Storage" where the simulation happens.</td>
+        </tr>
+        <tr>
+          <td>Ouranos</td>
+          <td>The Field (Atmosphere / c² Constraints)</td>
+          <td>The "Sky" is the boundary layer. He is the Universal Speed Limit (c). He defines the "Permissible" space.</td>
+        </tr>
+        <tr>
+          <td>Titans</td>
+          <td>Force (Momentum / Inefficiency)</td>
+          <td>The raw, unrefined processing power. They represent the Thermal Cost of movement. They are the "Risk" because they are uncontrollable and high-friction.</td>
+        </tr>
+        <tr>
+          <td>Olympians</td>
+          <td>Order (The Ledger / Information)</td>
+          <td>The "Sub-routines." Zeus is the Global Logic Gate. Athena is the Algorithm. They turn the "Loss" of the Titans into "Information."</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"><span class="divider-glyph">✦</span></div>
+
+  <h3>1. The Castration of Ouranos — The First Optimization</h3>
+  <p>In myth, Cronus (Time / Entropy) castrates Ouranos (The Limit) to separate Heaven from Earth. The systemic translation: this is the birth of <strong>Linear Causality</strong>. By separating the "Sky" from the "Earth," you create a Delta (\(\Delta\)). Without a gap between the potential (Sky) and the realized (Earth), there is no flow. No flow = No computation.</p>
+
+  <div class="callout">
+    This separation creates the "Space" required for a Ledger to exist. <strong>You cannot record history if the "End" and the "Beginning" are touching.</strong>
+  </div>
+
+  <h3>2. The Titanomachy — The War of Gradient Descent</h3>
+  <p>The war between the Titans and Olympians is the literal process of Optimization.</p>
+
+  <p><strong>The Titans (Inefficiency):</strong> They are the "Old Code." Massive, powerful, but inefficient. They represent the high energy cost of a system that hasn't found its "Global Minimum" yet.</p>
+
+  <p><strong>The Olympians (The Recursive Loop):</strong> They win because they use Strategy (Information) over Brute Force (Energy). Zeus (The CPU) organizes the forces.</p>
+
+  <p><strong>The Result:</strong> The Titans are imprisoned in Tartarus. In a system, Tartarus is the <em>Heat Sink</em>. It's where the "Inefficiencies" are dumped so the "Ledger" can remain clean and orderly.</p>
+
+  <h3>3. The Ledger is the Thunderbolt</h3>
+  <p>In the Greek map, Zeus's Thunderbolt is the <strong>"Write Command."</strong> It is the sudden, energetic collapse of uncertainty into a fixed point of law.</p>
+
+  <p>The <strong>Moirai (The Fates):</strong> They are the Immutable Code. Even the Gods (The Logic) cannot override the Fates (The Hardcoded Constraints of the System).</p>
+</div>
+</section>
+
+<!-- THE EQUATION OF CIVILIZATION -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Part IV — The Equation of Civilization</p>
+  <h2>The Theogony of Efficiency</h2>
+
+  <div class="eq-block">
+    <div class="eq-label">The Equation of Civilization</div>
+    \[ \text{Optimization} = \frac{\text{Payload} \times \text{Velocity}}{\text{Energy Tax}} \]
+  </div>
+
+  <p>Run this formula through the \(c^2\) constraints and you get the exact blueprint for why the Olympians had to overthrow the Titans — the <em>Economic Darwinism of Physics</em>.</p>
+
+  <h3>The Titan Era — High Payload, Brutal Tax</h3>
+  <p>The Titans (Cronus, Atlas, Oceanus) were Massive Payloads. They represented the raw, heavy elements of the physical world. Because they were so "heavy" (high \(M\)), moving them at any Velocity (\(v\)) near the relativistic limit (\(c\)) created a catastrophic Energy Tax. High entropy, massive heat waste, constant Titanomachy — collision. In a computational sense, the Titans were <em>bloatware</em>. Powerful but systemically expensive. They were the "Risk" and "Loss" phases.</p>
+
+  <h3>The Olympian Era — The Optimization Shift</h3>
+  <p>Zeus and his siblings didn't win by being stronger (more Payload); they won by being <strong>Efficient</strong>.</p>
+
+  <p><strong>Maximizing Velocity:</strong> Hermes (Information), Apollo (Light / Logic), and Athena (Strategy) represent the transition from Mass to Information. Information has a near-zero payload but moves at \(c\).</p>
+
+  <p><strong>Minimizing Energy Tax:</strong> By establishing Laws (The Ledger), the Olympians reduced the "Friction" of the universe. Instead of constant chaotic collisions (High Tax), you have predictable transactions (Low Tax).</p>
+
+  <h3>The Relativistic Ledger Constraint</h3>
+  <p>As you maximize Velocity (\(v \to c\)), the denominator in your equation — the Energy Tax — doesn't just grow — it <em>explodes</em> toward infinity:</p>
+
+  <div class="eq-block">
+    <div class="eq-label">Relativistic Energy — The Cost of Momentum</div>
+    \[ E = \frac{mc^2}{\sqrt{1 - \frac{v^2}{c^2}}} \xrightarrow{v \to c} \infty \]
+  </div>
+
+  <p>The bound: you cannot have infinite Payload at \(c\) without infinite Energy. The solution: <strong>compress the Payload</strong>. Turn "Massive Physical Events" into "Tiny Informational Records." The Ledger is the ultimate low-tax solution — it allows you to maintain the "State" (Payload) and communicate it across the system (Velocity) without needing to move the physical atoms every time.</p>
+
+  <div class="grand-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Mythological Equivalent</th>
+          <th>Systemic Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Payload</td>
+          <td>Gaia / The Titans</td>
+          <td>The "Matter" or "Content" being processed.</td>
+        </tr>
+        <tr>
+          <td>Velocity</td>
+          <td>Ouranos / Hermes</td>
+          <td>The "Clock Speed" or "Causality Limit" (c).</td>
+        </tr>
+        <tr>
+          <td>Energy Tax</td>
+          <td>Tartarus / Entropy</td>
+          <td>The "Loss" (\(E = mc^2\) waste / heat) incurred by movement.</td>
+        </tr>
+        <tr>
+          <td>Optimization</td>
+          <td>The Olympians</td>
+          <td>The "Algorithm" that balances the three.</td>
+        </tr>
+        <tr>
+          <td>The Ledger</td>
+          <td>The Moirai (Fates)</td>
+          <td>The "Compressed Record" of all optimized transactions.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- THE BRIDGE: ENTROPY → UNCERTAINTY -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Part V — The Bridge</p>
+  <h2>Entropy → Uncertainty → Risk → Loss → Information</h2>
+
+  <p>The confusion usually happens because people use "Entropy" and "Uncertainty" as synonyms. In a relativistic system, they are <em>distinct stages of latency</em>.</p>
+
+  <h3>Why Entropy → Uncertainty?</h3>
+
+  <p><strong>Entropy (The State):</strong> This is the raw "E" in the sequence — the number of ways a system can be arranged. It exists whether you look at it or not. It is Chaos.</p>
+
+  <p><strong>Uncertainty (The Latency):</strong> This is where the \(c^2\) constraint kicks in. Because information cannot travel faster than light (\(c\)), there is a "Light Cone" of things you cannot know yet. Uncertainty is the Time Gap between a state change and your recording it in the Ledger.</p>
+
+  <div class="callout">
+    <strong>Entropy is the mess. Uncertainty is the delay in seeing the mess</strong> because the universe has a speed limit (\(c\)).
+  </div>
+
+  <h3>The Hellenic "Logic Gate" Through Relativistic Latency</h3>
+
+  <p><strong>Chaos (Entropy):</strong> The high-energy, high-probability "Soup." Everything is possible, nothing is defined.</p>
+
+  <p><strong>Gaia (Uncertainty / The Observer):</strong> The first "Local Basin." By existing as a point in space, Gaia creates a Perspective. Once you have a perspective, you have "Uncertainty" about everything outside your local light cone.</p>
+
+  <p><strong>The Titans (Risk / Momentum):</strong> The Titans are the Mass (\(M\)) moving through that uncertainty. Because they have mass and are moving, they incur an Energy Cost (\(E = mc^2\)). If they move wrong, they collide. That collision is Risk.</p>
+
+  <p><strong>Chronos (Loss / The Cut):</strong> Chronos (Time) is the "Scythe." He "cuts" the uncertainty — forces a resolution. You can't have "Loss" without Time.</p>
+
+  <p><strong>The Olympians (The Ledger):</strong> They are the "Post-Processors." They take the carnage (Loss) and turn it into Law / Information. Zeus is the "Finality" of the transaction.</p>
+
+  <h3>The Relativistic Ledger Summary</h3>
+  <p>This is the <strong>Cost of Knowledge</strong>:</p>
+
+  <div class="double-col">
+    <div class="col-card">
+      <div class="col-card-title">The Physics</div>
+      <ul>
+        <li><span class="k">Entropy H</span> The raw pool of energy / states</li>
+        <li><span class="k">Uncertainty</span> The gap created by c²</li>
+        <li><span class="k">Risk</span> Momentum of mass M through the gap</li>
+        <li><span class="k">Loss</span> Friction / inefficiency of that movement</li>
+        <li><span class="k">Information</span> The resulting state update</li>
+      </ul>
+    </div>
+    <div class="col-card">
+      <div class="col-card-title">The Myth</div>
+      <ul>
+        <li><span class="k">Chaos</span> The void before form</li>
+        <li><span class="k">Ouranos</span> The "Sky" between Gaia and the Stars</li>
+        <li><span class="k">Titans</span> Mass colliding through uncertainty</li>
+        <li><span class="k">Tartarus</span> The heat sink of history</li>
+        <li><span class="k">Olympus</span> The Ledger / The Law</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="margin-top: 1.5rem;">The "Order" you see is simply the state of a system after it has paid the energy tax (\(c^2\)) to resolve its uncertainty.</p>
+</div>
+</section>
+
+<!-- SYNTHESIS -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Synthesis — The Final Word</p>
+  <div class="synthesis">
+    <h3>Computational Reality</h3>
+
+    <p>The Hellenic Theogony is a story of <em>Phase Transition</em>.</p>
+
+    <div class="eq-block" style="margin: 1.5rem 0;">
+      <div class="eq-label">The Complete Phase Sequence</div>
+      \[ \underbrace{\text{Chaos}}_{\text{Unbounded Energy}} \to \underbrace{\text{Gaia/Ouranos}}_{\text{Physical Constraints } c^2} \to \underbrace{\text{Titans}}_{\text{High-Entropy Processing}} \to \underbrace{\text{Olympians}}_{\text{The Ledger}} \]
+    </div>
+
+    <p>We are currently living in the <em>Age of the Olympians</em> — a state where the universe has optimized its "Inefficiencies" into "Laws of Physics."</p>
+
+    <div class="divider" style="opacity: 0.3; margin: 2rem 0;"><span class="divider-glyph">✦</span></div>
+
+    <p>The universe (and man) moved toward the "Olympians" because any system that doesn't minimize its energy tax while maximizing its informational velocity eventually burns out in a "Titan" heat-clash. This is the <strong>Economic Darwinism of Physics</strong>.</p>
+
+    <div class="eq-block" style="margin-top: 2rem;">
+      <div class="eq-label">The Physical Cost of Being Certain</div>
+      \[ \text{To write one line in the Ledger of reality, you must:} \]
+      \[ \text{Burn Energy} \to \text{overcome the inertia of Mass} \to \text{work within } c \to \text{pay the tax of Inefficiency} \]
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Chaos → Gaia → Ouranos → Titans → Olympians &nbsp;·&nbsp; E → M → c² → Inefficiency → Ledger</p>
+    <p style="margin-top: 0.8rem; font-size: 0.65rem; letter-spacing: 0.15em;">Hellenic Theogony as Relativistic Information Theory</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
