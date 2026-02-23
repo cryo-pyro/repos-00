@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ukubona · AI Literature Tools</title>
+  <meta name="description" content="AI tools for systematic review and literature discovery.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <!-- Open Graph / Twitter -->
+  <meta property="og:site_name" content="Repos">
+  <meta property="og:title" content="The Dude's Rug">
+  <meta property="og:description" content="Saddle Point">
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://ukb-dt.github.io/repos-00/">
+  <meta property="og:image" content="ukhona/img/ukb-landscape.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Dude's Rug">
+  <meta name="twitter:description" content="Saddle Point">
+  <meta name="twitter:image" content="ukhona/img/ukb-landscape.jpg"> 
+
+  <!-- Icons / assets -->
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS IN ORDER: Variables → Base → Components → Footer -->
+  <link href="../css/variables.css?v=1.1" rel="stylesheet" />
+  <link href="../css/head.css?v=1.1" rel="stylesheet" />
+  <link href="../css/card.css?v=1.1" rel="stylesheet" />
+  <link href="../css/footer.css" rel="stylesheet" />
+  <style>
+    :root {
+      --void: #020408;
+      --deep: #060d14;
+      --terrain-1: #0a1628;
+      --terrain-2: #0f2040;
+      --ridge: #1a3a5c;
+      --water: #1e4d6b;
+      --contour: #2a6b8a;
+      --highlight: #4db8d4;
+      --gold: #c8a84b;
+      --white: #e8e0d4;
+      --cream: #d4c9a8;
+      --muted: #7a8a94;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--void);
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: crosshair;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── Background layers ─── */
+    .topo-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .topo-bg svg {
+      width: 100%;
+      height: 100%;
+      opacity: 0.12;
+    }
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+      opacity: 0.03;
+    }
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+    }
+
+    /* ─── Nav chrome ─── */
+    .north-arrow {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .north-arrow span { font-size: 0.5rem; letter-spacing: 0.2em; color: var(--ridge); }
+    .arrow-symbol { color: var(--gold); font-size: 1.2rem; line-height: 1; }
+
+    .cursor-coords {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      color: var(--ridge);
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* ─── Main center stage ─── */
+    main {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      width: 100%;
+      max-width: 680px;
+      gap: 0;
+    }
+
+    /* ─── Logo / wordmark ─── */
+    .wordmark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 3rem;
+      animation: fadeDown 1s ease forwards;
+      opacity: 0;
+    }
+    .wordmark-main {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 6rem);
+      letter-spacing: 0.08em;
+      line-height: 0.9;
+      color: var(--white);
+    }
+    .wordmark-main span { color: var(--gold); }
+    .wordmark-sub {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: lowercase;
+    }
+
+    /* ─── Search bar ─── */
+    .search-wrap {
+      width: 100%;
+      position: relative;
+      animation: fadeUp 1s 0.3s ease forwards;
+      opacity: 0;
+    }
+    .search-input {
+      width: 100%;
+      background: rgba(10, 22, 40, 0.7);
+      border: 1px solid var(--ridge);
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      padding: 1rem 3.5rem 1rem 1.5rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      letter-spacing: 0.05em;
+      caret-color: var(--gold);
+    }
+    .search-input::placeholder {
+      color: var(--ridge);
+      font-style: italic;
+    }
+    .search-input:focus {
+      border-color: var(--contour);
+      box-shadow: 0 0 0 1px var(--contour), 0 0 24px rgba(42,107,138,0.15);
+    }
+    .search-icon {
+      position: absolute;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ridge);
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+      pointer-events: none;
+      font-family: 'Space Mono', monospace;
+    }
+    .search-input:focus ~ .search-icon { color: var(--contour); }
+
+    /* ─── Inline results ─── */
+    .results-panel {
+      width: 100%;
+      border: 1px solid var(--terrain-2);
+      border-top: none;
+      display: none;
+      flex-direction: column;
+      animation: fadeUp 0.2s ease forwards;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .results-panel.visible { display: flex; }
+    .result-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 0.9rem 1.5rem;
+      border-bottom: 1px solid var(--terrain-1);
+      background: rgba(6,13,20,0.92);
+      cursor: pointer;
+      transition: background 0.2s ease;
+      gap: 1rem;
+      text-decoration: none;
+    }
+    .result-item:last-child { border-bottom: none; }
+    .result-item:hover { background: rgba(42,107,138,0.12); }
+    .result-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+    }
+    .result-desc {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-top: 0.15rem;
+    }
+    .result-tag {
+      font-size: 0.45rem;
+      letter-spacing: 0.2em;
+      color: var(--contour);
+      border: 1px solid var(--terrain-2);
+      padding: 0.2rem 0.5rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .result-empty {
+      padding: 1.2rem 1.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--ridge);
+      background: rgba(6,13,20,0.92);
+      text-align: center;
+    }
+
+    /* ─── Footer hints ─── */
+    .hints {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 2rem;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      color: var(--ridge);
+      animation: fadeUp 1s 0.6s ease forwards;
+      opacity: 0;
+    }
+    .hint kbd {
+      display: inline-block;
+      border: 1px solid var(--terrain-2);
+      padding: 0.15rem 0.4rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.45rem;
+      color: var(--contour);
+    }
+    .hint a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--terrain-2);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .hint a:hover { color: var(--highlight); border-color: var(--highlight); }
+
+    /* ─── Animations ─── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes drift {
+      0%   { transform: translateX(0) translateY(0); }
+      50%  { transform: translateX(-20px) translateY(10px); }
+      100% { transform: translateX(0) translateY(0); }
+    }
+    .contour-animate { animation: drift 20s ease-in-out infinite; }
+
+    /* ─── Scrollbar ─── */
+    .results-panel::-webkit-scrollbar { width: 4px; }
+    .results-panel::-webkit-scrollbar-track { background: var(--deep); }
+    .results-panel::-webkit-scrollbar-thumb { background: var(--ridge); }
+
+    @media (max-width: 500px) {
+      .wordmark-main { font-size: 3rem; }
+      .hints { flex-direction: column; gap: 0.8rem; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="topo-bg">
+    <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <style>
+          .contour { fill: none; stroke: #2a6b8a; stroke-width: 0.8; }
+          .contour-bold { fill: none; stroke: #2a6b8a; stroke-width: 1.5; }
+        </style>
+      </defs>
+      <g class="contour-animate">
+        <ellipse class="contour" cx="380" cy="400" rx="480" ry="350"/>
+        <ellipse class="contour" cx="380" cy="400" rx="420" ry="300"/>
+        <ellipse class="contour-bold" cx="380" cy="400" rx="360" ry="250"/>
+        <ellipse class="contour" cx="380" cy="400" rx="300" ry="200"/>
+        <ellipse class="contour" cx="380" cy="400" rx="240" ry="150"/>
+        <ellipse class="contour-bold" cx="380" cy="400" rx="180" ry="100"/>
+        <ellipse class="contour" cx="380" cy="400" rx="120" ry="65"/>
+        <ellipse class="contour" cx="380" cy="400" rx="70" ry="38"/>
+        <ellipse class="contour-bold" cx="380" cy="400" rx="30" ry="16"/>
+        <ellipse class="contour" cx="720" cy="250" rx="200" ry="150"/>
+        <ellipse class="contour" cx="720" cy="250" rx="150" ry="110"/>
+        <ellipse class="contour-bold" cx="720" cy="250" rx="100" ry="75"/>
+        <ellipse class="contour" cx="720" cy="250" rx="55" ry="40"/>
+        <ellipse class="contour" cx="720" cy="250" rx="20" ry="15"/>
+        <ellipse class="contour" cx="150" cy="600" rx="180" ry="130"/>
+        <ellipse class="contour-bold" cx="150" cy="600" rx="120" ry="85"/>
+        <ellipse class="contour" cx="150" cy="600" rx="65" ry="45"/>
+        <path class="contour" d="M 100 150 Q 300 200 500 300 Q 650 380 800 500"/>
+        <path class="contour" d="M 50 400 Q 200 350 400 420 Q 600 490 850 450"/>
+        <path class="contour-bold" d="M 200 50 Q 400 120 500 250 Q 600 380 700 600"/>
+        <line class="contour" x1="0" y1="200" x2="1000" y2="200" stroke-dasharray="3,15"/>
+        <line class="contour" x1="0" y1="400" x2="1000" y2="400" stroke-dasharray="3,15"/>
+        <line class="contour" x1="0" y1="600" x2="1000" y2="600" stroke-dasharray="3,15"/>
+        <line class="contour" x1="250" y1="0" x2="250" y2="800" stroke-dasharray="3,15"/>
+        <line class="contour" x1="500" y1="0" x2="500" y2="800" stroke-dasharray="3,15"/>
+        <line class="contour" x1="750" y1="0" x2="750" y2="800" stroke-dasharray="3,15"/>
+      </g>
+    </svg>
+  </div>
+  <div class="grain"></div>
+  <div class="scanlines"></div>
+
+  <!-- Chrome -->
+  <div class="north-arrow">
+    <div class="arrow-symbol">↑</div>
+    <span>N</span>
+  </div>
+  <div class="cursor-coords" id="cursorCoords">0.3136°N · 32.5825°E</div>
+
+  <!-- Center content -->
+   <br><br><br>
+   <br><br><br>
+   <br><br><br>
+   <br><br><br>
+   <br><br><br>
+   <br><br><br>
+     <br><br><br>
+   <br><br><br>
+  <main>
+    <div class="wordmark">
+      <div class="wordmark-main">UKU<span>BONA</span></div>
+      <div class="wordmark-sub">ai literature tools · systematic review</div>
+    </div>
+
+    <div class="search-wrap">
+      <input
+        type="text"
+        class="search-input"
+        id="searchInput"
+        placeholder="search tools — elicit, scite, semantic scholar..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <span class="search-icon">⌕</span>
+      <div class="results-panel" id="resultsPanel"></div>
+    </div>
+
+    <div class="hints">
+      <span class="hint"><kbd>/</kbd> to search</span>
+      <span class="hint"><kbd>ESC</kbd> clear</span>
+      <span class="hint"><a href="session2.html">browse all tools →</a></span>
+    </div>
+  </main>
+
+  <script>
+    const TOOLS = [
+      { name: "Elicit", tag: "Systematic Review", desc: "AI research assistant that finds and synthesises papers using language models", url: "https://elicit.com" },
+      { name: "Consensus", tag: "Discovery", desc: "Search engine that extracts and distills findings directly from research papers", url: "https://consensus.app" },
+      { name: "Scite", tag: "Citation", desc: "Smart citation analysis — shows how papers have been cited, supported or disputed", url: "https://scite.ai" },
+      { name: "Research Rabbit", tag: "Discovery", desc: "Visual literature mapping — follow citation networks like a knowledge graph", url: "https://researchrabbit.ai" },
+      { name: "Connected Papers", tag: "Discovery", desc: "Graph-based tool to explore and visualise related papers in a field", url: "https://connectedpapers.com" },
+      { name: "Iris.ai", tag: "Systematic Review", desc: "AI workspace for scientific research — screen, map, and extract at scale", url: "https://iris.ai" },
+      { name: "Litmaps", tag: "Discovery", desc: "Citation maps with seed paper approach to navigate literature evolution", url: "https://litmaps.com" },
+      { name: "Scholarcy", tag: "Summarisation", desc: "Automatic article summarisation and flashcard generation from PDFs", url: "https://scholarcy.com" },
+      { name: "SciSpace", tag: "Summarisation", desc: "Read, understand and ask questions about any paper with AI assistance", url: "https://typeset.io" },
+      { name: "Paper Digest", tag: "Summarisation", desc: "One-paragraph daily digest of new papers across scientific domains", url: "https://paper-digest.com" },
+      { name: "Rayyan", tag: "Systematic Review", desc: "Collaborative screening platform for systematic reviews and meta-analyses", url: "https://rayyan.ai" },
+      { name: "Humata", tag: "Summarisation", desc: "Chat with PDFs — ask questions, compare documents, extract insight", url: "https://humata.ai" },
+      { name: "Semantic Scholar", tag: "Discovery", desc: "Free AI-powered research tool from Allen Institute with 200M+ papers", url: "https://semanticscholar.org" },
+      { name: "Dimensions.ai", tag: "Discovery", desc: "Research intelligence platform linking papers, grants, patents and datasets", url: "https://dimensions.ai" },
+      { name: "Inciteful", tag: "Citation", desc: "Paper recommendation via citation network analysis — find similar work fast", url: "https://inciteful.xyz" },
+      { name: "OpenEvidence", tag: "Medical", desc: "Clinical literature AI — evidence synthesis designed for medical practice", url: "https://openevidence.com" },
+      { name: "Bohrium", tag: "Discovery", desc: "AI-native scientific research platform with integrated computation tools", url: "https://bohrium.dp.tech" },
+      { name: "Evidence Hunt", tag: "Medical", desc: "Rapid evidence retrieval for clinical questions from primary literature", url: "https://evidencehunt.com" },
+      { name: "Nested Knowledge", tag: "Systematic Review", desc: "End-to-end systematic review automation from search to synthesis", url: "https://nested-knowledge.com" },
+      { name: "DistillerSR", tag: "Systematic Review", desc: "Systematic review software with AI screening to reduce reviewer burden", url: "https://distillersr.com" },
+    ];
+
+    const input = document.getElementById('searchInput');
+    const panel = document.getElementById('resultsPanel');
+
+    function render(query) {
+      const q = query.toLowerCase().trim();
+      if (!q) { panel.classList.remove('visible'); panel.innerHTML = ''; return; }
+
+      const matches = TOOLS.filter(t =>
+        t.name.toLowerCase().includes(q) ||
+        t.tag.toLowerCase().includes(q) ||
+        t.desc.toLowerCase().includes(q)
+      );
+
+      panel.innerHTML = '';
+      if (!matches.length) {
+        panel.innerHTML = '<div class="result-empty">NO TOOLS MATCHED — <a href="session2.html" style="color:var(--contour);text-decoration:none;">browse all →</a></div>';
+      } else {
+        matches.slice(0, 8).forEach(t => {
+          const a = document.createElement('a');
+          a.className = 'result-item';
+          a.href = t.url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.innerHTML = `
+            <div>
+              <div class="result-name">${t.name}</div>
+              <div class="result-desc">${t.desc}</div>
+            </div>
+            <span class="result-tag">${t.tag.toUpperCase()}</span>
+          `;
+          panel.appendChild(a);
+        });
+        if (matches.length > 8) {
+          const more = document.createElement('a');
+          more.className = 'result-item';
+          more.href = `session2.html?q=${encodeURIComponent(q)}`;
+          more.innerHTML = `<div class="result-desc" style="color:var(--contour)">+ ${matches.length - 8} more — view full catalogue →</div>`;
+          panel.appendChild(more);
+        }
+      }
+      panel.classList.add('visible');
+    }
+
+    input.addEventListener('input', e => render(e.target.value));
+    document.addEventListener('keydown', e => {
+      if (e.key === '/' && document.activeElement !== input) { e.preventDefault(); input.focus(); }
+      if (e.key === 'Escape') { input.value = ''; render(''); input.blur(); }
+    });
+
+    // cursor coords
+    const coordsEl = document.getElementById('cursorCoords');
+    const baseLat = 0.3136, baseLng = 32.5825;
+    document.addEventListener('mousemove', e => {
+      const lat = (baseLat + (e.clientY / window.innerHeight - 0.5) * 0.02).toFixed(4);
+      const lng = (baseLng + (e.clientX / window.innerWidth  - 0.5) * 0.04).toFixed(4);
+      coordsEl.textContent = lat + '°N · ' + lng + '°E';
+    });
+
+    // autofocus on load
+    window.addEventListener('load', () => setTimeout(() => input.focus(), 800));
+  </script>
+     <div class="scroll-indicator">
+       <div class="scroll-progress">
+       </div>
+     </div>
+     <div class="bg-pattern">
+     </div>
+        <header class="header" id="header"></header>
+   <main class="page wrap-max">
+   </main>
+     <div id="footer-placeholder"></div>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+     <script src="../js/shared.js"></script>
+</body> 
+</html>
