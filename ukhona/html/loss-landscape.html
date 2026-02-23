@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Loss Landscape · Mosquito ID Task</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#020408; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; font-family:'Space Mono',monospace; }
+canvas { display:block; }
+.label-overlay { position:absolute; top:0; left:0; pointer-events:none; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+<canvas id="c" width="900" height="560"></canvas>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+// ── Colour palette
+const VOID    = '#020408';
+const DEEP    = '#060d14';
+const CONTOUR = '#2a6b8a';
+const TEAL    = '#4db8d4';
+const GOLD    = '#c8a84b';
+const RED     = '#cc3333';
+const LIME    = '#7fff4f';
+const CREAM   = '#d4c9a8';
+const MUTED   = '#7a8a94';
+
+// ── Models: (u,v) in [0,1]² loss-space, colour, label, loss-value, basin depth
+// Spread across the grid so no two basins overlap (min ~0.28 apart)
+const MODELS = [
+  { id:'GEMINI', u:0.10, v:0.10, loss:0.04, depth:0.78, col:GOLD,   rank:1 },
+  { id:'CLAUDE', u:0.34, v:0.52, loss:0.22, depth:0.44, col:TEAL,   rank:2 },
+  { id:'GROK',   u:0.62, v:0.22, loss:0.41, depth:0.26, col:MUTED,  rank:3 },
+  { id:'GPT',    u:0.80, v:0.65, loss:0.68, depth:0.10, col:RED,    rank:4 },
+];
+
+// ── Isometric projection parameters
+const ISO_W   = 680;   // ground-plane grid width (px)
+const ISO_H   = 340;   // ground-plane grid height (px)
+const ELEV    = 0.38;  // vertical compression factor (how steep the view is)
+const ORIGIN_X= 140;   // left edge of grid in canvas
+const ORIGIN_Y= 440;   // bottom edge of grid in canvas
+const LOSS_SCALE = 280; // max loss height in px
+
+// ── World-to-screen projection
+// u,v ∈ [0,1], loss ∈ [0,1]
+function project(u, v, loss) {
+  // oblique parallel projection: x goes right-down, y goes left-down
+  const gx = ORIGIN_X + u * ISO_W;
+  const gy = ORIGIN_Y - v * ISO_H * ELEV;
+  const sx = gx;
+  const sy = gy - loss * LOSS_SCALE;
+  return { x: sx, y: sy };
+}
+
+// ── Loss function: base bowl + per-model Gaussian basins + two ridges
+function lossAt(u, v) {
+  // Global base: quadratic bowl tilted so back-left is low, front-right is high
+  let L = 0.18 + 0.55 * (u * 0.8 + v * 0.3) + 0.25 * u * v;
+
+  // Aedes ridge: high along x₁ ≈ 0.82 (white-stripes axis)
+  const aedesRidge = 0.32 * Math.exp(-Math.pow((u - 0.82) / 0.08, 2));
+  L += aedesRidge;
+
+  // Anopheles ridge: high along x₂ ≈ 0.78 (45° posture axis)
+  const anophRidge = 0.28 * Math.exp(-Math.pow((v - 0.78) / 0.09, 2));
+  L += anophRidge;
+
+  // Per-model Gaussian basins (subtract = carve a dimple)
+  for (const m of MODELS) {
+    const du = (u - m.u) / 0.13;
+    const dv = (v - m.v) / 0.11;
+    const r2 = du * du + dv * dv;
+    L -= m.depth * Math.exp(-r2 * 0.5);
+  }
+
+  return Math.max(0, Math.min(1.05, L));
+}
+
+// ── Build grid
+const NU = 80, NV = 80;
+const grid = [];
+for (let j = 0; j <= NV; j++) {
+  grid[j] = [];
+  for (let i = 0; i <= NU; i++) {
+    const u = i / NU;
+    const v = j / NV;
+    const loss = lossAt(u, v);
+    grid[j][i] = { u, v, loss, ...project(u, v, loss) };
+  }
+}
+
+// ── Colour mapping: deep teal → lime → amber → crimson
+function lossColor(loss, alpha = 1) {
+  // Map loss [0..1.05] through 4 waypoints
+  const stops = [
+    { t: 0.00, r: 10,  g: 80,  b: 100 }, // deep teal (global min)
+    { t: 0.25, r: 30,  g: 160, b: 130 }, // teal-green
+    { t: 0.50, r: 127, g: 255, b: 79  }, // lime
+    { t: 0.75, r: 200, g: 168, b: 75  }, // amber/gold
+    { t: 1.05, r: 180, g: 30,  b: 30  }, // crimson
+  ];
+  const t = Math.min(1.0, loss / 1.05);
+  let lo = stops[0], hi = stops[stops.length - 1];
+  for (let k = 0; k < stops.length - 1; k++) {
+    if (t >= stops[k].t && t <= stops[k+1].t) { lo = stops[k]; hi = stops[k+1]; break; }
+  }
+  const f = (t - lo.t) / (hi.t - lo.t);
+  const r = Math.round(lo.r + f * (hi.r - lo.r));
+  const g = Math.round(lo.g + f * (hi.g - lo.g));
+  const b = Math.round(lo.b + f * (hi.b - lo.b));
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+// ── Draw surface patches (back-to-front: j from high to low, i from low to high)
+function drawSurface() {
+  for (let j = NV - 1; j >= 0; j--) {
+    for (let i = 0; i < NU; i++) {
+      const p00 = grid[j][i];
+      const p10 = grid[j][i+1];
+      const p01 = grid[j+1][i];
+      const p11 = grid[j+1][i+1];
+      const avgLoss = (p00.loss + p10.loss + p01.loss + p11.loss) / 4;
+
+      ctx.beginPath();
+      ctx.moveTo(p00.x, p00.y);
+      ctx.lineTo(p10.x, p10.y);
+      ctx.lineTo(p11.x, p11.y);
+      ctx.lineTo(p01.x, p01.y);
+      ctx.closePath();
+
+      ctx.fillStyle = lossColor(avgLoss, 0.92);
+      ctx.fill();
+
+      // subtle mesh lines for cartographic feel
+      ctx.strokeStyle = `rgba(2,4,8,0.35)`;
+      ctx.lineWidth = 0.4;
+      ctx.stroke();
+    }
+  }
+}
+
+// ── Draw contour-like isolines every Δloss = 0.1
+function drawIsolines() {
+  // Very lightweight: scan horizontal strips
+  for (let j = 0; j < NV; j++) {
+    for (let i = 0; i < NU; i++) {
+      const p00 = grid[j][i];
+      const p10 = grid[j][i+1];
+      for (let threshold = 0.1; threshold < 1.1; threshold += 0.15) {
+        if ((p00.loss - threshold) * (p10.loss - threshold) < 0) {
+          const t = (threshold - p00.loss) / (p10.loss - p00.loss);
+          // projected point along this edge
+          const px = p00.x + t * (p10.x - p00.x);
+          const py = p00.y + t * (p10.y - p00.y);
+          ctx.beginPath();
+          ctx.arc(px, py, 0.7, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,0.08)`;
+          ctx.fill();
+        }
+      }
+    }
+  }
+}
+
+// ── Draw model pins (vertical stems + sphere tops)
+function drawPins() {
+  for (const m of MODELS) {
+    const base = project(m.u, m.v, 0);       // ground point
+    const top  = project(m.u, m.v, m.loss);  // surface point
+
+    // vertical stem
+    ctx.beginPath();
+    ctx.moveTo(base.x, base.y);
+    ctx.lineTo(top.x, top.y);
+    ctx.strokeStyle = m.col;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([]);
+    ctx.stroke();
+
+    // glow circle
+    const grd = ctx.createRadialGradient(top.x, top.y, 0, top.x, top.y, 14);
+    grd.addColorStop(0, m.col + 'aa');
+    grd.addColorStop(1, m.col + '00');
+    ctx.beginPath();
+    ctx.arc(top.x, top.y, 14, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    // pin head
+    ctx.beginPath();
+    ctx.arc(top.x, top.y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = m.col;
+    ctx.fill();
+
+    // ground dot
+    ctx.beginPath();
+    ctx.arc(base.x, base.y, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = m.col + '88';
+    ctx.fill();
+  }
+}
+
+// ── Draw Gemini rabbit-hole path
+// Goes from Gemini basin → excursion toward Anopheles ridge (high v) → returns lower
+function drawRabbitHole() {
+  const gem = MODELS[0];
+  // waypoints in (u,v,loss) 
+  const wpts = [
+    { u: gem.u,  v: gem.v,  loss: gem.loss },      // start at Gemini
+    { u: 0.08,   v: 0.45,   loss: lossAt(0.08, 0.45) }, // excursion toward Anopheles ridge
+    { u: 0.10,   v: 0.70,   loss: lossAt(0.10, 0.70) }, // near Anopheles ridge peak
+    { u: 0.10,   v: 0.45,   loss: lossAt(0.10, 0.45) }, // returning
+    { u: gem.u,  v: gem.v,  loss: gem.loss * 0.6 },  // lands lower → excursion justified
+  ];
+
+  const pts = wpts.map(w => project(w.u, w.v, w.loss));
+
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for (let k = 1; k < pts.length; k++) {
+    ctx.lineTo(pts[k].x, pts[k].y);
+  }
+  ctx.strokeStyle = LIME;
+  ctx.lineWidth = 1.8;
+  ctx.setLineDash([5, 4]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // arrow at return point
+  const last = pts[pts.length - 1];
+  const prev = pts[pts.length - 2];
+  const ang = Math.atan2(last.y - prev.y, last.x - prev.x);
+  ctx.save();
+  ctx.translate(last.x, last.y);
+  ctx.rotate(ang);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(-10, -4);
+  ctx.lineTo(-10, 4);
+  ctx.closePath();
+  ctx.fillStyle = LIME;
+  ctx.fill();
+  ctx.restore();
+
+  // label
+  const mid = pts[2];
+  ctx.font = '500 8px Space Mono, monospace';
+  ctx.fillStyle = LIME + 'cc';
+  ctx.fillText('ANOPHELES', mid.x + 6, mid.y - 6);
+  ctx.fillText('EXCURSION', mid.x + 6, mid.y + 4);
+}
+
+// ── Axis labels on ground plane
+function drawAxes() {
+  ctx.font = '700 9px Space Mono, monospace';
+  ctx.fillStyle = CONTOUR + 'dd';
+
+  // x₁ axis label (u direction → right)
+  const x1a = project(0.0, 0, 0);
+  const x1b = project(1.0, 0, 0);
+  ctx.beginPath();
+  ctx.moveTo(x1a.x, x1a.y);
+  ctx.lineTo(x1b.x, x1b.y);
+  ctx.strokeStyle = CONTOUR + '66';
+  ctx.lineWidth = 0.8;
+  ctx.setLineDash([3, 5]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillText('x₁ · WHITE STRIPES (AEDES DX)', x1a.x + 8, x1a.y + 14);
+
+  // x₂ axis label (v direction → back)
+  const x2a = project(0, 0.0, 0);
+  const x2b = project(0, 1.0, 0);
+  ctx.beginPath();
+  ctx.moveTo(x2a.x, x2a.y);
+  ctx.lineTo(x2b.x, x2b.y);
+  ctx.strokeStyle = CONTOUR + '66';
+  ctx.lineWidth = 0.8;
+  ctx.setLineDash([3, 5]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.save();
+  ctx.translate(x2b.x - 10, x2b.y + 4);
+  ctx.fillText('x₂ · 45° POSTURE (ANOPHELES DX)', 0, 0);
+  ctx.restore();
+
+  // Global minimum label at (0,0)
+  const minPt = project(0, 0, 0);
+  ctx.font = '600 7px Space Mono, monospace';
+  ctx.fillStyle = GOLD + 'bb';
+  ctx.fillText('(0,0) = NO STRIPES', minPt.x + 6, minPt.y + 10);
+  ctx.fillText('     + HORIZONTAL', minPt.x + 6, minPt.y + 20);
+  ctx.fillText('→ CULEX CONFIRMED', minPt.x + 6, minPt.y + 30);
+}
+
+// ── Model floating labels
+function drawLabels() {
+  for (const m of MODELS) {
+    const top = project(m.u, m.v, m.loss);
+
+    // leader line to label
+    const lx = top.x + (m.u < 0.5 ? -90 : 30);
+    const ly = top.y - 20 - (1 - m.loss) * 20;
+
+    ctx.beginPath();
+    ctx.moveTo(top.x, top.y);
+    ctx.lineTo(lx, ly);
+    ctx.strokeStyle = m.col + '88';
+    ctx.lineWidth = 0.8;
+    ctx.setLineDash([2, 3]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // background pill
+    ctx.font = '700 11px Bebas Neue, sans-serif';
+    const tw = ctx.measureText(m.id).width;
+    const bw = tw + 28, bh = 32;
+    const bx = lx - (m.u < 0.5 ? bw : 0);
+
+    ctx.fillStyle = DEEP + 'ee';
+    ctx.strokeStyle = m.col + '99';
+    ctx.lineWidth = 1;
+    roundRect(ctx, bx, ly - bh / 2, bw, bh, 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // rank badge
+    ctx.font = '700 9px Bebas Neue, sans-serif';
+    ctx.fillStyle = m.col;
+    ctx.fillText(`#${m.rank}`, bx + 6, ly + 3);
+
+    // name
+    ctx.font = '700 11px Bebas Neue, sans-serif';
+    ctx.fillStyle = m.col;
+    ctx.fillText(m.id, bx + 22, ly + 3);
+
+    // loss value below
+    ctx.font = '400 7px Space Mono, monospace';
+    ctx.fillStyle = m.col + 'aa';
+    ctx.fillText(`L = ${m.loss.toFixed(2)}`, bx + 6, ly + 14);
+  }
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.arcTo(x + w, y, x + w, y + r, r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+  ctx.lineTo(x + r, y + h);
+  ctx.arcTo(x, y + h, x, y + h - r, r);
+  ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r);
+  ctx.closePath();
+}
+
+// ── Header / footer text
+function drawHeader() {
+  // top bar
+  ctx.fillStyle = '#020408';
+  ctx.fillRect(0, 0, W, 40);
+
+  ctx.font = '400 8px Space Mono, monospace';
+  ctx.fillStyle = CONTOUR + 'cc';
+  ctx.fillText('LOSS LANDSCAPE · MOSQUITO IDENTIFICATION TASK · KAMPALA 17.02.2026', 20, 16);
+  ctx.fillStyle = GOLD + 'aa';
+  ctx.fillText('GLOBAL MIN: (0,0) → Culex confirmed · no stripes · horizontal posture', 20, 30);
+
+  // colour bar legend
+  const lx = W - 160, ly = 8, lw = 130, lh = 8;
+  const lgrd = ctx.createLinearGradient(lx, 0, lx + lw, 0);
+  lgrd.addColorStop(0.00, 'rgba(10,80,100,1)');
+  lgrd.addColorStop(0.30, 'rgba(30,160,130,1)');
+  lgrd.addColorStop(0.55, 'rgba(127,255,79,1)');
+  lgrd.addColorStop(0.78, 'rgba(200,168,75,1)');
+  lgrd.addColorStop(1.00, 'rgba(180,30,30,1)');
+  ctx.fillStyle = lgrd;
+  ctx.fillRect(lx, ly, lw, lh);
+  ctx.strokeStyle = CONTOUR + '55';
+  ctx.lineWidth = 0.5;
+  ctx.strokeRect(lx, ly, lw, lh);
+  ctx.font = '400 6.5px Space Mono, monospace';
+  ctx.fillStyle = TEAL + 'cc';
+  ctx.fillText('L=0.0', lx, ly + lh + 9);
+  ctx.fillStyle = RED + 'cc';
+  ctx.fillText('L=1.0', lx + lw - 24, ly + lh + 9);
+}
+
+// ── Render
+ctx.fillStyle = VOID;
+ctx.fillRect(0, 0, W, H);
+
+drawSurface();
+drawIsolines();
+drawAxes();
+drawRabbitHole();
+drawPins();
+drawLabels();
+drawHeader();
+
+// Bottom caption
+ctx.font = '400 7.5px Space Mono, monospace';
+ctx.fillStyle = MUTED + '99';
+ctx.fillText('Each model carves its own Gaussian basin · depth ∝ reasoning quality · Gemini\'s excursion toward Anopheles ridge justified: L(θ_return) < L(θ_escape_start)', 20, H - 12);
+</script>
+</body>
+</html>
