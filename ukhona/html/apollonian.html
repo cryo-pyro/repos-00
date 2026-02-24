@@ -4,43 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GOAX II — The Digital Twin as Apollonian Structure</title>
+<!-- Open Graph / Twitter -->
+<meta property="og:site_name" content="Repos">
+<meta property="og:title" content="The Dude's Rug">
+<meta property="og:description" content="Saddle Point">
+<meta property="og:type" content="blog">
+<meta property="og:url" content="https://ukb-dt.github.io/repos-00/">
+<meta property="og:image" content="ukhona/img/ukb-landscape.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Dude's Rug">
+<meta name="twitter:description" content="Saddle Point">
+<meta name="twitter:image" content="ukhona/img/ukb-landscape.jpg">
+
+<!-- Icons -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<!-- Shared Ukubona CSS -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<!-- MathJax -->
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-         
-  <!-- Open Graph / Twitter -->
-  <meta property="og:site_name" content="Repos">
-  <meta property="og:title" content="The Dude's Rug">
-  <meta property="og:description" content="Saddle Point">
-  <meta property="og:type" content="blog">
-  <meta property="og:url" content="https://ukb-dt.github.io/repos-00/">
-  <meta property="og:image" content="ukhona/img/ukb-landscape.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Dude's Rug">
-  <meta name="twitter:description" content="Saddle Point">
-  <meta name="twitter:image" content="ukhona/img/ukb-landscape.jpg"> 
-
-  <!-- Icons / assets -->
-  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
-  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
-  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
-  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- CSS IN ORDER: Variables → Base → Components → Footer -->
-  <link href="../css/variables.css?v=1.1" rel="stylesheet" />
-  <link href="../css/head.css?v=1.1" rel="stylesheet" />
-  <link href="../css/card.css?v=1.1" rel="stylesheet" />
-  <link href="../css/footer.css" rel="stylesheet" />
-  
-  <!-- MathJax -->
-  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
 :root {
   --void: #060809;
@@ -689,6 +687,212 @@ footer {
   .section-body { padding-left: 0; }
   pre.code-block { font-size: 0.65rem; }
 }
+
+/* ════════════════════════════════
+   LIGHT MODE — full page override
+
+   shared.js from the Ukubona repo
+   toggles light mode on <html>, not <body>.
+   We cover all realistic selectors so it
+   works regardless of which element gets
+   the class.
+
+   Confirmed pattern from screenshots:
+   header responds → toggle is on <html>
+   page stays dark  → our selector was wrong
+════════════════════════════════ */
+
+/* 1. Override CSS custom properties at the
+      highest possible scope so every
+      var(--x) reference in the page updates */
+html.light-mode,
+html[data-theme="light"],
+html.light,
+body.light-mode,
+body[data-theme="light"] {
+  --void:       #f5f1e8;
+  --deep:       #ede8db;
+  --stone-dark: #e4dece;
+  --stone:      #d8d0bc;
+  --slate:      #c8c0aa;
+  --ash:        #a09880;
+  --mist:       #6a6050;
+  --bone:       #2a241a;
+  --parch:      #16100a;
+  --gold:       #8a6818;
+  --gold-hi:    #6a5010;
+  --ember:      #9a2c10;
+  --sky-blue:   #1a5878;
+  --g-col:      #286820;
+  --o-col:      #884018;
+  --a-col:      #184878;
+  --x-col:      #702888;
+}
+
+/* 2. Apply background/color to body explicitly —
+      var() on body won't update if toggle is on html
+      unless we force it here */
+html.light-mode body,
+html[data-theme="light"] body,
+html.light body,
+body.light-mode,
+body[data-theme="light"] {
+  background: #f5f1e8 !important;
+  color: #2a241a !important;
+}
+
+/* 3. Ambient — cover all toggle origins */
+html.light-mode .ambient,
+html[data-theme="light"] .ambient,
+html.light .ambient,
+body.light-mode .ambient {
+  background:
+    radial-gradient(ellipse 50% 35% at 15% 0%, rgba(26,88,120,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 50% at 85% 100%, rgba(138,104,24,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, transparent 0%, #f5f1e8 100%);
+}
+
+/* 4. Everything below uses a grouped selector shorthand */
+html.light-mode, html[data-theme="light"], html.light, body.light-mode {
+  /* Grain softer on light */
+}
+html.light-mode body::after,
+html[data-theme="light"] body::after,
+html.light body::after,
+body.light-mode::after { opacity: 0.2; }
+
+html.light-mode .voice-nav,
+html[data-theme="light"] .voice-nav,
+html.light .voice-nav,
+body.light-mode .voice-nav {
+  background: #f5f1e8 !important;
+  border-bottom-color: #a09880;
+}
+
+html.light-mode .masthead,
+html[data-theme="light"] .masthead,
+html.light .masthead,
+body.light-mode .masthead { border-bottom-color: #a09880; }
+
+html.light-mode .mast-sup::before, html.light-mode .mast-sup::after,
+html[data-theme="light"] .mast-sup::before, html[data-theme="light"] .mast-sup::after,
+html.light .mast-sup::before, html.light .mast-sup::after,
+body.light-mode .mast-sup::before, body.light-mode .mast-sup::after { background: #a09880; }
+
+html.light-mode .epigraph,
+html[data-theme="light"] .epigraph,
+html.light .epigraph,
+body.light-mode .epigraph { border-left-color: #8a6818; color: #16100a; }
+
+html.light-mode .voice-panel,
+html[data-theme="light"] .voice-panel,
+html.light .voice-panel,
+body.light-mode .voice-panel { border-bottom-color: #a09880; }
+
+html.light-mode .panel-header,
+html[data-theme="light"] .panel-header,
+html.light .panel-header,
+body.light-mode .panel-header { border-bottom-color: #c8c0aa; }
+
+html.light-mode .section-block,
+html[data-theme="light"] .section-block,
+html.light .section-block,
+body.light-mode .section-block { border-top-color: #c8c0aa; }
+
+html.light-mode .section-block:last-child,
+html[data-theme="light"] .section-block:last-child,
+html.light .section-block:last-child,
+body.light-mode .section-block:last-child { border-bottom-color: #c8c0aa; }
+
+html.light-mode .map-table th,
+html[data-theme="light"] .map-table th,
+html.light .map-table th,
+body.light-mode .map-table th {
+  background: #e4dece; color: #6a6050; border-bottom-color: #a09880;
+}
+html.light-mode .map-table td,
+html[data-theme="light"] .map-table td,
+html.light .map-table td,
+body.light-mode .map-table td { border-bottom-color: rgba(160,152,128,0.3); }
+
+html.light-mode pre.code-block,
+html[data-theme="light"] pre.code-block,
+html.light pre.code-block,
+body.light-mode pre.code-block { background: #f0ebe0; border-color: #a09880; color: #283838; }
+
+html.light-mode .kw, html[data-theme="light"] .kw, html.light .kw, body.light-mode .kw { color: #1a5a8a; }
+html.light-mode .cm, html[data-theme="light"] .cm, html.light .cm, body.light-mode .cm { color: #807060; font-style: italic; }
+html.light-mode .str, html[data-theme="light"] .str, html.light .str, body.light-mode .str { color: #286028; }
+html.light-mode .fn, html[data-theme="light"] .fn, html.light .fn, body.light-mode .fn { color: #7a3a08; }
+html.light-mode .tp, html[data-theme="light"] .tp, html.light .tp, body.light-mode .tp { color: #5a2070; }
+html.light-mode .nm, html[data-theme="light"] .nm, html.light .nm, body.light-mode .nm { color: #604800; }
+
+html.light-mode .code-label,
+html[data-theme="light"] .code-label,
+html.light .code-label,
+body.light-mode .code-label { background: #d8d0bc; color: #6a6050; border-color: #a09880; }
+
+html.light-mode .erd-block,
+html[data-theme="light"] .erd-block,
+html.light .erd-block,
+body.light-mode .erd-block { background: #ece6d4; border-color: #c8c0aa; color: #1a5878; }
+
+html.light-mode .math-block,
+html[data-theme="light"] .math-block,
+html.light .math-block,
+body.light-mode .math-block { background: #e4dece; border-color: #a09880; }
+
+html.light-mode .math-block .eq,
+html[data-theme="light"] .math-block .eq,
+html.light .math-block .eq,
+body.light-mode .math-block .eq { color: #8a6818; }
+
+html.light-mode .math-block .math-label,
+html[data-theme="light"] .math-block .math-label,
+html.light .math-block .math-label,
+body.light-mode .math-block .math-label { color: #6a6050; }
+
+html.light-mode .pull,
+html[data-theme="light"] .pull,
+html.light .pull,
+body.light-mode .pull { border-left-color: #8a6818; color: #16100a; }
+
+html.light-mode .push,
+html[data-theme="light"] .push,
+html.light .push,
+body.light-mode .push { background: #e4dece; border-color: #a09880; }
+
+html.light-mode .push::before,
+html[data-theme="light"] .push::before,
+html.light .push::before,
+body.light-mode .push::before { background: #e4dece; }
+
+html.light-mode .caution,
+html[data-theme="light"] .caution,
+html.light .caution,
+body.light-mode .caution { background: rgba(154,44,16,0.05); border-left-color: #9a2c10; }
+
+html.light-mode .wireframe,
+html[data-theme="light"] .wireframe,
+html.light .wireframe,
+body.light-mode .wireframe { background: #ede8db; border-color: #c8c0aa; border-top-color: #8a6818; }
+
+html.light-mode .synthesis,
+html[data-theme="light"] .synthesis,
+html.light .synthesis,
+body.light-mode .synthesis {
+  background: linear-gradient(135deg, rgba(138,104,24,0.07), rgba(237,232,219,0.97));
+  border-color: #8a6818;
+}
+html.light-mode .synthesis::before,
+html[data-theme="light"] .synthesis::before,
+html.light .synthesis::before,
+body.light-mode .synthesis::before { background: #f5f1e8; color: #8a6818; }
+
+html.light-mode footer,
+html[data-theme="light"] footer,
+html.light footer,
+body.light-mode footer { border-top-color: #a09880; }
 </style>
 </head>
 <body>
@@ -697,8 +901,8 @@ footer {
 
 <!-- MASTHEAD -->
 <header class="masthead">
-<br><br><br>
-<br><br><br>
+    <br><br><br>
+    <br><br><br>
   <div class="mast-sup">GOAX Discourse · Round II · Digital Twin Theory</div>
   <div class="mast-round">GOAX · The Sounding Board</div>
   <h1 class="mast-title">
@@ -1419,6 +1623,15 @@ $$ <span class="kw">LANGUAGE</span> plpgsql;
 
 </div><!-- end page -->
 
+<!-- Ukubona branding infrastructure -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+
 <script>
 function switchVoice(v, btn) {
   document.querySelectorAll('.vnav-btn').forEach(b => b.classList.remove('active'));
@@ -1446,19 +1659,5 @@ const obs = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
-
-<!-- Last -->
-     <div class="scroll-indicator">
-       <div class="scroll-progress">
-       </div>
-     </div>
-     <div class="bg-pattern">
-     </div>
-        <header class="header" id="header"></header>
-   <main class="page wrap-max">
-   </main>
-     <div id="footer-placeholder"></div>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
-     <script src="../js/shared.js"></script>
-</body> 
+</body>
 </html>
