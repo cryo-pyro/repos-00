@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seeing, Blindly — The Digital Twin as Bayesian Engine</title>
+
+<!-- Open Graph / Twitter -->
+<meta property="og:site_name" content="Repos">
+<meta property="og:title" content="The Dude's Rug">
+<meta property="og:description" content="Saddle Point">
+<meta property="og:type" content="blog">
+<meta property="og:url" content="https://ukb-dt.github.io/repos-00/">
+<meta property="og:image" content="ukhona/img/ukb-landscape.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Dude's Rug">
+<meta name="twitter:description" content="Saddle Point">
+<meta name="twitter:image" content="ukhona/img/ukb-landscape.jpg">
+
+<!-- Icons -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<!-- Shared Ukubona CSS -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<!-- MathJax -->
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Page fonts -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════
+   TOKENS — dark default
+══════════════════════════════════ */
+:root {
+  --bg:         #09090b;
+  --bg2:        #0f1014;
+  --bg3:        #16181f;
+  --bg4:        #1e2130;
+  --line:       #2a2e40;
+  --line2:      #363c54;
+  --dim:        #5a6280;
+  --mid:        #8892b0;
+  --text:       #ccd6f6;
+  --bright:     #e6f1ff;
+  --google:     #4a90d9;
+  --google-dim: #1a3a5c;
+  --twin:       #00b896;
+  --twin-dim:   #003d32;
+  --warn:       #e85d4a;
+  --gold:       #c49a3a;
+  --serif:      'Libre Baskerville', Georgia, serif;
+  --mono:       'DM Mono', monospace;
+  --display:    'DM Serif Display', Georgia, serif;
+}
+
+/* ══════════════════════════════════
+   LIGHT MODE — all toggle variants
+══════════════════════════════════ */
+html.light-mode,
+html[data-theme="light"],
+html.light,
+body.light-mode {
+  --bg:         #f7f7f5;
+  --bg2:        #efefec;
+  --bg3:        #e5e5e0;
+  --bg4:        #d8d8d0;
+  --line:       #c8c8bc;
+  --line2:      #b0b0a0;
+  --dim:        #7a7a6a;
+  --mid:        #4a4a3a;
+  --text:       #1a1a14;
+  --bright:     #0a0a08;
+  --google:     #1a6abf;
+  --google-dim: #ddeeff;
+  --twin:       #007a60;
+  --twin-dim:   #d0f5ee;
+  --warn:       #c03020;
+  --gold:       #7a6010;
+}
+
+html.light-mode body,
+html[data-theme="light"] body,
+html.light body,
+body.light-mode {
+  background: #f7f7f5 !important;
+  color: #1a1a14 !important;
+}
+
+html.light-mode .ambient,
+html[data-theme="light"] .ambient,
+html.light .ambient,
+body.light-mode .ambient {
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(26,106,191,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 100%, rgba(0,122,96,0.05) 0%, transparent 60%);
+}
+
+html.light-mode .regime-google,
+html[data-theme="light"] .regime-google,
+html.light .regime-google,
+body.light-mode .regime-google { background: var(--google-dim); border-color: var(--google); }
+
+html.light-mode .regime-twin,
+html[data-theme="light"] .regime-twin,
+html.light .regime-twin,
+body.light-mode .regime-twin { background: var(--twin-dim); border-color: var(--twin); }
+
+html.light-mode .contrast-table th,
+html[data-theme="light"] .contrast-table th,
+html.light .contrast-table th,
+body.light-mode .contrast-table th { background: var(--bg3); }
+
+html.light-mode .contrast-table td,
+html[data-theme="light"] .contrast-table td,
+html.light .contrast-table td,
+body.light-mode .contrast-table td { border-bottom-color: var(--line); }
+
+html.light-mode .contrast-table tr:hover td,
+html[data-theme="light"] .contrast-table tr:hover td,
+html.light .contrast-table tr:hover td,
+body.light-mode .contrast-table tr:hover td { background: var(--bg2); }
+
+html.light-mode .axiom,
+html[data-theme="light"] .axiom,
+html.light .axiom,
+body.light-mode .axiom { background: var(--bg3); border-color: var(--line2); }
+
+html.light-mode .descent-step,
+html[data-theme="light"] .descent-step,
+html.light .descent-step,
+body.light-mode .descent-step { background: var(--bg2); border-color: var(--line); }
+
+html.light-mode .descent-step.active,
+html[data-theme="light"] .descent-step.active,
+html.light .descent-step.active,
+body.light-mode .descent-step.active { background: var(--twin-dim); border-color: var(--twin); }
+
+html.light-mode .coda,
+html[data-theme="light"] .coda,
+html.light .coda,
+body.light-mode .coda {
+  background: linear-gradient(135deg, rgba(0,122,96,0.06), rgba(247,247,245,0.98));
+  border-color: var(--twin);
+}
+
+html.light-mode .coda::before,
+html[data-theme="light"] .coda::before,
+html.light .coda::before,
+body.light-mode .coda::before { background: #f7f7f5; }
+
+html.light-mode footer,
+html[data-theme="light"] footer,
+html.light footer,
+body.light-mode footer { border-top-color: var(--line); }
+
+/* ══════════════════════════════════
+   BASE
+══════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* AMBIENT */
+.ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(74,144,217,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 100%, rgba(0,184,150,0.06) 0%, transparent 60%);
+}
+
+/* LAYOUT */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 2rem 8rem;
+}
+
+/* ══════════════════════════════════
+   MASTHEAD
+══════════════════════════════════ */
+.masthead {
+  padding: 7rem 0 4rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: rise 1.2s ease forwards 0.15s;
+}
+
+.mast-kicker {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.mast-kicker::before, .mast-kicker::after {
+  content: ''; flex: 1; height: 1px; background: var(--line);
+}
+
+.mast-title {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1.0;
+  color: var(--bright);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+.mast-title .italic { font-style: italic; color: var(--twin); }
+
+.mast-sub {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  margin-bottom: 2.5rem;
+}
+
+/* The two-regime banner */
+.regime-banner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  margin-top: 2.5rem;
+  opacity: 0;
+  animation: rise 1s ease forwards 0.6s;
+}
+
+.regime-google {
+  background: var(--google-dim);
+  border: 1px solid var(--google);
+  border-right: none;
+  padding: 1.2rem 1.6rem;
+}
+
+.regime-twin {
+  background: var(--twin-dim);
+  border: 1px solid var(--twin);
+  border-left: none;
+  padding: 1.2rem 1.6rem;
+}
+
+.regime-vs {
+  background: var(--bg4);
+  border-top: 1px solid var(--line2);
+  border-bottom: 1px solid var(--line2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--dim);
+  letter-spacing: 0.2em;
+  writing-mode: vertical-rl;
+}
+
+.regime-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.regime-google .regime-label { color: var(--google); }
+.regime-twin .regime-label   { color: var(--twin); }
+
+.regime-desc {
+  font-size: 0.92rem;
+  color: var(--mid);
+  line-height: 1.5;
+}
+
+.regime-verdict {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  margin-top: 0.6rem;
+  letter-spacing: 0.05em;
+}
+.regime-google .regime-verdict { color: var(--warn); }
+.regime-twin   .regime-verdict { color: var(--twin); }
+
+/* ══════════════════════════════════
+   SECTION LABELS
+══════════════════════════════════ */
+.sec-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 4rem 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+/* ══════════════════════════════════
+   PROSE
+══════════════════════════════════ */
+.prose { margin-bottom: 3rem; }
+.prose p { margin-bottom: 1.2rem; color: var(--text); }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--bright); font-weight: 700; }
+.prose em { color: var(--twin); font-style: italic; }
+.prose a { color: var(--gold); text-decoration: none; }
+.prose a:hover { text-decoration: underline; }
+
+.lede {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--mid);
+  border-left: 3px solid var(--twin);
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* ══════════════════════════════════
+   CONTRAST TABLE
+══════════════════════════════════ */
+.contrast-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 2rem 0;
+}
+.contrast-table th {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line2);
+  text-align: left;
+  background: var(--bg3);
+}
+.contrast-table th.g-head { color: var(--google); }
+.contrast-table th.t-head { color: var(--twin); }
+.contrast-table th.prop-head { color: var(--dim); }
+
+.contrast-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.contrast-table tr:last-child td { border-bottom: none; }
+.contrast-table tr:hover td { background: var(--bg2); transition: background 0.15s; }
+
+.contrast-table .prop {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  white-space: nowrap;
+}
+.contrast-table .g-val { color: var(--mid); }
+.contrast-table .t-val { color: var(--twin); font-weight: 400; }
+
+/* ══════════════════════════════════
+   AXIOMS
+══════════════════════════════════ */
+.axioms { display: grid; gap: 1.2rem; margin: 2rem 0; }
+
+.axiom {
+  background: var(--bg3);
+  border: 1px solid var(--line2);
+  border-left: 3px solid var(--twin);
+  padding: 1.4rem 1.8rem;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0 1rem;
+  align-items: start;
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.axiom.visible { opacity: 1; transform: translateX(0); }
+
+.axiom-n {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--twin);
+  padding-top: 0.3rem;
+  letter-spacing: 0.1em;
+}
+
+.axiom-title {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bright);
+  margin-bottom: 0.4rem;
+}
+
+.axiom p { color: var(--mid); font-size: 0.95rem; margin: 0; }
+
+/* ══════════════════════════════════
+   SGD DESCENT VISUALISER
+══════════════════════════════════ */
+.descent-wrap {
+  margin: 2.5rem 0;
+  position: relative;
+}
+
+.descent-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--twin);
+  margin-bottom: 1rem;
+}
+
+.descent-track {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.descent-track::before {
+  content: '';
+  position: absolute;
+  left: 0.65rem;
+  top: 0.8rem;
+  bottom: 0.8rem;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--twin), var(--dim));
+}
+
+.descent-step {
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  padding: 1rem 1.4rem;
+  margin-bottom: 0.6rem;
+  position: relative;
+  transition: border-color 0.3s, background 0.3s;
+  cursor: pointer;
+}
+
+.descent-step::before {
+  content: '';
+  position: absolute;
+  left: -1.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--line2);
+  border: 1px solid var(--dim);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.descent-step.active {
+  background: rgba(0,184,150,0.06);
+  border-color: var(--twin);
+}
+.descent-step.active::before {
+  background: var(--twin);
+  border-color: var(--twin);
+  box-shadow: 0 0 8px rgba(0,184,150,0.5);
+}
+
+.step-head {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 0.3rem;
+}
+.descent-step.active .step-head { color: var(--twin); }
+
+.step-body { font-size: 0.92rem; color: var(--mid); line-height: 1.55; }
+.descent-step.active .step-body { color: var(--text); }
+
+.step-math {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--twin);
+  margin-top: 0.4rem;
+  opacity: 0.7;
+}
+
+/* ══════════════════════════════════
+   BAYESIAN BLOCK
+══════════════════════════════════ */
+.bayes-block {
+  background: var(--bg3);
+  border: 1px solid var(--line2);
+  border-top: 2px solid var(--twin);
+  padding: 2rem 2.4rem;
+  margin: 2rem 0;
+}
+
+.bayes-title {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--twin);
+  margin-bottom: 1.4rem;
+}
+
+.bayes-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.5rem 1.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.bayes-row:last-child { margin-bottom: 0; }
+
+.bayes-cell {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--line);
+  line-height: 1.4;
+}
+.bayes-cell .cell-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dim);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.bayes-cell.google-cell { border-color: var(--google-dim); color: var(--mid); }
+.bayes-cell.twin-cell { border-color: var(--twin); color: var(--twin); }
+.bayes-arrow {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--dim);
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+/* ══════════════════════════════════
+   CODA
+══════════════════════════════════ */
+.coda {
+  background: linear-gradient(135deg, rgba(0,184,150,0.07), rgba(9,9,11,0.95));
+  border: 1px solid var(--twin);
+  padding: 3rem 3rem 2.5rem;
+  margin: 4rem 0;
+  position: relative;
+}
+
+.coda::before {
+  content: '◆';
+  position: absolute;
+  top: -0.8rem; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 0 1.2rem;
+  color: var(--twin);
+  font-size: 0.9rem;
+}
+
+.coda h2 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  color: var(--bright);
+  margin-bottom: 1rem;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.coda p { color: var(--mid); margin-bottom: 1rem; }
+.coda p:last-child { margin-bottom: 0; }
+.coda strong { color: var(--twin); }
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.5rem 0 4rem;
+  text-align: center;
+}
+
+.foot-chain {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--dim);
+  margin-bottom: 0.8rem;
+}
+.foot-chain span { color: var(--twin); }
+.foot-note {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--line2);
+  line-height: 2.2;
+}
+.foot-note a { color: var(--dim); text-decoration: none; }
+
+/* ══════════════════════════════════
+   FADE-IN
+══════════════════════════════════ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 640px) {
+  .regime-banner { grid-template-columns: 1fr; }
+  .regime-vs { writing-mode: horizontal-tb; padding: 0.5rem; }
+  .regime-google { border-right: 1px solid var(--google); border-bottom: none; }
+  .regime-twin { border-left: 1px solid var(--twin); }
+  .bayes-row { grid-template-columns: 1fr; }
+  .bayes-arrow { transform: rotate(90deg); }
+  .coda { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="page">
+
+<!-- MASTHEAD -->
+<header class="masthead">
+    <br><br><br>
+    <br>
+  <div class="mast-kicker">GOAX · Bayesian Epistemics · Digital Twins</div>
+  <h1 class="mast-title">Seeing,<br><span class="italic">Blindly</span></h1>
+  <p class="mast-sub">// only one is Bayesian · only one has real consequences · only one is learning</p>
+
+  <div class="regime-banner">
+    <div class="regime-google">
+      <div class="regime-label">Googling Symptoms</div>
+      <p class="regime-desc">Stateless. Costless. No memory. Each query orphaned from the last. The system learns nothing about you.</p>
+      <div class="regime-verdict">✕ not learning · not Bayesian · not consequential</div>
+    </div>
+    <div class="regime-vs">VS</div>
+    <div class="regime-twin">
+      <div class="regime-label">Digital Twin</div>
+      <p class="regime-desc">Sequential. Consequential. Every observation updates a prior. The model of you gets sharper with each measurement.</p>
+      <div class="regime-verdict">✓ Bayesian · sequential · real stakes</div>
+    </div>
+  </div>
+</header>
+
+<!-- SECTION I -->
+<div class="sec-label fade-in">I · The Epistemic Chasm</div>
+
+<div class="prose fade-in">
+  <p class="lede">The difference between Googling your symptoms and a digital twin is not a difference of degree. It is a difference of <em>kind</em>. One is retrieval. The other is inference.</p>
+
+  <p>When you Google symptoms, you are querying a static corpus. The result is a probability estimate over a population — <strong>"people with these symptoms often have X"</strong> — with no reference to you as a specific, evolving biological or physical system. The query vanishes. The system retains nothing. Your next search is epistemically identical to your first.</p>
+
+  <p>A digital twin does the opposite. It holds a <strong>model of your specific situation</strong> — your body, your building, your supply chain — and updates that model continuously. Each new observation is not a search. It is a measurement that either confirms or revises the current model. The prior becomes the posterior. The posterior becomes the next prior. This is Bayes, running in real time, on you.</p>
+</div>
+
+<table class="contrast-table fade-in">
+  <thead>
+    <tr>
+      <th class="prop-head">Property</th>
+      <th class="g-head">Google / Symptom Search</th>
+      <th class="t-head">Digital Twin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="prop">Memory</td>
+      <td class="g-val">None — stateless per query</td>
+      <td class="t-val">Full — model persists and evolves</td>
+    </tr>
+    <tr>
+      <td class="prop">Subject</td>
+      <td class="g-val">Population average</td>
+      <td class="t-val">You, specifically</td>
+    </tr>
+    <tr>
+      <td class="prop">Consequence</td>
+      <td class="g-val">None — reading costs nothing</td>
+      <td class="t-val">Real — wrong model → wrong intervention</td>
+    </tr>
+    <tr>
+      <td class="prop">Epistemics</td>
+      <td class="g-val">Retrieval</td>
+      <td class="t-val">Bayesian inference</td>
+    </tr>
+    <tr>
+      <td class="prop">Sequential?</td>
+      <td class="g-val">No — each query isolated</td>
+      <td class="t-val">Yes — ordered in time, causally linked</td>
+    </tr>
+    <tr>
+      <td class="prop">Learning</td>
+      <td class="g-val">The index learns. You don't.</td>
+      <td class="t-val">The model of you learns.</td>
+    </tr>
+    <tr>
+      <td class="prop">Error cost</td>
+      <td class="g-val">Zero — infinite retry</td>
+      <td class="t-val">Real — each step costs, corrects, compounds</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- SECTION II -->
+<div class="sec-label fade-in">II · Why Stakes Make Epistemics Honest</div>
+
+<div class="prose fade-in">
+  <p>The reason the digital twin is <em>forced</em> to be Bayesian is that it operates under real consequences. If the twin is wrong, the intervention is wrong. Something breaks. Someone suffers. The cost of a bad prior is not an annoying search result — it is a failed treatment, a collapsed structure, a misallocated shipment.</p>
+
+  <p>This is the precise mechanism by which <strong>consequences discipline inference</strong>. A system that pays no cost for being wrong has no incentive to maintain an accurate model. Google doesn't need to know if you actually had appendicitis. It just needs to serve ads. The digital twin cannot afford that luxury. Its accuracy is thermodynamically enforced by the energy tax of being wrong.</p>
+
+  <p>This is also why <strong>only the digital twin is actually learning</strong>. Learning, in the technical sense, requires a feedback signal. It requires that the error be measured, that the loss propagate back through the model, and that the parameters update. Googling symptoms provides no feedback signal — you close the tab, and the loop is open. The twin closes the loop. Every measurement is simultaneously a query and a correction.</p>
+</div>
+
+<div class="axioms">
+  <div class="axiom fade-in">
+    <span class="axiom-n">A1</span>
+    <div>
+      <div class="axiom-title">Stateless systems cannot learn</div>
+      <p>A system with no memory of its previous outputs cannot update its model. Each Google query is epistemically independent. There is no prior to update. There is no posterior to carry forward. It is inference without accumulation.</p>
+    </div>
+  </div>
+  <div class="axiom fade-in">
+    <span class="axiom-n">A2</span>
+    <div>
+      <div class="axiom-title">Consequence is the teacher</div>
+      <p>A system that pays no cost for error has no gradient to descend. Stakes are not a side effect of real-world deployment — they are the mechanism by which the model is forced to be accurate. Remove the stakes and you remove the signal.</p>
+    </div>
+  </div>
+  <div class="axiom fade-in">
+    <span class="axiom-n">A3</span>
+    <div>
+      <div class="axiom-title">Population statistics are not your prior</div>
+      <p>"Most people with these symptoms have X" is not a prior about you. It is a marginal distribution over a heterogeneous population. A digital twin maintains a prior conditioned on your specific history, physiology, and context. These are categorically different objects.</p>
+    </div>
+  </div>
+  <div class="axiom fade-in">
+    <span class="axiom-n">A4</span>
+    <div>
+      <div class="axiom-title">Sequential + consequential = Bayesian</div>
+      <p>These two properties together, and only together, force Bayesian epistemics. Sequential alone gives you a time series. Consequential alone gives you a one-shot decision. Both together give you an agent that must maintain and update a model of the world in order to survive.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION III -->
+<div class="sec-label fade-in">III · SGD — Seeing, Blindly</div>
+
+<div class="prose fade-in">
+  <p>Stochastic Gradient Descent is the computational incarnation of this principle. It does not see the full loss surface. It cannot. The global landscape is too vast, too high-dimensional, too expensive to compute. Instead, it takes one step at a time, using only <strong>the local gradient</strong> — the slope at its current position — to decide where to go next.</p>
+
+  <p>This is not a deficiency. It is the only viable strategy for navigating a complex, high-dimensional world under real constraints. You do not need to see the whole mountain to descend it. You need only to feel which way is down, and take one step.</p>
+
+  <p>The digital twin runs SGD on your situation. Each new measurement is a gradient estimate. Each intervention is a step. The model does not know the global optimum. It does not need to. <em>Each local gradient is all that matters</em> — because that is the only information that is currently true, for you, right now.</p>
+</div>
+
+<div class="descent-wrap fade-in">
+  <div class="descent-label">// SGD as lived epistemics — click each step</div>
+  <div class="descent-track">
+
+    <div class="descent-step" onclick="activateStep(this)">
+      <div class="step-head">Step 0 — Prior</div>
+      <p class="step-body">You exist. Your twin is initialized with whatever is known about you — age, history, measurements, context. This is the starting point. Not zero knowledge. Not complete knowledge. A prior.</p>
+      <div class="step-math">P(θ₀) — initial distribution over model parameters</div>
+    </div>
+
+    <div class="descent-step" onclick="activateStep(this)">
+      <div class="step-head">Step 1 — Observation</div>
+      <p class="step-body">A measurement arrives. Temperature. Blood pressure. Truck location. Quarry yield. It doesn't matter what — what matters is that it is real, specific to you, and costs something to obtain.</p>
+      <div class="step-math">x_t — observation at time t, drawn from your actual state</div>
+    </div>
+
+    <div class="descent-step" onclick="activateStep(this)">
+      <div class="step-head">Step 2 — Gradient</div>
+      <p class="step-body">The model computes the local gradient. How wrong was the prior? In which direction? By how much? This is the only question that matters right now. Not "what is the global truth?" — but "which way is down from here?"</p>
+      <div class="step-math">∇L(θ_t, x_t) — loss gradient at current position</div>
+    </div>
+
+    <div class="descent-step" onclick="activateStep(this)">
+      <div class="step-head">Step 3 — Update</div>
+      <p class="step-body">The model steps. The posterior becomes the new prior. The twin is now more accurate than it was one step ago. Not globally optimal. Locally improved. This is all learning ever is.</p>
+      <div class="step-math">θ_{t+1} = θ_t − η · ∇L(θ_t, x_t)</div>
+    </div>
+
+    <div class="descent-step" onclick="activateStep(this)">
+      <div class="step-head">Step 4 — Decision</div>
+      <p class="step-body">An intervention is made. A dose adjusted. A route rerouted. A cut deferred. The decision is made under uncertainty, but the uncertainty is <em>quantified</em> — not ignored. This is what separates the twin from the symptom search.</p>
+      <div class="step-math">a_t = argmin_a E[L | θ_{t+1}, a] — action under posterior</div>
+    </div>
+
+    <div class="descent-step" onclick="activateStep(this)">
+      <div class="step-head">Step 5 — Consequence</div>
+      <p class="step-body">The intervention has an outcome. That outcome feeds back. The loop is closed. The next gradient is computed from real error, not hypothetical population statistics. The twin learns not from textbooks but from consequence.</p>
+      <div class="step-math">L_t = loss(outcome_t, prediction_t) — real feedback closes the loop</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION IV -->
+<div class="sec-label fade-in">IV · The Bayesian Structure</div>
+
+<div class="bayes-block fade-in">
+  <div class="bayes-title">// what actually differs between the two regimes</div>
+
+  <div class="bayes-row">
+    <div class="bayes-cell google-cell">
+      <span class="cell-label">Google — what it gives you</span>
+      P(Disease | Symptoms) over population
+    </div>
+    <div class="bayes-arrow">≠</div>
+    <div class="bayes-cell twin-cell">
+      <span class="cell-label">Twin — what you actually need</span>
+      P(Your State | Your History, Your Measurements)
+    </div>
+  </div>
+
+  <div class="bayes-row">
+    <div class="bayes-cell google-cell">
+      <span class="cell-label">Google — update rule</span>
+      None. Prior unchanged. Loop open.
+    </div>
+    <div class="bayes-arrow">≠</div>
+    <div class="bayes-cell twin-cell">
+      <span class="cell-label">Twin — update rule</span>
+      P(θ|x) ∝ P(x|θ) · P(θ). Loop closed.
+    </div>
+  </div>
+
+  <div class="bayes-row">
+    <div class="bayes-cell google-cell">
+      <span class="cell-label">Google — error cost</span>
+      Zero. Infinite retry. No skin in game.
+    </div>
+    <div class="bayes-arrow">≠</div>
+    <div class="bayes-cell twin-cell">
+      <span class="cell-label">Twin — error cost</span>
+      Real. Irreversible. Enforces accuracy.
+    </div>
+  </div>
+</div>
+
+<div class="prose fade-in">
+  <p>The most important column in that table is the last one: <strong>error cost</strong>. This is what makes the digital twin epistemically superior — not its technology, not its data volume, not its computational sophistication. It is the fact that it operates in a world where being wrong has consequences.</p>
+
+  <p>Skin in the game is not a metaphor. It is the thermodynamic foundation of honest inference. A model that pays no cost for error will not converge. A model that pays real cost for error is <em>forced</em> to converge — or die. The digital twin is the latter. Symptom Googling is the former. This is not a criticism of Google. It is a description of what it is — and what it is not.</p>
+</div>
+
+<!-- CODA -->
+<div class="coda fade-in">
+  <h2>Only one is learning.</h2>
+  <p>Googling symptoms updates your anxiety. The digital twin updates its model of you. These are not the same operation. One is consumption. The other is <strong>inference under real stakes</strong>.</p>
+  <p>SGD does not see the whole landscape. It sees only the local gradient — the slope at its current position, measured from the last real consequence. But that is enough. That is, in fact, all that is ever available to any agent operating in a complex world under time and energy constraints.</p>
+  <p>The question is not whether you can see the global optimum. You cannot. Nobody can. The question is whether each step costs something real — because only then is the gradient honest. <strong>Each local gradient is all that matters. And only the twin is computing it.</strong></p>
+</div>
+
+<footer>
+  <div class="foot-chain">
+    Chaos · → · Gaia · → · Ouranos · → · <span>Titans</span> · → · <span>Olympians</span>
+  </div>
+  <div class="foot-chain" style="margin-bottom:1.2rem">
+    Prior · → · Observation · → · Gradient · → · <span>Update</span> · → · <span>Consequence</span>
+  </div>
+  <div class="foot-note">
+    Part of the GOAX Discourse series ·
+    <a href="theogony-ledger.html">Theogony Ledger</a> ·
+    <a href="gaia-dissipation.html">Gaia Dissipation</a> ·
+    <a href="goax-discourse.html">GOAX I</a> ·
+    <a href="goax-discourse-ii.html">GOAX II</a><br>
+    <a href="https://stratastonepartners.com/" target="_blank">Strata Stone Partners</a> · Digital Twin Initiative<br><br>
+    Ukubona LLC · Seeing, Blindly · Sequential · Consequential · Bayesian
+  </div>
+</footer>
+
+</div><!-- end page -->
+
+<!-- Ukubona branding infrastructure -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+
+<script>
+// Descent step interaction
+function activateStep(el) {
+  document.querySelectorAll('.descent-step').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+}
+// Activate first step on load
+document.addEventListener('DOMContentLoaded', () => {
+  const first = document.querySelector('.descent-step');
+  if (first) first.classList.add('active');
+});
+
+// Scroll fade-in + axiom stagger
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07 });
+
+document.querySelectorAll('.fade-in, .axiom').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

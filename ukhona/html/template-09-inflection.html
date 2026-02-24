@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[PAGE TITLE] — Ukubona LLC</title>
+
+<!--
+╔══════════════════════════════════════════════════════════════════════╗
+║           UKUBONA LLC — HTML PAGE TEMPLATE                          ║
+║           For: .md / .txt / bullet → polished .html mapping         ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  HOW TO PROMPT CLAUDE FOR A NEW PAGE:                                ║
+║  ─────────────────────────────────────                               ║
+║                                                                      ║
+║  OPTION A — Bullet thesis (fastest, best results):                   ║
+║    "Here are my raw ideas: [bullets]. Build an .html in the          ║
+║     Ukubona style — synthesize first, then build."                   ║
+║                                                                      ║
+║  OPTION B — Paste a .md or .txt file:                                ║
+║    "Map this .md to a polished Ukubona .html. Use the                ║
+║     apollonian-dt.html as the quality benchmark.                     ║
+║     Centralized branding via shared.js + css/*.css.                  ║
+║     Bring your own distributed styles for this page's                ║
+║     specific aesthetic. Full light/dark toggle support."             ║
+║                                                                      ║
+║  OPTION C — GOAX discourse (multi-voice):                            ║
+║    "Here is a GOAX conversation: [paste]. Build an .html             ║
+║     with tab-switching per voice, accordion sections,                ║
+║     verbatim content. Ukubona branding. Light/dark toggle."          ║
+║                                                                      ║
+║  THE MAGIC PHRASE that unlocks quality:                              ║
+║    "Synthesize the argument first, then build."                      ║
+║    Claude will sharpen the thesis before touching any HTML.          ║
+║                                                                      ║
+║  QUALITY BENCHMARK: apollonian-dt.html                               ║
+║    Reference it explicitly. Claude will match that level.            ║
+║                                                                      ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  ARCHITECTURE: TWO-LAYER SYSTEM                                      ║
+║  ─────────────────────────────────────                               ║
+║                                                                      ║
+║  LAYER 1 — CENTRALIZED (Ukubona LLC, never touch these):             ║
+║    ../css/variables.css   ← design tokens, light/dark base           ║
+║    ../css/head.css        ← header / nav component                   ║
+║    ../css/card.css        ← card primitives                          ║
+║    ../css/footer.css      ← footer component                         ║
+║    ../js/shared.js        ← header inject, light/dark toggle,        ║
+║                              scroll progress, footer inject          ║
+║    https://abikesa.github.io/favicon/   ← favicons                  ║
+║    https://abikesa.github.io/logos/     ← Ukubona logo assets        ║
+║                                                                      ║
+║  LAYER 2 — DISTRIBUTED (page-specific, Claude brings this):          ║
+║    <style> block in <head>  ← page fonts, palette, components        ║
+║    :root { } tokens        ← page-specific design variables          ║
+║    light-mode overrides    ← CRITICAL: must cover html.light-mode,   ║
+║                               html[data-theme="light"], html.light,  ║
+║                               AND body.light-mode                    ║
+║                               shared.js toggles on <html>, not body  ║
+║    Page <script>           ← page-specific interactions only         ║
+║                                                                      ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  LIGHT/dark TOGGLE — THE LESSON LEARNED:                             ║
+║  ─────────────────────────────────────                               ║
+║  shared.js adds class to <html>, not <body>.                         ║
+║  Custom :root vars won't cascade unless overridden at html level.    ║
+║  Always write light overrides as:                                    ║
+║    html.light-mode, html[data-theme="light"],                        ║
+║    html.light, body.light-mode { --var: value; }                     ║
+║  AND force body background explicitly:                               ║
+║    html.light-mode body { background: #xxx !important; }             ║
+║                                                                      ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  BRANDING INFRASTRUCTURE (bottom of <body>, always):                 ║
+║    <div class="scroll-indicator">                                    ║
+║      <div class="scroll-progress"></div>                             ║
+║    </div>                                                            ║
+║    <div class="bg-pattern"></div>                                    ║
+║    <header class="header" id="header"></header>                      ║
+║    <main class="page wrap-max"></main>                               ║
+║    <div id="footer-placeholder"></div>                               ║
+║    <script src="feather-icons CDN"></script>                         ║
+║    <script src="../js/shared.js"></script>                           ║
+║                                                                      ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  CONTENT TYPES → COMPONENT PATTERNS:                                 ║
+║  ─────────────────────────────────────                               ║
+║  Thesis / argument    → lede + axiom blocks + coda                   ║
+║  Comparison / vs      → contrast table + regime banner               ║
+║  Process / sequence   → descent-track (clickable steps)              ║
+║  Multi-voice (GOAX)   → tab nav + voice panels + accordion           ║
+║  Data / schema        → syntax-highlighted code block + ERD          ║
+║  Myth / theory        → pull quotes + phase tables + push question   ║
+║  Dashboard wireframe  → wireframe blocks + module heads              ║
+║                                                                      ║
+╠══════════════════════════════════════════════════════════════════════╣
+║                                                                      ║
+║  AESTHETIC DIRECTION — tell Claude which register:                   ║
+║  ─────────────────────────────────────                               ║
+║  "Clinical / epistemic"  → cold mono, stark contrast (apollonian-dt) ║
+║  "Mythic / cosmological" → Cinzel display, gold, dark stone          ║
+║                            (goax-discourse, theogony-ledger)         ║
+║  "Editorial / longform"  → Cormorant Garamond, warm parchment        ║
+║                            (goax-discourse-ii)                       ║
+║  "Dashboard / data"      → JetBrains Mono, tabular, utilitarian      ║
+║  "Luxury / stone"        → EB Garamond, deep navy, gold leaf         ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+-->
+
+<!-- ═══════════════════════════════════════════════
+     OPEN GRAPH / TWITTER — update per page
+═══════════════════════════════════════════════ -->
+<meta property="og:site_name" content="Repos">
+<meta property="og:title" content="The Dude's Rug">
+<meta property="og:description" content="Saddle Point">
+<meta property="og:type" content="blog">
+<meta property="og:url" content="https://ukb-dt.github.io/repos-00/">
+<meta property="og:image" content="ukhona/img/ukb-landscape.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Dude's Rug">
+<meta name="twitter:description" content="Saddle Point">
+<meta name="twitter:image" content="ukhona/img/ukb-landscape.jpg">
+
+<!-- ═══════════════════════════════════════════════
+     CENTRALIZED ASSETS — never modify paths
+═══════════════════════════════════════════════ -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- ═══════════════════════════════════════════════
+     DISTRIBUTED STYLES — page-specific, Claude writes
+     ↓ Replace everything in this block per page ↓
+═══════════════════════════════════════════════ -->
+
+<!-- PAGE FONTS — choose per aesthetic register -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<!--
+  Other font stacks used across the series:
+  Cinzel + EB Garamond + JetBrains Mono     → mythic/cosmological
+  Cormorant Garamond + Cinzel + JetBrains   → editorial/GOAX
+  DM Serif Display + Libre Baskerville + DM Mono → clinical/epistemic
+-->
+
+<style>
+/* ══════════════════════════════════
+   DESIGN TOKENS — dark default
+   Swap palette per aesthetic register
+══════════════════════════════════ */
+:root {
+  /* Layout */
+  --bg:     #09090b;
+  --bg2:    #0f1014;
+  --bg3:    #16181f;
+  --bg4:    #1e2130;
+  --line:   #2a2e40;
+  --line2:  #363c54;
+
+  /* Typography */
+  --dim:    #5a6280;
+  --mid:    #8892b0;
+  --text:   #ccd6f6;
+  --bright: #e6f1ff;
+
+  /* Accent — change per page theme */
+  --accent:     #00b896;   /* teal for clinical/epistemic */
+  --accent-dim: #003d32;
+  --counter:    #4a90d9;   /* opposing colour for comparisons */
+  --warn:       #e85d4a;
+  --gold:       #c49a3a;
+
+  /* Font stacks */
+  --serif:   'Libre Baskerville', Georgia, serif;
+  --mono:    'DM Mono', monospace;
+  --display: 'DM Serif Display', Georgia, serif;
+}
+
+/* ══════════════════════════════════
+   LIGHT MODE — CRITICAL PATTERN
+   Cover ALL toggle variants.
+   shared.js toggles on <html>.
+   Use !important on body background.
+══════════════════════════════════ */
+html.light-mode,
+html[data-theme="light"],
+html.light,
+body.light-mode {
+  --bg:     #f7f7f5;
+  --bg2:    #efefec;
+  --bg3:    #e5e5e0;
+  --bg4:    #d8d8d0;
+  --line:   #c8c8bc;
+  --line2:  #b0b0a0;
+  --dim:    #7a7a6a;
+  --mid:    #4a4a3a;
+  --text:   #1a1a14;
+  --bright: #0a0a08;
+  --accent:     #007a60;
+  --accent-dim: #d0f5ee;
+  --counter:    #1a6abf;
+  --warn:       #c03020;
+  --gold:       #7a6010;
+}
+
+html.light-mode body,
+html[data-theme="light"] body,
+html.light body,
+body.light-mode {
+  background: #f7f7f5 !important;
+  color: #1a1a14 !important;
+}
+
+/* Add component-level light overrides below as needed */
+html.light-mode .some-component,
+html[data-theme="light"] .some-component,
+html.light .some-component,
+body.light-mode .some-component {
+  background: var(--bg3);
+  border-color: var(--line);
+}
+
+/* ══════════════════════════════════
+   BASE
+══════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* Grain texture */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* Ambient gradient */
+.ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(0,184,150,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 100%, rgba(74,144,217,0.05) 0%, transparent 60%);
+}
+
+/* ══════════════════════════════════
+   LAYOUT
+══════════════════════════════════ */
+.page {
+  position: relative; z-index: 1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 2rem 8rem;
+}
+
+/* ══════════════════════════════════
+   MASTHEAD — replace content, keep structure
+══════════════════════════════════ */
+.masthead {
+  padding: 7rem 0 4rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: rise 1.2s ease forwards 0.15s;
+}
+
+.mast-kicker {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.mast-kicker::before, .mast-kicker::after {
+  content: ''; flex: 1; height: 1px; background: var(--line);
+}
+
+.mast-title {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1.0;
+  color: var(--bright);
+  margin-bottom: 0.6rem;
+}
+.mast-title .italic { font-style: italic; color: var(--accent); }
+
+.mast-sub {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  margin-bottom: 2.5rem;
+}
+
+/* ══════════════════════════════════
+   SECTION LABEL — reusable divider
+══════════════════════════════════ */
+.sec-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 4rem 0 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+/* ══════════════════════════════════
+   PROSE
+══════════════════════════════════ */
+.prose { margin-bottom: 3rem; }
+.prose p { margin-bottom: 1.2rem; color: var(--text); }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--bright); font-weight: 700; }
+.prose em { color: var(--accent); font-style: italic; }
+.prose a { color: var(--gold); text-decoration: none; }
+.prose a:hover { text-decoration: underline; }
+
+/* Lede — opening pull */
+.lede {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--mid);
+  border-left: 3px solid var(--accent);
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Pull quote */
+.pull {
+  border-left: 3px solid var(--accent);
+  padding: 0.6rem 1.5rem;
+  margin: 1.8rem 0;
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--bright);
+}
+
+/* ══════════════════════════════════
+   AXIOM / KEY CLAIM BLOCK
+══════════════════════════════════ */
+.axioms { display: grid; gap: 1.2rem; margin: 2rem 0; }
+
+.axiom {
+  background: var(--bg3);
+  border: 1px solid var(--line2);
+  border-left: 3px solid var(--accent);
+  padding: 1.4rem 1.8rem;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0 1rem;
+  opacity: 0; transform: translateX(-12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.axiom.visible { opacity: 1; transform: translateX(0); }
+
+.axiom-n {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  padding-top: 0.3rem;
+}
+.axiom-title {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bright);
+  margin-bottom: 0.4rem;
+}
+.axiom p { color: var(--mid); font-size: 0.95rem; margin: 0; }
+
+/* ══════════════════════════════════
+   CONTRAST TABLE
+══════════════════════════════════ */
+.contrast-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.9rem; margin: 2rem 0;
+}
+.contrast-table th {
+  font-family: var(--mono);
+  font-size: 0.58rem; letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line2);
+  text-align: left; background: var(--bg3);
+  color: var(--dim);
+}
+.contrast-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top; line-height: 1.5;
+}
+.contrast-table tr:last-child td { border-bottom: none; }
+.contrast-table tr:hover td { background: var(--bg2); transition: background 0.15s; }
+
+/* ══════════════════════════════════
+   SEQUENTIAL STEP TRACK
+   (clickable, use for any process)
+══════════════════════════════════ */
+.step-track {
+  position: relative; padding-left: 2rem; margin: 2rem 0;
+}
+.step-track::before {
+  content: '';
+  position: absolute; left: 0.65rem; top: 0.8rem; bottom: 0.8rem;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent), var(--dim));
+}
+.step {
+  background: var(--bg3); border: 1px solid var(--line);
+  padding: 1rem 1.4rem; margin-bottom: 0.6rem;
+  position: relative; cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.step::before {
+  content: '';
+  position: absolute; left: -1.7rem; top: 50%; transform: translateY(-50%);
+  width: 0.55rem; height: 0.55rem; border-radius: 50%;
+  background: var(--line2); border: 1px solid var(--dim);
+  transition: background 0.3s;
+}
+.step.active { background: rgba(0,184,150,0.06); border-color: var(--accent); }
+.step.active::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 8px rgba(0,184,150,0.4); }
+
+.step-head {
+  font-family: var(--mono); font-size: 0.68rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 0.3rem;
+}
+.step.active .step-head { color: var(--accent); }
+.step-body { font-size: 0.92rem; color: var(--mid); line-height: 1.55; }
+.step.active .step-body { color: var(--text); }
+
+/* ══════════════════════════════════
+   CODA / SYNTHESIS BLOCK
+══════════════════════════════════ */
+.coda {
+  background: linear-gradient(135deg, rgba(0,184,150,0.07), rgba(9,9,11,0.95));
+  border: 1px solid var(--accent);
+  padding: 3rem 3rem 2.5rem;
+  margin: 4rem 0;
+  position: relative;
+}
+.coda::before {
+  content: '◆';
+  position: absolute; top: -0.8rem; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg); padding: 0 1.2rem;
+  color: var(--accent); font-size: 0.9rem;
+}
+.coda h2 {
+  font-family: var(--display);
+  font-size: 1.6rem; font-weight: 400; font-style: italic;
+  color: var(--bright); margin-bottom: 1rem;
+}
+.coda p { color: var(--mid); margin-bottom: 1rem; }
+.coda p:last-child { margin-bottom: 0; }
+.coda strong { color: var(--accent); }
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.5rem 0 4rem;
+  text-align: center;
+}
+.foot-chain {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.2em; color: var(--dim); margin-bottom: 0.8rem;
+}
+.foot-chain span { color: var(--accent); }
+.foot-note {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.1em; color: var(--line2); line-height: 2.2;
+}
+.foot-note a { color: var(--dim); text-decoration: none; }
+
+/* ══════════════════════════════════
+   ANIMATION UTILITIES
+══════════════════════════════════ */
+.fade-in {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 640px) {
+  .mast-title { font-size: 2.2rem; }
+  .coda { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════
+       MASTHEAD — replace kicker, title, sub per page
+  ═══════════════════════════════════════════════ -->
+  <header class="masthead">
+    <br><br><br>
+    <br>
+    <div class="mast-kicker">GOAX · [Topic Category] · [Subtopic]</div>
+    <h1 class="mast-title">[Page Title]<br><span class="italic">[Italic Subtitle]</span></h1>
+    <p class="mast-sub">// [one-line thesis in mono — the argument in its shortest form]</p>
+    <!-- Optional: regime-banner, epigraph, chain, etc. -->
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION I — Opening argument
+  ═══════════════════════════════════════════════ -->
+  <div class="sec-label fade-in">I · [Section Title]</div>
+
+  <div class="prose fade-in">
+    <p class="lede">[Opening lede — the thesis stated plainly, ~2 sentences.]</p>
+    <p>[Body paragraph expanding the argument.]</p>
+    <p>[Second paragraph. Use <strong>bold</strong> for key claims, <em>italic</em> for key terms.]</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       OPTIONAL BLOCKS — use what the content needs
+  ═══════════════════════════════════════════════ -->
+
+  <!-- Axioms / Key Claims -->
+  <div class="axioms">
+    <div class="axiom fade-in">
+      <span class="axiom-n">A1</span>
+      <div>
+        <div class="axiom-title">[Axiom title]</div>
+        <p>[Axiom explanation, 2-3 sentences.]</p>
+      </div>
+    </div>
+    <!-- repeat as needed -->
+  </div>
+
+  <!-- Contrast Table -->
+  <table class="contrast-table fade-in">
+    <thead>
+      <tr>
+        <th>[Property]</th>
+        <th>[Option A]</th>
+        <th>[Option B]</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>[property name]</td>
+        <td>[value A]</td>
+        <td>[value B]</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Sequential Step Track -->
+  <div class="step-track fade-in">
+    <div class="step active" onclick="activateStep(this)">
+      <div class="step-head">Step 0 — [Name]</div>
+      <p class="step-body">[Description.]</p>
+    </div>
+    <div class="step" onclick="activateStep(this)">
+      <div class="step-head">Step 1 — [Name]</div>
+      <p class="step-body">[Description.]</p>
+    </div>
+  </div>
+
+  <!-- Pull quote -->
+  <div class="pull fade-in">[Key sentence the reader should carry away.]</div>
+
+  <!-- ═══════════════════════════════════════════════
+       CODA — closing synthesis, always present
+  ═══════════════════════════════════════════════ -->
+  <div class="coda fade-in">
+    <h2>[Closing statement — italic, declarative]</h2>
+    <p>[Synthesis paragraph tying the argument together.]</p>
+    <p>[Final sentence. Make it land. <strong>Key phrase in accent colour.</strong>]</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER CHAIN — update per page series
+  ═══════════════════════════════════════════════ -->
+  <footer>
+    <div class="foot-chain">
+      [Chain node] · → · [Chain node] · → · <span>[Active node]</span>
+    </div>
+    <div class="foot-note">
+      Part of the GOAX Discourse series ·
+      <a href="theogony-ledger.html">Theogony Ledger</a> ·
+      <a href="gaia-dissipation.html">Gaia Dissipation</a> ·
+      <a href="goax-discourse.html">GOAX I</a> ·
+      <a href="goax-discourse-ii.html">GOAX II</a> ·
+      <a href="apollonian-dt.html">Seeing, Blindly</a><br>
+      <a href="https://stratastonepartners.com/" target="_blank">Strata Stone Partners</a> · Digital Twin Initiative<br><br>
+      Ukubona LLC · [Page subtitle]
+    </div>
+  </footer>
+
+</div><!-- end page -->
+
+<!-- ═══════════════════════════════════════════════
+     BRANDING INFRASTRUCTURE — never modify, always present
+     This block is identical across every page.
+═══════════════════════════════════════════════ -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE SCRIPTS — interactions only, no branding logic
+═══════════════════════════════════════════════ -->
+<script>
+// Step track interaction
+function activateStep(el) {
+  el.closest('.step-track')
+    .querySelectorAll('.step')
+    .forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Scroll fade-in + axiom stagger
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07 });
+
+document.querySelectorAll('.fade-in, .axiom').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
