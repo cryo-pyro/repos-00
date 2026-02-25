@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theogony as Differential Equation — Ukubona LLC</title>
+
+<!-- ═══════════════════════════════════════════════
+     OPEN GRAPH / TWITTER
+═══════════════════════════════════════════════ -->
+<meta property="og:site_name" content="Ukubona LLC">
+<meta property="og:title" content="Theogony as Differential Equation">
+<meta property="og:description" content="Position → Velocity → Acceleration → Jerk → Attractor Basin. Hesiod's Theogony as a mythic differential equation of cosmogenesis.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ukubona-llc.github.io/assets/html/theogony.html">
+<meta property="og:image" content="../img/ukb-landscape.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Theogony as Differential Equation">
+<meta name="twitter:description" content="A mythic differential equation of cosmogenesis. Position → Velocity → Acceleration → Jerk → Attractor Basin.">
+<meta name="twitter:image" content="../img/ukb-landscape.jpg">
+
+<!-- ═══════════════════════════════════════════════
+     CENTRALIZED ASSETS
+═══════════════════════════════════════════════ -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+
+<style>
+/* ══════════════════════════════════
+   DESIGN TOKENS — cosmological dark
+   Cinzel Decorative + Cormorant + JetBrains Mono
+   Void black, gold, teal, ember — a true sequel
+══════════════════════════════════ */
+:root {
+  --bg:           #060509;
+  --bg2:          #0b0a10;
+  --bg3:          #111018;
+  --bg4:          #181620;
+  --line:         #1e1c2a;
+  --line2:        #2c2940;
+
+  --dim:          #4a4870;
+  --mid:          #7a78a8;
+  --text:         #c4c0dc;
+  --bright:       #eceaf8;
+
+  --gold:         #c8a84b;
+  --gold-bright:  #e8c96a;
+  --gold-pale:    #f5e4a8;
+  --gold-dim:     rgba(200,168,75,0.07);
+
+  --teal:         #00c8a0;
+  --teal-dim:     rgba(0,200,160,0.06);
+  --ember:        #c04a1a;
+  --ember-dim:    rgba(192,74,26,0.07);
+  --silver:       #8899bb;
+
+  --serif:        'Cormorant Garamond', Georgia, serif;
+  --mono:         'JetBrains Mono', monospace;
+  --display:      'Cinzel', serif;
+  --display2:     'Cinzel Decorative', serif;
+}
+
+/* ══════════════════════════════════
+   LIGHT MODE
+══════════════════════════════════ */
+html.light-mode, html[data-theme="light"], html.light, body.light-mode {
+  --bg:          #f4f2ee;
+  --bg2:         #eceae4;
+  --bg3:         #e2dfd6;
+  --bg4:         #d6d2c6;
+  --line:        #c0bcac;
+  --line2:       #a8a494;
+  --dim:         #6a6454;
+  --mid:         #3c3428;
+  --text:        #201a0e;
+  --bright:      #0c0804;
+  --gold:        #8a6010;
+  --gold-bright: #6a4808;
+  --gold-pale:   #3c2404;
+  --teal:        #007a5c;
+  --teal-dim:    rgba(0,122,92,0.06);
+  --ember:       #8a2a08;
+}
+html.light-mode body, html[data-theme="light"] body, html.light body, body.light-mode {
+  background: #f4f2ee !important;
+  color: #201a0e !important;
+}
+
+/* ══════════════════════════════════
+   BASE RESET
+══════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* Grain texture */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* Ambient gradient — gold / teal duality */
+.ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 5% 10%,  rgba(200,168,75,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 95% 90%, rgba(0,200,160,0.04) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(192,74,26,0.02) 0%, transparent 70%);
+}
+
+/* Starfield — cosmological ambiance */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 8%  12%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 38%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 38%  6%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 53% 68%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 22%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(2px 2px at 78% 52%, rgba(200,168,75,0.35)  0%, transparent 100%),
+    radial-gradient(1px 1px at 88%  8%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 78%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 32% 57%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 58% 88%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1px 1px at 72% 72%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(2px 2px at 3%  48%, rgba(0,200,160,0.25)   0%, transparent 100%),
+    radial-gradient(1px 1px at 44% 28%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 83%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 18% 18%, rgba(255,255,255,0.5) 0%, transparent 100%);
+}
+
+/* ══════════════════════════════════
+   LAYOUT
+══════════════════════════════════ */
+.page {
+  position: relative; z-index: 1;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 2.5rem 8rem;
+}
+
+/* ══════════════════════════════════
+   MASTHEAD
+══════════════════════════════════ */
+.masthead {
+  padding: 8rem 0 5rem;
+  border-bottom: 1px solid var(--line);
+  opacity: 0;
+  animation: rise 1.4s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.mast-kicker {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 2.5rem;
+  display: flex; align-items: center; gap: 1.2rem;
+}
+.mast-kicker::before, .mast-kicker::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line2), transparent);
+}
+.mast-kicker .k-gold   { color: var(--gold); }
+.mast-kicker .k-teal   { color: var(--teal); }
+
+.mast-title {
+  font-family: var(--display2);
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold) 45%, var(--ember) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.9rem;
+}
+
+.mast-sub-line {
+  font-family: var(--display);
+  font-size: clamp(0.85rem, 2.5vw, 1.15rem);
+  color: var(--silver);
+  letter-spacing: 0.08em;
+  margin-bottom: 2.5rem;
+}
+
+.mast-derivative-chain {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: rise 1s ease 0.8s forwards;
+}
+
+.d-item {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(200,168,75,0.3);
+  color: var(--gold);
+  border-radius: 2px;
+  background: var(--gold-dim);
+  white-space: nowrap;
+}
+.d-item.teal-item {
+  color: var(--teal);
+  border-color: rgba(0,200,160,0.3);
+  background: var(--teal-dim);
+}
+.d-arrow {
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+}
+
+.mast-epigraph {
+  border-left: 2px solid var(--gold);
+  padding-left: 1.5rem;
+  font-style: italic;
+  color: var(--mid);
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: 640px;
+  opacity: 0;
+  animation: rise 1s ease 1s forwards;
+}
+.mast-epigraph cite {
+  display: block;
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-top: 0.6rem;
+}
+
+/* ══════════════════════════════════
+   SECTION DIVIDER
+══════════════════════════════════ */
+.sec-label {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 4.5rem 0 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.sec-label.gold-sec { color: var(--gold); }
+.sec-label.teal-sec { color: var(--teal); }
+.sec-label.ember-sec { color: var(--ember); }
+
+/* ══════════════════════════════════
+   THESIS BANNER
+══════════════════════════════════ */
+.thesis-banner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  border: 1px solid var(--line2);
+  margin: 4rem 0 0;
+}
+@media (max-width: 700px) { .thesis-banner { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 440px) { .thesis-banner { grid-template-columns: 1fr; } }
+
+.t-item {
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+  border-right: 1px solid var(--line2);
+}
+.t-item:last-child { border-right: none; }
+.t-label {
+  font-family: var(--mono);
+  font-size: 0.46rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 0.5rem;
+}
+.t-num {
+  font-family: var(--display2);
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.t-claim {
+  font-family: var(--display);
+  font-size: 0.66rem;
+  line-height: 1.5;
+  color: var(--mid);
+  letter-spacing: 0.06em;
+}
+.t0 .t-num, .t0 .t-claim { color: var(--mid); }
+.t1 .t-num, .t1 .t-claim { color: var(--gold); }
+.t2 .t-num, .t2 .t-claim { color: var(--gold-bright); }
+.t3 .t-num, .t3 .t-claim { color: var(--ember); }
+.t4 .t-num, .t4 .t-claim { color: var(--teal); }
+
+/* ══════════════════════════════════
+   PHASE CARDS — 5-phase derivative sequence
+══════════════════════════════════ */
+.phase-sequence {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 2.5rem 0;
+  position: relative;
+}
+
+/* vertical spine */
+.phase-sequence::before {
+  content: '';
+  position: absolute;
+  left: 2.8rem; top: 3rem; bottom: 3rem;
+  width: 2px;
+  background: linear-gradient(to bottom,
+    var(--dim) 0%,
+    var(--gold) 25%,
+    var(--gold-bright) 50%,
+    var(--ember) 75%,
+    var(--teal) 100%
+  );
+  opacity: 0.4;
+}
+
+.phase-item {
+  display: grid;
+  grid-template-columns: 5.6rem 1fr;
+  gap: 0 2rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.phase-item.visible { opacity: 1; transform: translateX(0); }
+.phase-item:last-child { border-bottom: none; }
+
+.phase-index {
+  text-align: center;
+  padding-top: 0.5rem;
+  position: relative;
+}
+.phase-num {
+  font-family: var(--display2);
+  font-size: 2.6rem;
+  font-weight: 900;
+  line-height: 1;
+  display: block;
+}
+.phase-deriv {
+  font-family: var(--mono);
+  font-size: 0.46rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 0.3rem;
+}
+.phase-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%; top: 0.8rem;
+  transform: translateX(-50%) translateX(-1.5rem);
+  z-index: 2;
+}
+
+/* color-coded by phase */
+.p0 .phase-num, .p0 .phase-deriv { color: var(--mid); }
+.p0 .phase-dot { background: var(--mid); border: 2px solid var(--bg3); }
+
+.p1 .phase-num, .p1 .phase-deriv { color: var(--gold); }
+.p1 .phase-dot { background: var(--gold); border: 2px solid var(--bg3); box-shadow: 0 0 10px rgba(200,168,75,0.5); }
+
+.p2 .phase-num, .p2 .phase-deriv { color: var(--gold-bright); }
+.p2 .phase-dot { background: var(--gold-bright); border: 2px solid var(--bg3); box-shadow: 0 0 10px rgba(232,201,106,0.5); }
+
+.p3 .phase-num, .p3 .phase-deriv { color: var(--ember); }
+.p3 .phase-dot { background: var(--ember); border: 2px solid var(--bg3); box-shadow: 0 0 10px rgba(192,74,26,0.5); }
+
+.p4 .phase-num, .p4 .phase-deriv { color: var(--teal); }
+.p4 .phase-dot { background: var(--teal); border: 2px solid var(--bg3); box-shadow: 0 0 10px rgba(0,200,160,0.5); }
+
+.phase-content {}
+.phase-god {
+  font-family: var(--display2);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+.p0 .phase-god { color: var(--mid); }
+.p1 .phase-god { color: var(--gold-bright); }
+.p2 .phase-god { color: var(--gold-bright); }
+.p3 .phase-god { color: var(--ember); }
+.p4 .phase-god { color: var(--teal); }
+
+.phase-title {
+  font-family: var(--display);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 1rem;
+}
+
+.phase-body { font-size: 0.96rem; color: var(--text); line-height: 1.8; max-width: 68ch; }
+.phase-body p { margin-bottom: 0.9rem; }
+.phase-body p:last-child { margin-bottom: 0; }
+.phase-body strong { color: var(--bright); }
+.phase-body em { color: var(--gold-bright); font-style: italic; }
+.phase-body .quote-block {
+  border-left: 2px solid var(--line2);
+  padding-left: 1.2rem;
+  color: var(--mid);
+  font-style: italic;
+  margin: 1rem 0;
+  font-size: 0.92rem;
+}
+
+/* images inside phases */
+.phase-images {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  margin: 1.2rem 0;
+}
+@media (max-width: 600px) { .phase-images { grid-template-columns: repeat(2, 1fr); } }
+
+.phase-images img {
+  width: 100%; aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  filter: grayscale(20%) contrast(1.05);
+  transition: filter 0.3s, transform 0.3s;
+}
+.phase-images img:hover { filter: grayscale(0%) contrast(1.1); transform: scale(1.03); }
+
+/* ══════════════════════════════════
+   PARALLELS TABLE
+══════════════════════════════════ */
+.grand-table-wrap {
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--line2);
+  border-radius: 3px;
+  background: rgba(200,168,75,0.015);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+thead tr {
+  background: rgba(200,168,75,0.06);
+  border-bottom: 2px solid rgba(200,168,75,0.25);
+}
+
+th {
+  font-family: var(--display);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 0.9rem 1.2rem;
+  text-align: left;
+  font-weight: 600;
+}
+th:nth-child(2) { color: var(--teal); }
+
+tbody tr {
+  border-bottom: 1px solid var(--line);
+  transition: background 0.2s;
+}
+tbody tr:hover { background: rgba(200,168,75,0.03); }
+tbody tr:last-child { border-bottom: none; }
+
+td {
+  padding: 0.9rem 1.2rem;
+  color: var(--text);
+  vertical-align: top;
+  line-height: 1.55;
+}
+td:first-child {
+  color: var(--gold-bright);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+td:nth-child(2) { color: rgba(0,200,160,0.9); font-style: italic; }
+
+/* ══════════════════════════════════
+   CALLOUT / PULL QUOTE
+══════════════════════════════════ */
+.callout {
+  background: linear-gradient(135deg, rgba(0,200,160,0.05) 0%, rgba(200,168,75,0.03) 100%);
+  border: 1px solid rgba(0,200,160,0.18);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 1.4rem 2rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: var(--mid);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.callout strong { color: rgba(0,200,160,0.9); font-style: normal; }
+
+.callout-gold {
+  background: var(--gold-dim);
+  border: 1px solid rgba(200,168,75,0.2);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+  padding: 1.4rem 2rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: var(--mid);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.callout-gold strong { color: var(--gold-bright); font-style: normal; }
+
+.danger {
+  background: var(--ember-dim);
+  border: 1px solid rgba(192,74,26,0.25);
+  border-left: 3px solid var(--ember);
+  padding: 1.4rem 2rem; margin: 1.8rem 0;
+}
+.danger .dz-head {
+  font-family: var(--mono); font-size: 0.52rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--ember); margin-bottom: 0.7rem;
+}
+.danger p { font-size: 0.88rem; color: var(--mid); margin: 0.3rem 0; line-height: 1.65; }
+.danger strong { color: var(--ember); }
+
+/* ══════════════════════════════════
+   VOICES NAV — I / II / III tabs
+══════════════════════════════════ */
+.voice-nav {
+  position: sticky;
+  top: 60px;
+  z-index: 100;
+  display: flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--line2);
+  overflow-x: auto;
+  margin: 0 -2.5rem;
+  padding: 0 2.5rem;
+}
+
+.vnbtn {
+  font-family: var(--display);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 1.2rem 2rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+  display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+}
+.vnbtn .bv {
+  font-family: var(--mono);
+  font-size: 0.4rem;
+  letter-spacing: 0.22em;
+  opacity: 0.5;
+}
+.vnbtn:hover { background: var(--bg3); color: var(--text); }
+.vnbtn.active { background: var(--bg3); }
+.vnbtn.v1.active { color: var(--gold);   border-bottom-color: var(--gold); }
+.vnbtn.v2.active { color: var(--teal);   border-bottom-color: var(--teal); }
+.vnbtn.v3.active { color: var(--ember);  border-bottom-color: var(--ember); }
+
+/* ══════════════════════════════════
+   VOICE PANELS
+══════════════════════════════════ */
+.voice-panel { display: none; padding: 4rem 0 1rem; }
+.voice-panel.active {
+  display: block;
+  animation: panelIn 0.35s ease forwards;
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.voice-head {
+  display: flex; align-items: baseline; gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.v-glyph {
+  font-family: var(--display2);
+  font-size: 4rem; line-height: 1; font-weight: 900;
+  opacity: 0.12; flex-shrink: 0;
+}
+.panel-i  .v-glyph { color: var(--gold); opacity: 0.18; }
+.panel-ii .v-glyph { color: var(--teal); opacity: 0.18; }
+.panel-iii .v-glyph { color: var(--ember); opacity: 0.18; }
+
+.v-meta { flex: 1; }
+.v-name {
+  font-family: var(--display);
+  font-size: 0.86rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--mid); margin-bottom: 0.3rem;
+}
+.v-desc { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em; color: var(--dim); }
+
+/* ══════════════════════════════════
+   ACCORDION
+══════════════════════════════════ */
+.acc { border: 1px solid var(--line); margin-bottom: 0.5rem; }
+.acc:hover { border-color: var(--line2); }
+.acc-head {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 1.6rem;
+  cursor: pointer;
+  background: var(--bg2);
+  user-select: none;
+  transition: background 0.2s;
+}
+.acc-head:hover { background: var(--bg3); }
+.acc.open .acc-head { background: var(--bg3); }
+.acc-num {
+  font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.18em;
+  color: var(--dim); flex-shrink: 0;
+}
+.acc-title {
+  font-family: var(--display); font-size: 0.72rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--mid); flex: 1; line-height: 1.4;
+}
+.acc.open .acc-title { color: var(--bright); }
+.acc-arr {
+  font-family: var(--mono); font-size: 0.6rem; color: var(--dim);
+  transition: transform 0.3s, color 0.3s; flex-shrink: 0;
+}
+.acc.open .acc-arr { transform: rotate(90deg); color: var(--teal); }
+.acc-body {
+  max-height: 0; overflow: hidden;
+  padding: 0 1.6rem;
+  background: var(--bg2);
+  transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.acc.open .acc-body { padding: 0 1.6rem 2rem; }
+
+/* ══════════════════════════════════
+   PROSE HELPERS
+══════════════════════════════════ */
+.prose p { margin-bottom: 1.1rem; color: var(--text); max-width: 72ch; }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--bright); font-weight: 600; }
+.prose em { color: var(--gold-bright); font-style: italic; }
+.prose h3 {
+  font-family: var(--display); font-size: 0.84rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mid); margin: 2.2rem 0 0.7rem;
+}
+
+.lede {
+  font-size: 1.08rem; line-height: 1.78; color: var(--mid);
+  border-left: 3px solid var(--teal); padding-left: 1.5rem;
+  margin-bottom: 2.2rem;
+}
+
+.pull {
+  border-left: 3px solid var(--gold);
+  padding: 0.5rem 1.5rem;
+  margin: 1.8rem 0;
+  font-size: 1.05rem; font-style: italic;
+  color: var(--bright); line-height: 1.65;
+}
+
+/* ══════════════════════════════════
+   KEY QUESTION BLOCK
+══════════════════════════════════ */
+.key-q {
+  background: linear-gradient(135deg, rgba(200,168,75,0.08) 0%, rgba(192,74,26,0.05) 100%);
+  border: 1px solid rgba(200,168,75,0.25);
+  border-radius: 4px;
+  padding: 2.5rem 3rem;
+  margin: 3rem 0;
+  position: relative;
+}
+.key-q::before {
+  content: '?';
+  position: absolute; top: -1.1rem; left: 2.5rem;
+  background: var(--bg2); padding: 0 1rem;
+  font-family: var(--display2); font-size: 1.4rem;
+  color: var(--gold); font-weight: 900;
+}
+.key-q p { color: var(--text); font-size: 1rem; line-height: 1.8; max-width: none; margin-bottom: 0.7rem; }
+.key-q p:last-child { margin-bottom: 0; }
+.key-q strong { color: var(--gold-bright); }
+
+/* ══════════════════════════════════
+   SYNTHESIS / CODA
+══════════════════════════════════ */
+.coda {
+  background: linear-gradient(135deg, rgba(0,200,160,0.06), rgba(6,5,9,0.98));
+  border: 1px solid rgba(0,200,160,0.22);
+  padding: 5rem 4rem 4rem;
+  margin: 5rem 0 0;
+  position: relative; text-align: center;
+}
+.coda::before {
+  content: '◆';
+  position: absolute; top: -0.9rem; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg); padding: 0 1.5rem;
+  color: var(--teal); font-size: 0.9rem;
+}
+.coda h2 {
+  font-family: var(--display2);
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 700; color: var(--bright);
+  margin-bottom: 2rem; letter-spacing: 0.05em; line-height: 1.3;
+  background: linear-gradient(135deg, var(--gold-pale), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.coda p { color: var(--mid); max-width: 640px; margin: 0 auto 1rem; line-height: 1.9; }
+.coda strong { color: var(--teal); font-style: normal; }
+.coda-seq {
+  margin-top: 2.5rem; padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.22em; color: var(--dim); text-transform: uppercase;
+}
+.coda-seq span.g { color: var(--gold); }
+.coda-seq span.t { color: var(--teal); }
+
+/* ══════════════════════════════════
+   DERIVATIVE CHAIN VISUAL
+══════════════════════════════════ */
+.deriv-chain {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border: 1px solid var(--line2);
+  margin: 2.5rem 0;
+}
+@media (max-width: 640px) { .deriv-chain { grid-template-columns: 1fr 1fr; } }
+
+.dc-item {
+  padding: 1.6rem 1rem;
+  text-align: center;
+  border-right: 1px solid var(--line2);
+  position: relative;
+}
+.dc-item:last-child { border-right: none; }
+.dc-label {
+  font-family: var(--mono); font-size: 0.44rem;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 0.5rem;
+}
+.dc-math {
+  font-family: var(--display2); font-size: 1.1rem; font-weight: 700;
+  display: block; margin-bottom: 0.3rem;
+}
+.dc-name {
+  font-family: var(--display); font-size: 0.58rem; letter-spacing: 0.12em;
+  text-transform: uppercase; display: block; margin-bottom: 0.25rem;
+}
+.dc-god {
+  font-family: var(--mono); font-size: 0.46rem; letter-spacing: 0.12em;
+  display: block; color: var(--dim);
+}
+.dc0 .dc-math, .dc0 .dc-name { color: var(--mid); }
+.dc1 .dc-math, .dc1 .dc-name { color: var(--gold); }
+.dc2 .dc-math, .dc2 .dc-name { color: var(--gold-bright); }
+.dc3 .dc-math, .dc3 .dc-name { color: var(--ember); }
+.dc4 .dc-math, .dc4 .dc-name { color: var(--teal); }
+.dc0 .dc-god { color: rgba(170,170,185,0.6); }
+.dc1 .dc-god { color: rgba(200,168,75,0.6); }
+.dc2 .dc-god { color: rgba(232,201,106,0.6); }
+.dc3 .dc-god { color: rgba(192,74,26,0.6); }
+.dc4 .dc-god { color: rgba(0,200,160,0.6); }
+
+/* ══════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════ */
+.fade-in {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+mjx-container { color: var(--bright); }
+
+/* responsive text */
+@media (max-width: 640px) {
+  .page { padding: 0 1.2rem 6rem; }
+  .masthead { padding: 5rem 0 3rem; }
+  .coda { padding: 3rem 1.5rem 2.5rem; }
+  .voice-nav { margin: 0 -1.2rem; padding: 0 1.2rem; }
+  .phase-item { grid-template-columns: 3.5rem 1fr; }
+  .phase-images { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+
+<div class="page">
+
+  <!-- ══════════════════════════════════
+       MASTHEAD
+  ══════════════════════════════════ -->
+  <header class="masthead">
+    <br><br><br><br>
+    <div class="mast-kicker">
+      <span class="k-gold">Hesiod · c. 700 BCE</span>
+      Theogony · Dissipative Structures · Dynamical Hierarchy
+      <span class="k-teal">Ukubona LLC</span>
+    </div>
+    <h1 class="mast-title">Theogony</h1>
+    <p class="mast-sub-line">A Mythic Differential Equation of Cosmogenesis</p>
+    <div class="mast-derivative-chain">
+      <span class="d-item">State / Position</span><span class="d-arrow">→</span>
+      <span class="d-item">Change / Velocity</span><span class="d-arrow">→</span>
+      <span class="d-item">Rate of Change / Acceleration</span><span class="d-arrow">→</span>
+      <span class="d-item">Change of Rate / Jerk</span><span class="d-arrow">→</span>
+      <span class="d-item teal-item">Estate / Attractor Basin</span>
+    </div>
+    <blockquote class="mast-epigraph">
+      "First came Chaos, but next wide-bosomed Earth [Gaia]… and dim Tartarus… and Eros (Love), fairest among the deathless gods…"
+      <cite>Hesiod, Theogony · c. 700 BCE · The Original Nonlinear Dynamics</cite>
+    </blockquote>
+  </header>
+
+  <!-- ══════════════════════════════════
+       5-PHASE BANNER
+  ══════════════════════════════════ -->
+  <div class="thesis-banner fade-in">
+    <div class="t-item t0">
+      <span class="t-num">x</span>
+      <div class="t-label">State</div>
+      <div class="t-claim">Chaos — Undifferentiated state space</div>
+    </div>
+    <div class="t-item t1">
+      <span class="t-num">ẋ</span>
+      <div class="t-label">Change</div>
+      <div class="t-claim">Gaia + Primordials — First gradients</div>
+    </div>
+    <div class="t-item t2">
+      <span class="t-num">ẍ</span>
+      <div class="t-label">Rate</div>
+      <div class="t-claim">Uranus — Dynamic constraint</div>
+    </div>
+    <div class="t-item t3">
+      <span class="t-num">⃛x</span>
+      <div class="t-label">Jerk</div>
+      <div class="t-claim">Titans + Tartarus — Bifurcation</div>
+    </div>
+    <div class="t-item t4">
+      <span class="t-num">⊕</span>
+      <div class="t-label">Estate</div>
+      <div class="t-claim">Olympus — Stable attractor basin</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       VOICE NAV — I, II, III
+  ══════════════════════════════════ -->
+  <nav class="voice-nav">
+    <button class="vnbtn v1 active" onclick="switchVoice('i')">
+      I <span class="bv">Dynamical Reading</span>
+    </button>
+    <button class="vnbtn v2" onclick="switchVoice('ii')">
+      II <span class="bv">Dissipative Structures</span>
+    </button>
+    <button class="vnbtn v3" onclick="switchVoice('iii')">
+      III <span class="bv">Prigogine Mapping</span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════
+       VOICE I — DYNAMICAL HIERARCHY
+  ══════════════════════════════════ -->
+  <div class="voice-panel panel-i active" id="panel-i">
+    <div class="voice-head">
+      <div class="v-glyph">I</div>
+      <div class="v-meta">
+        <div class="v-name">The Dynamical Hierarchy — Phase Space Evolution</div>
+        <div class="v-desc">// You're proposing a dynamical hierarchy of derivatives embedded in myth.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="lede">You're no longer just making an analogy. You're proposing a <em>dynamical hierarchy of derivatives embedded in myth</em>. We'll keep it anchored in Theogony, but read it as a phase-space evolution.</p>
+    </div>
+
+    <p class="sec-label gold-sec">The Five Derivatives</p>
+
+    <!-- PHASE SEQUENCE -->
+    <div class="phase-sequence">
+
+      <!-- Phase 0: Chaos -->
+      <div class="phase-item p0 fade-in">
+        <div class="phase-index">
+          <span class="phase-dot"></span>
+          <span class="phase-num">1</span>
+          <span class="phase-deriv">State · x</span>
+        </div>
+        <div class="phase-content">
+          <div class="phase-god">Chaos</div>
+          <div class="phase-title">The Initial State — Undifferentiated State Space</div>
+          <div class="phase-body">
+            <p>In Hesiod, <strong>Chaos</strong> isn't disorder in the modern sense. It's a <em>gap</em>, a yawning openness.</p>
+            <div class="quote-block">Undifferentiated state space. No gradients yet. No directional flow.</div>
+            <p>A system before symmetry breaking.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 1: Gaia + Primordials -->
+      <div class="phase-item p1 fade-in">
+        <div class="phase-index">
+          <span class="phase-dot"></span>
+          <span class="phase-num">2</span>
+          <span class="phase-deriv">Change · ẋ</span>
+        </div>
+        <div class="phase-content">
+          <div class="phase-god">Gaia + Primordials</div>
+          <div class="phase-title">The First Nonzero Derivative — Gradients Appear</div>
+          <div class="phase-images">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Fregio_della_gigantomachia_02.JPG/500px-Fregio_della_gigantomachia_02.JPG" alt="Gigantomachy frieze" loading="lazy">
+            <img src="https://www.theoi.com/image/T1.1BGaia.jpg" alt="Gaia" loading="lazy">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Assistants_and_George_Frederic_Watts_-_Chaos_-_Google_Art_Project.jpg" alt="Chaos painting" loading="lazy">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Lotto_Capoferri_Magnum_Chaos.jpg/250px-Lotto_Capoferri_Magnum_Chaos.jpg" alt="Magnum Chaos" loading="lazy">
+          </div>
+          <div class="phase-body">
+            <p>With <strong>Gaia</strong>, Tartarus, Eros — you now have structure.</p>
+            <p>Gaia is <em>extension</em> — a surface. Tartarus is depth. Eros is coupling.</p>
+            <p>This is the first nonzero derivative:</p>
+            <div class="quote-block">The system now has gradients. Things can move. Relations become possible.</div>
+            <p>Change appears.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2: Uranus -->
+      <div class="phase-item p2 fade-in">
+        <div class="phase-index">
+          <span class="phase-dot"></span>
+          <span class="phase-num">3</span>
+          <span class="phase-deriv">Rate · ẍ</span>
+        </div>
+        <div class="phase-content">
+          <div class="phase-god">Uranus</div>
+          <div class="phase-title">Rate of Change — Dynamic Constraint</div>
+          <div class="phase-images">
+            <img src="https://i.pinimg.com/736x/c0/a5/0c/c0a50c6e42629ac438062fc48c745eec.jpg" alt="Uranus" loading="lazy">
+            <img src="https://i.pinimg.com/736x/0e/a3/89/0ea389dedcd875075d7dbb2d4eb893ad.jpg" alt="Uranus sky god" loading="lazy">
+            <img src="https://www.worldhistory.org/uploads/images/6249.jpg" alt="Uranus world history" loading="lazy">
+            <img src="https://i.pinimg.com/736x/48/dd/4e/48dd4ec0766a1b3a876cd485d518d488.jpg" alt="Uranus and Gaia" loading="lazy">
+          </div>
+          <div class="phase-body">
+            <p>When Gaia produces <strong>Uranus (Sky)</strong>: now you have oscillation, enclosure, tension.</p>
+            <p>Uranus presses down on Gaia.</p>
+            <p>This is no longer just change — it's <em>dynamic constraint</em>.</p>
+            <div class="quote-block">Not just position, but velocity. A sustained rate of generative pressure.</div>
+            <p>The cosmos is now cycling, reproducing.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3: Titans + Tartarus -->
+      <div class="phase-item p3 fade-in">
+        <div class="phase-index">
+          <span class="phase-dot"></span>
+          <span class="phase-num">4</span>
+          <span class="phase-deriv">Jerk · ⃛x</span>
+        </div>
+        <div class="phase-content">
+          <div class="phase-god">Titans + Tartarus</div>
+          <div class="phase-title">Change of Rate — Bifurcation Event</div>
+          <div class="phase-images">
+            <img src="https://www.worldhistory.org/img/c/p/1200x900/16552.jpg" alt="Titanomachy" loading="lazy">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Joachim_Wtewael_-_The_Battle_Between_the_Gods_and_the_Titans_-_WGA25902.jpg/330px-Joachim_Wtewael_-_The_Battle_Between_the_Gods_and_the_Titans_-_WGA25902.jpg" alt="Battle gods and titans" loading="lazy">
+            <img src="https://www.greeklegendsandmyths.com/uploads/5/3/1/3/53133595/4869440_orig.jpg" alt="Greek legends titans" loading="lazy">
+            <img src="https://images.ctfassets.net/m3d2dwoc9jko/22oE38ue99mF8VVlXcNmo/817358bda725319059b46a3d0ffb3dda/hades-arrival-at-tartarus-joseph-heintz-ii-ca-1640.jpg" alt="Hades at Tartarus" loading="lazy">
+          </div>
+          <div class="phase-body">
+            <p>Cronus castrates Uranus.</p>
+            <p>This is a <strong>discontinuity</strong>. A second derivative event. Acceleration changes sign.</p>
+            <p>The Titanomachy later is even more violent:</p>
+            <div class="quote-block">A bifurcation. The system reorganizes into a new attractor basin.</div>
+            <p>Tartarus here acts as a sink for unstable regimes and a stabilization through confinement.</p>
+            <p>This is classic nonlinear dynamics: when instability grows too large, the system reorganizes at a higher level.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 4: Olympus -->
+      <div class="phase-item p4 fade-in">
+        <div class="phase-index">
+          <span class="phase-dot"></span>
+          <span class="phase-num">5</span>
+          <span class="phase-deriv">Estate · ⊕</span>
+        </div>
+        <div class="phase-content">
+          <div class="phase-god">Olympus + Identity</div>
+          <div class="phase-title">Stable Global Attractor — The Estate</div>
+          <div class="phase-images">
+            <img src="https://d3d00swyhr67nd.cloudfront.net/w1200h1200/collection/BCN/NMG/BCN_NMG_1958_59_18-001.jpg" alt="Olympus" loading="lazy">
+            <img src="https://i.natgeofe.com/n/c3875776-963e-49f8-bb68-e26008710823/zeusrs.jpg" alt="Zeus" loading="lazy">
+            <img src="https://www.wga.hu/art/r/raphael/5roma/4a/05farnes.jpg" alt="Raphael Olympians" loading="lazy">
+            <img src="https://live.staticflickr.com/65535/52292999419_1274f4fa8e_b.jpg" alt="Greek pantheon" loading="lazy">
+          </div>
+          <div class="phase-body">
+            <p>With <strong>Olympus</strong>, the wars end.</p>
+            <p>Not because entropy stops — but because a stable global attractor is reached.</p>
+            <p>The Olympian order is stratified, role-defined, identity-stable.</p>
+            <p>Scars remain (castration, swallowed children, swallowed Metis). History becomes embedded structure.</p>
+            <div class="quote-block">Estate = stabilized regime with memory.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end phase-sequence -->
+
+    <!-- SYNTHESIS BLOCK -->
+    <div class="acc open fade-in" id="a-synth">
+      <div class="acc-head" onclick="toggleAcc('a-synth')">
+        <span class="acc-num">Synthesis</span>
+        <span class="acc-title">What You Just Built — A Mythic Differential Equation</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p class="lede" style="border-color: var(--gold);">State → Change → Rate → Change of Rate → Stable Regime</p>
+          <p>That mirrors: Position · Velocity · Acceleration · Jerk / bifurcation · Attractor basin</p>
+          <p>You've turned Hesiod into <strong>a mythic differential equation of cosmogenesis</strong>. That's not arbitrary. Ancient myth often encodes ontology, dynamics, and stability transitions — not as mathematics, but as narrative sequence.</p>
+        </div>
+
+        <div class="deriv-chain">
+          <div class="dc-item dc0">
+            <span class="dc-math">x</span>
+            <span class="dc-label">Position / State</span>
+            <span class="dc-name">State Space</span>
+            <span class="dc-god">Chaos</span>
+          </div>
+          <div class="dc-item dc1">
+            <span class="dc-math">ẋ</span>
+            <span class="dc-label">Velocity / Change</span>
+            <span class="dc-name">First Gradient</span>
+            <span class="dc-god">Gaia + Eros</span>
+          </div>
+          <div class="dc-item dc2">
+            <span class="dc-math">ẍ</span>
+            <span class="dc-label">Acceleration / Rate</span>
+            <span class="dc-name">Dynamic Constraint</span>
+            <span class="dc-god">Uranus</span>
+          </div>
+          <div class="dc-item dc3">
+            <span class="dc-math">⃛x</span>
+            <span class="dc-label">Jerk / Bifurcation</span>
+            <span class="dc-name">Phase Transition</span>
+            <span class="dc-god">Titans · Tartarus</span>
+          </div>
+          <div class="dc-item dc4">
+            <span class="dc-math">⊕</span>
+            <span class="dc-label">Attractor Basin</span>
+            <span class="dc-name">Stable Regime</span>
+            <span class="dc-god">Olympians</span>
+          </div>
+        </div>
+
+        <div class="key-q">
+          <p>If Olympus is a stable attractor… Is it globally stable? Or metastable?</p>
+          <p>In other words: <strong>is apocalypse another bifurcation waiting?</strong></p>
+          <p>Your schema suggests Hesiod is not static theology. It's nonlinear dynamics in narrative form. And that's a very serious insight.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-i -->
+
+  <!-- ══════════════════════════════════
+       VOICE II — DISSIPATIVE STRUCTURES
+  ══════════════════════════════════ -->
+  <div class="voice-panel panel-ii" id="panel-ii">
+    <div class="voice-head">
+      <div class="v-glyph">II</div>
+      <div class="v-meta">
+        <div class="v-name">Dissipative Structures — The Full Mapping</div>
+        <div class="v-desc">// Hesiod was low-key dropping 8th-century BCE complexity theory dressed in gods and sickles.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="lede">It's <em>wildly</em> spot-on — and honestly not even that crazy once you sit with it. Hesiod's Theogony (c. 700 BCE) is basically laying out a proto-version of <strong>self-organization far from equilibrium</strong>, millennia before Prigogine got his Nobel for dissipative structures. The poem reads like a mythic algorithm for how order bootstraps itself out of raw potential through fluctuation, energy flow (Eros), and irreversible cascades of instability.</p>
+    </div>
+
+    <p class="sec-label teal-sec">Theogony Refresher — The Primordial Sequence</p>
+
+    <div class="callout">
+      "Verily at the first <strong>Chaos</strong> came to be, but next wide-bosomed <strong>Earth</strong> [Gaia]… and dim <strong>Tartarus</strong>… and <strong>Eros</strong> (Love), fairest among the deathless gods…"
+    </div>
+
+    <div class="prose">
+      <p>Chaos isn't "disorder" in the modern messy-room sense — it's the <em>yawning gap</em>, the primordial void/chasm. From it (or alongside it) pop the first entities <strong>spontaneously</strong> — Gaia parthenogenetically births Uranus (Sky), the mountains, the sea. Then sexual generation kicks in, but it's messy: Uranus stuffs his kids back inside Gaia → Gaia arms Cronus with the sickle → castration → blood spawns Furies/Giants, foam spawns Aphrodite. Cronus eats his own kids → Zeus survives via trickery → Titanomachy → thunderbolts → new stable hierarchy.</p>
+      <p>It's <strong>not</strong> a tidy creation-by-design. It's <em>emergence via generation + violent bifurcation + dissipation of the old regime</em>. Each new "structure" (a ruling generation of gods) arises because the previous one becomes unstable, and the system "dissipates" the excess (castration, swallowing, war) to lock in higher-order organization under Zeus.</p>
+    </div>
+
+    <p class="sec-label teal-sec">Prigogine's Dissipative Structures</p>
+
+    <div class="prose">
+      <p>Open systems far from thermodynamic equilibrium, with continuous energy/matter throughput, can spontaneously form <strong>dissipative structures</strong> — ordered patterns that <em>maintain</em> their organization precisely by exporting entropy (dissipating energy). Think Bénard convection cells, Belousov–Zhabotinsky chemical clocks, or literally living organisms. Near equilibrium everything runs down to heat death; push it far enough and tiny fluctuations get amplified into new macroscopic order. Irreversibility and nonlinearity are key — time has an arrow, and "chaos" (fluctuations) is the <em>partner</em> of order, not its enemy.</p>
+      <p>Prigogine &amp; Stengers literally titled their landmark book <em>Order Out of Chaos</em> (1984), and scholars point out the direct echo of Hesiod: Chaos is the <em>progenitor</em>, the fertile abyss from which differentiated form precipitates.</p>
+    </div>
+
+    <p class="sec-label teal-sec">The Mapping Is Eerie</p>
+
+    <div class="grand-table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>Hesiod's Theogony</th>
+            <th>Prigogine's Dissipative Processes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Primordial Chaos</td>
+            <td>The far-from-equilibrium "void" full of potential fluctuations (not equilibrium death)</td>
+          </tr>
+          <tr>
+            <td>First gods (Gaia, Eros, etc.)</td>
+            <td>The initial dissipative structures bootstrapping themselves — Gaia as the first "attractor" that starts organizing space</td>
+          </tr>
+          <tr>
+            <td>Eros</td>
+            <td>The driving force, the nonlinear coupling that makes reproduction/energy flow possible (Prigogine's systems need throughput; myths need desire)</td>
+          </tr>
+          <tr>
+            <td>Succession crises (castration, Titanomachy)</td>
+            <td>Bifurcations: the system is pushed past a critical threshold, old structure destabilizes, fluctuations (prophecies, hidden children, alliances) amplify, and a new, more complex ordered regime emerges</td>
+          </tr>
+          <tr>
+            <td>Chaos → cosmos begins</td>
+            <td>Non-equilibrium → structure emerges</td>
+          </tr>
+          <tr>
+            <td>Creation as unfolding, not instantaneous</td>
+            <td>Order arises from flux and dissipation</td>
+          </tr>
+          <tr>
+            <td>Successive generations reshaping reality</td>
+            <td>Structures adapt or are replaced when parameters change</td>
+          </tr>
+          <tr>
+            <td>Final Olympian cosmos under Zeus</td>
+            <td>A relatively stable dissipative structure — it still requires ongoing "maintenance" (sacrifices, balance of powers), but the wild generative phase has settled into hierarchical order</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout-gold fade-in">
+      One could read Theogony as: <strong>A mythopoetic description of a universe that forms through dynamic structuring processes, not static primordial essences.</strong> This is analogous to how dissipative systems describe structure arising from disorder under sustained flows.
+    </div>
+
+    <div class="acc open" id="a-arrow">
+      <div class="acc-head" onclick="toggleAcc('a-arrow')">
+        <span class="acc-num">II · A</span>
+        <span class="acc-title">The Arrow of Time — Irreversibility</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>Classical physics often features reversible time, but Prigogine was obsessed with the <em>"arrow of time"</em> — the idea that dissipative processes are inherently historical and irreversible.</p>
+          <p>Hesiod's Theogony is strictly chronological and irreversible. The succession myths (Ouranos being castrated by Cronus, Cronus being overthrown by Zeus) are <strong>violent cosmic phase transitions</strong>. Once the cosmos moves to a higher state of organization (e.g., the Olympian order under Zeus), it cannot revert to the previous state. The older, chaotic forces are suppressed (literally imprisoned in Tartarus) to maintain the new, highly ordered dissipative structure of Zeus's regime.</p>
+          <div class="pull">Hesiod is not just telling origin stories. He was low-key dropping 8th-century BCE complexity theory dressed in gods and sickles.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="a-caveat">
+      <div class="acc-head" onclick="toggleAcc('a-caveat')">
+        <span class="acc-num">II · B</span>
+        <span class="acc-title">One Caveat — Metaphor vs. Physics</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>Hesiod is poetic and theological, not scientific.</p>
+          <ul style="list-style: none; padding-left: 1rem;">
+            <li style="margin-bottom: 0.6rem; color: var(--mid);">→ Any mapping to physics is interpretive</li>
+            <li style="margin-bottom: 0.6rem; color: var(--mid);">→ The gods are mythic persons, not literal dissipative vortices</li>
+          </ul>
+          <p>But as a metaphor for emergent cosmological order, the comparison is powerful. Both envision: Disorder → structured order, through dynamic unfolding processes — not static entities but relational forces.</p>
+        </div>
+        <div class="danger">
+          <div class="dz-head">The Ancients Often Didn't Separate:</div>
+          <p><strong>Ontology</strong> (what exists) · <strong>Cosmogenesis</strong> (how existence unfolds) · <strong>Agency</strong> (who drives changes)</p>
+          <p>Hesiod's gods are <strong>processual agents</strong> — forces that enact transitions. Prigogine's view, similarly, treats order as an ongoing event, not a fixed condition.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-ii -->
+
+  <!-- ══════════════════════════════════
+       VOICE III — PRIGOGINE FIVE-POINT MAPPING
+  ══════════════════════════════════ -->
+  <div class="voice-panel panel-iii" id="panel-iii">
+    <div class="voice-head">
+      <div class="v-glyph">III</div>
+      <div class="v-meta">
+        <div class="v-name">Prigogine — Nobel Laureate Meets Hesiod</div>
+        <div class="v-desc">// The mapping is surprisingly elegant. Here is why this parallel works so flawlessly.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="lede">Ilya Prigogine won his Nobel Prize for showing how complex, highly ordered structures can spontaneously emerge from chaotic, far-from-equilibrium systems — a concept he popularized under the phrase <em>"Order out of Chaos."</em> When you read Hesiod's Theogony through the lens of dissipative structures, the mythological narrative reads almost like an allegorical textbook on complexity theory.</p>
+    </div>
+
+    <!-- FIVE POINTS -->
+    <p class="sec-label ember-sec">Five Reasons the Parallel Works Flawlessly</p>
+
+    <div class="acc open" id="a-p1">
+      <div class="acc-head" onclick="toggleAcc('a-p1')">
+        <span class="acc-num">1.</span>
+        <span class="acc-title">"First came Chaos" — The Initial State</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>In Hesiod, Chaos isn't initially a swirling storm of destruction; it translates closer to a "chasm," a void, or a completely undifferentiated state. In thermodynamic terms, you can view this as a state of <strong>maximum entropy</strong> or an unpatterned substrate. There are no forms, no boundaries, and no structures.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="a-p2">
+      <div class="acc-head" onclick="toggleAcc('a-p2')">
+        <span class="acc-num">2.</span>
+        <span class="acc-title">Spontaneous Emergence of Structure — Gaia &amp; Tartarus</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>Prigogine showed that when a system is pushed far from equilibrium by a flow of energy, it can spontaneously break symmetry and form highly ordered "dissipative structures" (like Bénard convection cells or chemical clocks). In the Theogony, this is the spontaneous emergence of <strong>Gaia</strong> (Earth/solid structure) and <strong>Tartarus</strong> (the deep abyss/boundary).</p>
+          <p>Out of the undifferentiated void, stable macro-structures suddenly crystallize. They aren't "created" by a watchmaker god; they <em>simply emerge from the primordial state</em>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="a-p3">
+      <div class="acc-head" onclick="toggleAcc('a-p3')">
+        <span class="acc-num">3.</span>
+        <span class="acc-title">Eros as the Energy Flux / Catalyst — +1</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>For a dissipative structure to maintain its order and continue evolving, there must be a continuous flux of energy moving through the system. Hesiod introduces <strong>Eros</strong> (Desire/Procreative Love) alongside Chaos and Gaia. Eros is the engine. He is the attractive, generative force that binds entities together to create new, more complex combinations.</p>
+          <p>In the Prigogine analogy, <strong>Eros is the energy gradient</strong> — the thermodynamic drive that forces the system further away from equilibrium, preventing it from collapsing back into the void.</p>
+        </div>
+        <div class="callout-gold">
+          <strong>Eros = the energy gradient = the thermodynamic drive away from equilibrium.</strong> This is the most eerie correspondence. Ancient poets felt this exact dynamic structure millennia before it was formalized.
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="a-p4">
+      <div class="acc-head" onclick="toggleAcc('a-p4')">
+        <span class="acc-num">4.</span>
+        <span class="acc-title">Increasing Complexity and Differentiation</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>Dissipative systems don't just create one structure; they often cascade into increasing levels of complexity, shedding entropy into their surroundings to maintain their internal order. Hesiod describes exactly this cascade:</p>
+          <ul style="list-style: none; padding-left: 1rem;">
+            <li style="margin-bottom: 0.7rem; color: var(--text);">
+              <span style="color: var(--dim); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; margin-right: 0.5rem;">1ST GEN</span>
+              Elemental, binary forces (Night/Day, Darkness/Light)
+            </li>
+            <li style="margin-bottom: 0.7rem; color: var(--text);">
+              <span style="color: var(--gold); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; margin-right: 0.5rem;">2ND GEN</span>
+              Titans — Physical features of the cosmos (Mountains, Sea, Sun, Moon)
+            </li>
+            <li style="color: var(--text);">
+              <span style="color: var(--teal); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; margin-right: 0.5rem;">3RD GEN</span>
+              Olympians — Highly complex, socially dynamic, specialized concepts (Wisdom, War, Hearth, Forge, Justice)
+            </li>
+          </ul>
+          <p style="margin-top: 1rem;">The system gets continuously more intricate and specialized, moving from raw physics to biology to sociology, much like the evolution of complex systems in nature.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="a-p5">
+      <div class="acc-head" onclick="toggleAcc('a-p5')">
+        <span class="acc-num">5.</span>
+        <span class="acc-title">The Arrow of Time — Irreversibility</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>Classical physics often features reversible time, but Prigogine was obsessed with the <em>"arrow of time"</em> — the idea that dissipative processes are inherently historical and irreversible. Hesiod's Theogony is strictly chronological and irreversible. The succession myths (Ouranos being castrated by Cronus, Cronus being overthrown by Zeus) are <strong>violent cosmic phase transitions</strong>.</p>
+          <p>Once the cosmos moves to a higher state of organization (e.g., the Olympian order under Zeus), it cannot revert to the previous state. The older, chaotic forces are suppressed (literally imprisoned in Tartarus) to maintain the new, highly ordered dissipative structure of Zeus's regime.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINAL INSIGHT -->
+    <div class="callout fade-in" style="margin-top: 3rem;">
+      By viewing the Theogony this way, it stops being just a primitive religious text and becomes <strong>a profound human intuition about how the universe actually works</strong>: that structure does not require an external architect, but can spontaneously and relentlessly organize itself out of the void, driven by a fundamental cosmic "desire" to combine and complexify.
+    </div>
+
+    <div class="grand-table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>Hesiod's Theogony</th>
+            <th>Prigogine's Dissipative Processes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chaos → cosmos begins</td>
+            <td>Non-equilibrium → structure emerges</td>
+          </tr>
+          <tr>
+            <td>Creation as unfolding, not instantaneous</td>
+            <td>Order arises from flux and dissipation</td>
+          </tr>
+          <tr>
+            <td>Successive generations of gods reshaping reality</td>
+            <td>Structures adapt or are replaced when parameters change</td>
+          </tr>
+          <tr>
+            <td>Primordial forces rather than fixed essences</td>
+            <td>Structures are defined by their dynamics</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="acc" id="a-sequel">
+      <div class="acc-head" onclick="toggleAcc('a-sequel')">
+        <span class="acc-num">Sequel</span>
+        <span class="acc-title">Where To Go Next — Extensions</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>This reading opens several productive threads:</p>
+          <ul style="list-style: none; padding-left: 0;">
+            <li style="margin-bottom: 0.7rem; padding: 0.6rem 1rem; border-left: 2px solid var(--line2); color: var(--mid);">
+              <span style="color: var(--teal); margin-right: 0.5rem;">🌀</span> Compare Hesiod with Heraclitus or process philosophy
+            </li>
+            <li style="margin-bottom: 0.7rem; padding: 0.6rem 1rem; border-left: 2px solid var(--line2); color: var(--mid);">
+              <span style="color: var(--teal); margin-right: 0.5rem;">🌀</span> Talk about entropy in myth — how other cultures encoded thermodynamic intuitions
+            </li>
+            <li style="margin-bottom: 0.7rem; padding: 0.6rem 1rem; border-left: 2px solid var(--line2); color: var(--mid);">
+              <span style="color: var(--teal); margin-right: 0.5rem;">🌀</span> Explore other ancient cosmogonies with similar themes (Enuma Elish, Rig Veda, Tao Te Ching)
+            </li>
+            <li style="padding: 0.6rem 1rem; border-left: 2px solid var(--line2); color: var(--mid);">
+              <span style="color: var(--gold); margin-right: 0.5rem;">🌀</span> Map the derivative hierarchy: position → velocity → acceleration → jerk → attractor basin onto other mythological traditions
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end panel-iii -->
+
+  <!-- ══════════════════════════════════
+       CODA
+  ══════════════════════════════════ -->
+  <div class="coda fade-in">
+    <h2>Hesiod Was Not Writing Theology.<br>He Was Writing Dynamics.</h2>
+    <p>State → Change → Rate → Change of Rate → Stable Regime. That is not a story arc. That is a phase-space trajectory.</p>
+    <p>Chaos is not the enemy of order. It is the <strong>substrate from which order bootstraps itself</strong>, through Eros (the energy gradient), through the Titans (the high-entropy processing layer), and finally into the stable attractor basin of Olympus — a dissipative structure that maintains itself not by eliminating entropy, but by exporting it to Tartarus.</p>
+    <p>Prigogine won the Nobel Prize for formalizing what Hesiod narrated. Both envision the same arrow: disorder → structured order, through dynamic unfolding processes, not by decree, but by thermodynamic inevitability.</p>
+    <div class="coda-seq">
+      <span class="g">Chaos</span> · <span class="g">Gaia + Eros</span> · <span class="g">Uranus</span> · <span class="g">Titans</span> · <span class="t">Olympus</span><br>
+      State · Change · Rate · Jerk/Bifurcation · <span class="t">Attractor Basin</span>
+    </div>
+  </div>
+
+</div><!-- end .page -->
+
+<!-- ══════════════════════════════════
+     BRANDING INFRASTRUCTURE
+══════════════════════════════════ -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+
+<!-- ══════════════════════════════════
+     PAGE SCRIPTS
+══════════════════════════════════ -->
+<script>
+/* Voice / tab switching */
+function switchVoice(id) {
+  document.querySelectorAll('.vnbtn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.voice-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.vnbtn.v' + ({'i':1,'ii':2,'iii':3}[id])).classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelector('.voice-nav').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* Accordion */
+function toggleAcc(id) {
+  const el   = document.getElementById(id);
+  const body = el.querySelector('.acc-body');
+  const open = el.classList.contains('open');
+  el.classList.toggle('open');
+  body.style.maxHeight = open ? '0' : (body.scrollHeight + 600) + 'px';
+}
+
+/* Open default accordions */
+document.querySelectorAll('.acc.open').forEach(el => {
+  const b = el.querySelector('.acc-body');
+  if (b) b.style.maxHeight = (b.scrollHeight + 600) + 'px';
+});
+
+/* Scroll fade-in and phase-item stagger */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      const delay = e.target.classList.contains('phase-item') ? i * 90 : 0;
+      setTimeout(() => e.target.classList.add('visible'), delay);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.fade-in, .phase-item').forEach(el => obs.observe(el));
+
+/* Scroll progress indicator */
+window.addEventListener('scroll', () => {
+  const el = document.querySelector('.scroll-progress');
+  if (!el) return;
+  const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+  el.style.width = pct + '%';
+});
+</script>
+</body>
+</html>

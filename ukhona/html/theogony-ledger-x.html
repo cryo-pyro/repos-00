@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theogony · Phase-Space Evolution | Ukubona LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+
+<!-- ═══════════════════════════════════════════════
+     OPEN GRAPH / TWITTER
+═══════════════════════════════════════════════ -->
+<meta property="og:site_name" content="Ukubona LLC">
+<meta property="og:title" content="The Language Basin">
+<meta property="og:description" content="Every revelation collapses into a basin. Language is a local minimum. Anthropomorphism is gradient descent under cognitive constraints.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://cryo-pyro.github.io/repos-00/ukhona/html/goax-language-basin.html">
+<meta property="og:image" content="../img/ukb-landscape.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Language Basin">
+<meta name="twitter:description" content="Every revelation collapses into a basin. Language is a local minimum.">
+<meta name="twitter:image" content="../img/ukb-landscape.jpg">
+
+<!-- ═══════════════════════════════════════════════
+     CENTRALIZED ASSETS — never modify paths
+═══════════════════════════════════════════════ -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+<style>
+:root {
+  --void: #04030a;
+  --deep: #080614;
+  --cosmic: #0d0b1e;
+  --nebula: #12102a;
+  --gold: #c8a84b;
+  --gold-bright: #e8c96a;
+  --gold-pale: #f5e4a8;
+  --ember: #c04a1a;
+  --olympian: #4a9edd;
+  --olympian-bright: #7ec8f5;
+  --silver: #8899bb;
+  --mist: #aabbcc;
+  --text: #d4c9b0;
+  --text-dim: #8a7d68;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* STAR FIELD (enhanced) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 8%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 25%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 80% 55%, rgba(200,168,75,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 5% 50%, rgba(74,158,221,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 20% 20%, rgba(255,255,255,0.6) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem;
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 80px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.2s forwards;
+}
+
+.hero-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2.2rem, 6vw, 4.8rem);
+  font-weight: 900;
+  line-height: 1.05;
+  background: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold) 40%, var(--ember) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.4s forwards;
+}
+
+.hero-sub {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 2.5vw, 1.45rem);
+  color: var(--silver);
+  letter-spacing: 0.05em;
+  max-width: 720px;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.6s forwards;
+}
+
+.hero-sequence {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.8s forwards;
+}
+
+.seq-item {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid rgba(200,168,75,0.35);
+  color: var(--gold);
+  border-radius: 3px;
+  background: rgba(200,168,75,0.06);
+}
+
+.seq-arrow {
+  color: var(--text-dim);
+  font-size: 1.35rem;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+section {
+  padding: 5.5rem 0;
+  border-top: 1px solid rgba(200,168,75,0.09);
+}
+
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+  opacity: 0.75;
+}
+
+h2 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.6rem, 4.2vw, 2.85rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--gold-pale), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2.8rem;
+  line-height: 1.15;
+}
+
+h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  color: var(--gold-bright);
+  margin: 3rem 0 1rem;
+  letter-spacing: 0.06em;
+}
+
+p {
+  color: var(--text);
+  margin-bottom: 1.35rem;
+  max-width: 74ch;
+}
+
+em { color: var(--gold-pale); font-style: italic; }
+strong { color: var(--gold-bright); font-weight: 600; }
+
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.phase-card {
+  background: var(--nebula);
+  border: 1px solid rgba(200,168,75,0.18);
+  border-radius: 6px;
+  padding: 2.2rem 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+}
+
+.phase-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px -15px rgba(200,168,75,0.2);
+}
+
+.phase-card::before {
+  content: attr(data-num);
+  position: absolute;
+  top: -12px; right: 20px;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 5.5rem;
+  font-weight: 900;
+  color: rgba(200,168,75,0.07);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.phase-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.phase-card-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.55rem;
+  color: var(--gold-pale);
+  margin-bottom: 1.1rem;
+  line-height: 1.1;
+}
+
+.phase-card p {
+  font-size: 0.96rem;
+  color: var(--text-dim);
+  line-height: 1.75;
+}
+
+.image-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 2.2rem 0 0;
+  border-top: 1px solid rgba(200,168,75,0.12);
+  padding-top: 2rem;
+}
+
+.image-strip img {
+  width: 100%;
+  border-radius: 4px;
+  transition: transform 0.4s ease;
+}
+
+.image-strip img:hover {
+  transform: scale(1.04);
+}
+
+.callout {
+  background: linear-gradient(135deg, rgba(74,158,221,0.07) 0%, rgba(200,168,75,0.05) 100%);
+  border: 1px solid rgba(74,158,221,0.25);
+  border-left: 4px solid var(--olympian);
+  border-radius: 6px;
+  padding: 2rem 2.4rem;
+  margin: 3rem 0;
+  font-style: italic;
+  color: var(--mist);
+  font-size: 1.05rem;
+}
+
+.callout strong { color: var(--olympian-bright); }
+
+.double-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin: 3rem 0;
+}
+
+@media (max-width: 640px) {
+  .double-col, .phase-grid { grid-template-columns: 1fr; }
+}
+
+.synthesis {
+  background: linear-gradient(135deg, rgba(200,168,75,0.09) 0%, rgba(192,74,26,0.07) 50%, rgba(74,158,221,0.07) 100%);
+  border: 1px solid rgba(200,168,75,0.35);
+  border-radius: 8px;
+  padding: 3.5rem 3rem;
+  margin: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.synthesis::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 40% 30%, rgba(200,168,75,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+footer {
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+  border-top: 1px solid rgba(200,168,75,0.1);
+}
+
+footer p {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  color: var(--text-dim);
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.9s cubic-bezier(0.23,1,0.32,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="page">  
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Hesiod · Prigogine · Nonlinear Dynamics</p>
+  <h1 class="hero-title">THEOGONY<br>AS PHASE-SPACE EVOLUTION</h1>
+  <p class="hero-sub">A mythic differential equation of cosmogenesis.<br>Position → Velocity → Acceleration → Jerk/Bifurcation → Attractor Basin</p>
+  <div class="hero-sequence">
+    <span class="seq-item">Chaos (Position)</span><span class="seq-arrow">→</span>
+    <span class="seq-item">Gaia (Velocity)</span><span class="seq-arrow">→</span>
+    <span class="seq-item">Uranus (Acceleration)</span><span class="seq-arrow">→</span>
+    <span class="seq-item">Titans (Jerk)</span><span class="seq-arrow">→</span>
+    <span class="seq-item">Olympus (Attractor)</span>
+  </div>
+</div>
+
+<!-- INTRODUCTION -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Prelude — The Observation</p>
+  <h2>You’re no longer just making an analogy.<br>You’re proposing a dynamical hierarchy of derivatives embedded in myth.</h2>
+  <p>We’ll keep it anchored in Theogony, but read it as a phase-space evolution.</p>
+  
+  <div class="callout">
+    Hesiod’s Theogony is not primitive theology. It is nonlinear dynamics in narrative form — millennia before Prigogine gave it equations.
+  </div>
+</div>
+</section>
+
+<!-- THE HIERARCHY -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Part I — The Dynamical Hierarchy</p>
+  <h2>Position → Velocity → Acceleration → Jerk → Attractor</h2>
+
+  <div class="phase-grid">
+
+    <!-- 1 -->
+    <div class="phase-card" data-num="1">
+      <div class="phase-card-title">STATE</div>
+      <div class="phase-card-name">Chaos — Position</div>
+      <p>In Hesiod, Chaos isn’t disorder in the modern sense. It’s a gap, a yawning openness. In dynamical terms: undifferentiated state space. No gradients yet. No directional flow. A system before symmetry breaking.</p>
+      <div class="image-strip">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Assistants_and_George_Frederic_Watts_-_Chaos_-_Google_Art_Project.jpg" alt="Chaos">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Lotto_Capoferri_Magnum_Chaos.jpg/250px-Lotto_Capoferri_Magnum_Chaos.jpg" alt="Magnum Chaos">
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="phase-card" data-num="2">
+      <div class="phase-card-title">CHANGE</div>
+      <div class="phase-card-name">Gaia + Primordials — Velocity</div>
+      <p>With Gaia, Tartarus, Eros: you now have structure. Gaia is extension — a surface. Tartarus is depth. Eros is coupling. This is the first nonzero derivative: the system now has gradients. Things can move. Relations become possible. Change appears.</p>
+      <div class="image-strip">
+        <img src="https://www.theoi.com/image/T1.1BGaia.jpg" alt="Gaia">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Fregio_della_gigantomachia_02.JPG/500px-Fregio_della_gigantomachia_02.JPG" alt="Gigantomachy">
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="phase-card" data-num="3">
+      <div class="phase-card-title">RATE OF CHANGE</div>
+      <div class="phase-card-name">Uranus — Acceleration</div>
+      <p>When Gaia produces Uranus (Sky): now you have oscillation, enclosure, tension. Uranus presses down on Gaia. This is no longer just change — it’s dynamic constraint. In calculus language: not just position, but velocity. A sustained rate of generative pressure. The cosmos is now cycling, reproducing.</p>
+      <div class="image-strip">
+        <img src="https://i.pinimg.com/736x/c0/a5/0c/c0a50c6e42629ac438062fc48c745eec.jpg" alt="Uranus">
+        <img src="https://i.pinimg.com/736x/0e/a3/89/0ea389dedcd875075d7dbb2d4eb893ad.jpg" alt="Uranus">
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="phase-card" data-num="4">
+      <div class="phase-card-title">CHANGE OF RATE</div>
+      <div class="phase-card-name">Titans + Tartarus — Jerk / Bifurcation</div>
+      <p>Cronus castrates Uranus. This is a discontinuity. A second-derivative event. Acceleration changes sign. The Titanomachy later is even more violent: a bifurcation. The system reorganizes into a new attractor basin. Tartarus acts as a sink for unstable regimes — stabilization through confinement. Classic nonlinear dynamics: when instability grows too large, the system reorganizes at a higher level.</p>
+      <div class="image-strip">
+        <img src="https://www.worldhistory.org/img/c/p/1200x900/16552.jpg" alt="Titans">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Joachim_Wtewael_-_The_Battle_Between_the_Gods_and_the_Titans_-_WGA25902.jpg/330px-Joachim_Wtewael_-_The_Battle_Between_the_Gods_and_the_Titans_-_WGA25902.jpg" alt="Titanomachy">
+        <img src="https://images.ctfassets.net/m3d2dwoc9jko/22oE38ue99mF8VVlXcNmo/817358bda725319059b46a3d0ffb3dda/hades-arrival-at-tartarus-joseph-heintz-ii-ca-1640.jpg" alt="Tartarus">
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="phase-card" data-num="5">
+      <div class="phase-card-title">ESTATE</div>
+      <div class="phase-card-name">Olympus + Identity — Attractor Basin</div>
+      <p>With Olympus, the wars end. Not because entropy stops — but because a stable global attractor is reached. The Olympian order is stratified, role-defined, identity-stable. Scars remain (castration, swallowed children, swallowed Metis). History becomes embedded structure. Estate = stabilized regime with memory.</p>
+      <div class="image-strip">
+        <img src="https://d3d00swyhr67nd.cloudfront.net/w1200h1200/collection/BCN/NMG/BCN_NMG_1958_59_18-001.jpg" alt="Olympus">
+        <img src="https://i.natgeofe.com/n/c3875776-963e-49f8-bb68-e26008710823/zeusrs.jpg" alt="Zeus">
+        <img src="https://www.wga.hu/art/r/raphael/5roma/4a/05farnes.jpg" alt="Olympians">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <strong>What you just built:</strong> State → Change → Rate → Change of Rate → Stable Regime.<br>
+    That mirrors: Position → Velocity → Acceleration → Jerk / bifurcation → Attractor basin.<br>
+    You’ve turned Hesiod into a mythic differential equation of cosmogenesis.
+  </div>
+</div>
+</section>
+
+<!-- PRIGOGINE PARALLEL -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Part II — Order Out of Chaos</p>
+  <h2>Hesiod &amp; Prigogine: The Same Pattern, Different Languages</h2>
+  
+  <div class="double-col">
+    <div>
+      <h3>Hesiod’s Theogony</h3>
+      <p>Chaos → spontaneous emergence of Gaia, Tartarus, Eros → succession crises (castration, Titanomachy) → stable Olympian order. Irreversible. Each new structure dissipates the old regime to maintain higher-order organization.</p>
+    </div>
+    <div>
+      <h3>Prigogine’s Dissipative Structures</h3>
+      <p>Far-from-equilibrium systems + continuous energy flux → spontaneous symmetry breaking → ordered patterns that export entropy. Bifurcations when instability grows → new, more complex attractor. Irreversibility and the arrow of time are fundamental.</p>
+    </div>
+  </div>
+
+  <p>The mapping is eerie because both describe the same deep pattern: true creation is not imposed from outside; it self-organizes when energy flows through an open, unstable system and fluctuations amplify.</p>
+
+  <div class="synthesis">
+    <h3 style="text-align:center; margin-bottom:1.5rem;">The Deeper Question</h3>
+    <p style="text-align:center; font-size:1.15rem; max-width:620px; margin:0 auto;">
+      If Olympus is a stable attractor…<br>
+      Is it globally stable?<br>
+      Or metastable?<br><br>
+      In other words: is apocalypse another bifurcation waiting?
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- SYNTHESIS -->
+<section>
+<div class="container reveal">
+  <p class="section-label">Final Word — Ukubona LLC</p>
+  <h2>Hesiod wasn’t telling origin stories.<br>He was low-key dropping 8th-century BCE complexity theory dressed in gods and sickles.</h2>
+  
+  <p>Ancient myth often encodes ontology, dynamics, and stability transitions — not as mathematics, but as narrative sequence. The Theogony is a profound human intuition about how the universe actually works: structure does not require an external architect, but can spontaneously and relentlessly organize itself out of the void, driven by a fundamental cosmic “desire” (Eros) to combine and complexify.</p>
+  
+  <p>This is not just an analogy. It’s a mode of thought that connects ancient cosmological thinking, modern nonlinear thermodynamics, philosophical notions of emergence, and the living Ukubona practice of seeing blindly, foraging stochastically, and rehearsing consequently.</p>
+</div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Chaos (Position) → Gaia (Velocity) → Uranus (Acceleration) → Titans (Jerk/Bifurcation) → Olympus (Attractor Basin)</p>
+    <p style="margin-top:1rem; font-size:0.7rem; letter-spacing:0.2em;">Hesiod’s Theogony as Mythic Differential Equation of Cosmogenesis — Ukubona LLC</p>
+  </div>
+</footer>
+
+</div><!-- end .page -->
+
+<!-- ═══════════════════════════════════════════════
+     BRANDING INFRASTRUCTURE — never modify, always present
+     This block is identical across every page.
+═══════════════════════════════════════════════ -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
