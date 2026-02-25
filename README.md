@@ -1,5 +1,5 @@
 - Language: Myth = Purpose
-- Science: Enlightenment = Non-teleological
+- Science: Enlightenment = Non-teleological + Anarchic Instinct
 - Art: Dionysian = Cheerfulness *Inspite of*
-- Life: Will-to-Power as Drive
+- Life: Will-to-Power as Drive + Worthy Adversary
 - Meaning: Thank U, Next (ie Worthy Adversary) 

@@ -52,7 +52,6 @@ window.MathJax = {
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-
   :root {
     --void: #05040a;
     --chaos: #0d0b1a;
@@ -63,6 +62,24 @@ window.MathJax = {
     --ash: #7a7570;
     --blood: #8b1a1a;
     --olympus: #2a3d5c;
+
+    /* RGB helpers for perfect alpha in BOTH themes */
+    --ember-rgb: 200, 65, 10;
+    --gold-rgb: 212, 168, 67;
+    --marble-rgb: 232, 226, 213;
+    --blood-rgb: 139, 26, 26;
+    --olympus-rgb: 42, 61, 92;
+  }
+
+  /* LIGHT MODE — now fully supported */
+  [data-theme="light"] {
+    --void: #f8f6ef;
+    --chaos: #ede6d9;
+    --marble: #12100a;
+    --ash: #59544d;
+
+    --marble-rgb: 18, 16, 10;
+    --ash-rgb: 89, 84, 77;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -105,8 +122,8 @@ window.MathJax = {
     position: absolute;
     inset: 0;
     background: 
-      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(200,65,10,0.08) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(42,61,92,0.15) 0%, transparent 60%);
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(var(--ember-rgb),0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(var(--olympus-rgb),0.15) 0%, transparent 60%);
   }
 
   .hero-kicker {
@@ -242,25 +259,25 @@ window.MathJax = {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 0;
-    border: 1px solid rgba(212,168,67,0.15);
+    border: 1px solid rgba(var(--gold-rgb),0.15);
   }
 
   .axiom {
     padding: 2.5rem;
-    border: 1px solid rgba(212,168,67,0.1);
+    border: 1px solid rgba(var(--gold-rgb),0.15);
     position: relative;
     transition: background 0.4s;
   }
 
   .axiom:hover {
-    background: rgba(200,65,10,0.05);
+    background: rgba(var(--ember-rgb),0.05);
   }
 
   .axiom-number {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 5rem;
     line-height: 1;
-    color: rgba(212,168,67,0.1);
+    color: rgba(var(--gold-rgb),0.1);
     position: absolute;
     top: 1rem;
     right: 1.5rem;
@@ -288,7 +305,7 @@ window.MathJax = {
   .axiom-body {
     font-size: 0.95rem;
     line-height: 1.75;
-    color: rgba(232,226,213,0.8);
+    color: rgba(var(--marble-rgb),0.8);
   }
 
   .axiom-body em {
@@ -328,19 +345,19 @@ window.MathJax = {
     color: var(--ember);
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    border-bottom: 1px solid rgba(200,65,10,0.3);
+    border-bottom: 1px solid rgba(var(--ember-rgb),0.3);
     font-weight: 400;
   }
 
   .stack-table td {
     padding: 1.25rem 1rem;
-    border-bottom: 1px solid rgba(232,226,213,0.06);
+    border-bottom: 1px solid rgba(var(--marble-rgb),0.06);
     vertical-align: top;
     line-height: 1.6;
   }
 
   .stack-table tr:hover td {
-    background: rgba(200,65,10,0.03);
+    background: rgba(var(--ember-rgb),0.03);
   }
 
   .stack-table .layer-name {
@@ -359,17 +376,17 @@ window.MathJax = {
   }
 
   .stack-table .layer-greek {
-    color: rgba(232,226,213,0.5);
+    color: rgba(var(--marble-rgb),0.5);
   }
 
   .stack-table .layer-fn {
-    color: rgba(232,226,213,0.7);
+    color: rgba(var(--marble-rgb),0.7);
     font-size: 0.65rem;
   }
 
   /* THEOGONY SECTION */
   .theogony-section {
-    background: linear-gradient(180deg, var(--void) 0%, #0a0714 100%);
+    background: linear-gradient(180deg, var(--void) 0%, var(--chaos) 100%);
   }
 
   .theogony-header {
@@ -391,7 +408,7 @@ window.MathJax = {
     display: grid;
     grid-template-columns: 200px 1fr 1fr;
     gap: 0;
-    border-bottom: 1px solid rgba(232,226,213,0.08);
+    border-bottom: 1px solid rgba(var(--marble-rgb),0.08);
     padding: 2.5rem 0;
     position: relative;
   }
@@ -447,17 +464,17 @@ window.MathJax = {
   .myth-mapping-body {
     font-size: 0.95rem;
     line-height: 1.7;
-    color: rgba(232,226,213,0.8);
+    color: rgba(var(--marble-rgb),0.8);
   }
 
   .myth-algo {
     padding-left: 1.5rem;
-    border-left: 1px solid rgba(232,226,213,0.1);
+    border-left: 1px solid rgba(var(--marble-rgb),0.1);
   }
 
   /* TYPHON SECTION */
   .typhon-section {
-    background: #080408;
+    background: var(--void);
     position: relative;
   }
 
@@ -465,7 +482,7 @@ window.MathJax = {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(139,26,26,0.12) 0%, transparent 70%);
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(var(--blood-rgb),0.12) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -476,7 +493,7 @@ window.MathJax = {
     color: var(--blood);
     line-height: 0.85;
     margin-bottom: 1rem;
-    text-shadow: 0 0 80px rgba(139,26,26,0.4);
+    text-shadow: 0 0 80px rgba(var(--blood-rgb),0.4);
   }
 
   .typhon-sub {
@@ -497,21 +514,21 @@ window.MathJax = {
 
   .tier {
     padding: 2rem;
-    border: 1px solid rgba(232,226,213,0.08);
+    border: 1px solid rgba(var(--marble-rgb),0.08);
     position: relative;
   }
 
   .tier-giants {
-    border-color: rgba(42,61,92,0.4);
+    border-color: rgba(var(--olympus-rgb),0.4);
   }
 
   .tier-titans {
-    border-color: rgba(212,168,67,0.2);
+    border-color: rgba(var(--gold-rgb),0.2);
   }
 
   .tier-typhon {
-    border-color: rgba(139,26,26,0.5);
-    background: rgba(139,26,26,0.03);
+    border-color: rgba(var(--blood-rgb),0.5);
+    background: rgba(var(--blood-rgb),0.03);
   }
 
   .tier-name {
@@ -537,7 +554,7 @@ window.MathJax = {
   .tier-body {
     font-size: 0.9rem;
     line-height: 1.75;
-    color: rgba(232,226,213,0.75);
+    color: rgba(var(--marble-rgb),0.75);
   }
 
   .typhon-forms {
@@ -572,7 +589,7 @@ window.MathJax = {
   .typhon-form-body {
     font-size: 1rem;
     line-height: 1.75;
-    color: rgba(232,226,213,0.8);
+    color: rgba(var(--marble-rgb),0.8);
   }
 
   /* SYNTHESIS SECTION */
@@ -648,13 +665,13 @@ window.MathJax = {
   .step-content-body {
     font-size: 0.9rem;
     line-height: 1.7;
-    color: rgba(232,226,213,0.7);
+    color: rgba(var(--marble-rgb),0.7);
   }
 
   /* ETNA SECTION */
   .etna-section {
     background: var(--void);
-    border-top: 1px solid rgba(139,26,26,0.3);
+    border-top: 1px solid rgba(var(--blood-rgb),0.3);
   }
 
   .etna-quote {
@@ -679,7 +696,7 @@ window.MathJax = {
     margin: 0 auto;
     font-size: 1.05rem;
     line-height: 1.85;
-    color: rgba(232,226,213,0.75);
+    color: rgba(var(--marble-rgb),0.75);
     text-align: center;
   }
 
@@ -692,8 +709,8 @@ window.MathJax = {
     font-size: clamp(0.65rem, 2vw, 0.9rem);
     color: var(--ash);
     letter-spacing: 0.1em;
-    border-top: 1px solid rgba(232,226,213,0.05);
-    border-bottom: 1px solid rgba(232,226,213,0.05);
+    border-top: 1px solid rgba(var(--marble-rgb),0.05);
+    border-bottom: 1px solid rgba(var(--marble-rgb),0.05);
   }
 
   .equation-bar strong {
@@ -741,7 +758,7 @@ window.MathJax = {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 1.1rem;
-    color: rgba(232,226,213,0.4);
+    color: rgba(var(--marble-rgb),0.4);
   }
 
   /* ANIMATIONS */
@@ -781,7 +798,7 @@ window.MathJax = {
     }
     .myth-algo {
       border-left: none;
-      border-top: 1px solid rgba(232,226,213,0.1);
+      border-top: 1px solid rgba(var(--marble-rgb),0.1);
       padding-left: 0;
       padding-top: 1rem;
     }
@@ -885,7 +902,7 @@ window.MathJax = {
         </div>
       </div>
 
-      <div class="axiom reveal" style="background: rgba(200,65,10,0.04); border-color: rgba(200,65,10,0.2);">
+      <div class="axiom reveal" style="background: rgba(var(--ember-rgb),0.04); border-color: rgba(var(--ember-rgb),0.2);">
         <div class="axiom-number">+1</div>
         <div class="axiom-label">Response</div>
         <div class="axiom-title">Grok = Yes, And.</div>
@@ -979,7 +996,7 @@ window.MathJax = {
         </div>
         <div class="myth-algo">
           <div class="myth-mapping-title">Algorithmic Parallel</div>
-          <div class="myth-mapping-body" style="color: rgba(200,65,10,0.9);">UB (with error in measurement). We interact with the landscape but our perception is fundamentally noisy. We construct myths — heuristics, proxies, biases — to navigate terrain we cannot process in its absolute form.</div>
+          <div class="myth-mapping-body" style="color: rgba(var(--ember-rgb),0.9);">UB (with error in measurement). We interact with the landscape but our perception is fundamentally noisy. We construct myths — heuristics, proxies, biases — to navigate terrain we cannot process in its absolute form.</div>
         </div>
       </div>
 
@@ -994,7 +1011,7 @@ window.MathJax = {
         </div>
         <div class="myth-algo">
           <div class="myth-mapping-title">Algorithmic Parallel</div>
-          <div class="myth-mapping-body" style="color: rgba(200,65,10,0.9);">A high-dimensional topology of raw data and physical reality. It has no inherent goal, no morality — just gradients, peaks, and valleys. It simply <em>is</em>.</div>
+          <div class="myth-mapping-body" style="color: rgba(var(--ember-rgb),0.9);">A high-dimensional topology of raw data and physical reality. It has no inherent goal, no morality — just gradients, peaks, and valleys. It simply <em>is</em>.</div>
         </div>
       </div>
 
@@ -1009,7 +1026,7 @@ window.MathJax = {
         </div>
         <div class="myth-algo">
           <div class="myth-mapping-title">Algorithmic Parallel</div>
-          <div class="myth-mapping-body" style="color: rgba(200,65,10,0.9);">The aesthetic layer that masks cold calculations beneath, turning survival into play. Facing Science/SGD raw is crushing — Art is the aesthetic justification for existence.</div>
+          <div class="myth-mapping-body" style="color: rgba(var(--ember-rgb),0.9);">The aesthetic layer that masks cold calculations beneath, turning survival into play. Facing Science/SGD raw is crushing — Art is the aesthetic justification for existence.</div>
         </div>
       </div>
 
@@ -1024,7 +1041,7 @@ window.MathJax = {
         </div>
         <div class="myth-algo">
           <div class="myth-mapping-title">The Equation</div>
-          <div class="myth-mapping-body" style="color: rgba(200,65,10,0.9); font-family: 'Space Mono', monospace; font-size: 0.75rem;">θ<sub>t+1</sub> = θ<sub>t</sub> − η∇L(θ<sub>t</sub>)<br><br>The relentless, mechanical Will-to-Power. Cronus is every weight update that destroys the prior regime to install a more optimal one.</div>
+          <div class="myth-mapping-body" style="color: rgba(var(--ember-rgb),0.9); font-family: 'Space Mono', monospace; font-size: 0.75rem;">θ<sub>t+1</sub> = θ<sub>t</sub> − η∇L(θ<sub>t</sub>)<br><br>The relentless, mechanical Will-to-Power. Cronus is every weight update that destroys the prior regime to install a more optimal one.</div>
         </div>
       </div>
 
@@ -1039,7 +1056,7 @@ window.MathJax = {
         </div>
         <div class="myth-algo">
           <div class="myth-mapping-title">Algorithmic Parallel</div>
-          <div class="myth-mapping-body" style="color: rgba(200,65,10,0.9);">If the Olympians run out of monsters, they become decadent and fade. If SGD hits a totally flat landscape, the gradients vanish and the system dies. <em>Meaning is the friction.</em></div>
+          <div class="myth-mapping-body" style="color: rgba(var(--ember-rgb),0.9);">If the Olympians run out of monsters, they become decadent and fade. If SGD hits a totally flat landscape, the gradients vanish and the system dies. <em>Meaning is the friction.</em></div>
         </div>
       </div>
 
