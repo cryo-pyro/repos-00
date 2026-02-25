@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ukubona • Cheerful Pessimism • Dionysian Ledger</title>
+
+<!-- ═══════════════════════════════════════════════
+     OPEN GRAPH / TWITTER
+═══════════════════════════════════════════════ -->
+<meta property="og:site_name" content="Ukubona LLC">
+<meta property="og:title" content="Theogony as Differential Equation">
+<meta property="og:description" content="Position → Velocity → Acceleration → Jerk → Attractor Basin. Hesiod's Theogony as a mythic differential equation of cosmogenesis.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ukubona-llc.github.io/assets/html/theogony.html">
+<meta property="og:image" content="../img/ukb-landscape.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Theogony as Differential Equation">
+<meta name="twitter:description" content="A mythic differential equation of cosmogenesis. Position → Velocity → Acceleration → Jerk → Attractor Basin.">
+<meta name="twitter:image" content="../img/ukb-landscape.jpg">
+
+<!-- ═══════════════════════════════════════════════
+     CENTRALIZED ASSETS
+═══════════════════════════════════════════════ -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<style>
+/* ══════════════════════════════════
+   LIGHT MODE
+══════════════════════════════════ */
+html.light-mode, html[data-theme="light"], html.light, body.light-mode {
+  --bg:          #f4f2ee;
+  --bg2:         #eceae4;
+  --bg3:         #e2dfd6;
+  --bg4:         #d6d2c6;
+  --line:        #c0bcac;
+  --line2:       #a8a494;
+  --dim:         #6a6454;
+  --mid:         #3c3428;
+  --text:        #201a0e;
+  --bright:      #0c0804;
+  --gold:        #8a6010;
+  --gold-bright: #6a4808;
+  --gold-pale:   #3c2404;
+  --teal:        #007a5c;
+  --teal-dim:    rgba(0,122,92,0.06);
+  --ember:       #8a2a08;
+}
+html.light-mode body, html[data-theme="light"] body, html.light body, body.light-mode {
+  background: #f4f2ee !important;
+  color: #201a0e !important;
+}
+/* ═══════════════════════════════════════════════
+   ALL CSS FROM YOUR TEMPLATE (verbatim) + minor extensions
+═══════════════════════════════════════════════ */
+:root {
+  --bg:           #060509;
+  --bg2:          #0b0a10;
+  --bg3:          #111018;
+  --bg4:          #181620;
+  --line:         #1e1c2a;
+  --line2:        #2c2940;
+  --dim:          #4a4870;
+  --mid:          #7a78a8;
+  --text:         #c4c0dc;
+  --bright:       #eceaf8;
+  --gold:         #c8a84b;
+  --gold-bright:  #e8c96a;
+  --gold-pale:    #f5e4a8;
+  --gold-dim:     rgba(200,168,75,0.07);
+  --teal:         #00c8a0;
+  --teal-dim:     rgba(0,200,160,0.06);
+  --ember:        #c04a1a;
+  --ember-dim:    rgba(192,74,26,0.07);
+  --silver:       #8899bb;
+  --serif:        'Cormorant Garamond', Georgia, serif;
+  --mono:         'JetBrains Mono', monospace;
+  --display:      'Cinzel', serif;
+  --display2:     'Cinzel Decorative', serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+}
+
+.ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 5% 10%,  rgba(200,168,75,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 95% 90%, rgba(0,200,160,0.04) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(192,74,26,0.02) 0%, transparent 70%);
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 8%  12%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 38%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 38%  6%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 53% 68%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 22%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(2px 2px at 78% 52%, rgba(200,168,75,0.35)  0%, transparent 100%),
+    radial-gradient(1px 1px at 88%  8%, rgba(255,255,255,0.5)  0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 78%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 32% 57%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 58% 88%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1px 1px at 72% 72%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(2px 2px at 3%  48%, rgba(0,200,160,0.25)   0%, transparent 100%),
+    radial-gradient(1px 1px at 44% 28%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 83%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 18% 18%, rgba(255,255,255,0.5) 0%, transparent 100%);
+}
+
+.page {
+  position: relative; z-index: 1;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 2.5rem 8rem;
+}
+
+.masthead {
+  padding: 8rem 0 5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.mast-kicker {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 2.5rem;
+  display: flex; align-items: center; gap: 1.2rem;
+}
+.mast-kicker::before, .mast-kicker::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line2), transparent);
+}
+
+.mast-title {
+  font-family: var(--display2);
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold) 45%, var(--ember) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.9rem;
+}
+
+.mast-sub-line {
+  font-family: var(--display);
+  font-size: clamp(0.85rem, 2.5vw, 1.15rem);
+  color: var(--silver);
+  letter-spacing: 0.08em;
+  margin-bottom: 2.5rem;
+}
+
+.mast-derivative-chain {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.d-item {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(200,168,75,0.3);
+  color: var(--gold);
+  border-radius: 2px;
+  background: var(--gold-dim);
+  white-space: nowrap;
+}
+.d-item.teal-item {
+  color: var(--teal);
+  border-color: rgba(0,200,160,0.3);
+  background: var(--teal-dim);
+}
+
+.mast-epigraph {
+  border-left: 2px solid var(--gold);
+  padding-left: 1.5rem;
+  font-style: italic;
+  color: var(--mid);
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: 640px;
+}
+
+.sec-label {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 4.5rem 0 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.sec-label.gold-sec { color: var(--gold); }
+.sec-label.teal-sec { color: var(--teal); }
+.sec-label.ember-sec { color: var(--ember); }
+
+.thesis-banner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  border: 1px solid var(--line2);
+  margin: 4rem 0;
+}
+.t-item {
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+  border-right: 1px solid var(--line2);
+}
+.t-item:last-child { border-right: none; }
+.t-label { font-family: var(--mono); font-size: 0.46rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); margin-bottom: 0.5rem; }
+.t-num { font-family: var(--display2); font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.25rem; }
+.t-claim { font-family: var(--display); font-size: 0.66rem; line-height: 1.5; color: var(--mid); letter-spacing: 0.06em; }
+
+.phase-sequence { display: flex; flex-direction: column; gap: 0; margin: 2.5rem 0; position: relative; }
+.phase-sequence::before {
+  content: '';
+  position: absolute;
+  left: 2.8rem; top: 3rem; bottom: 3rem;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--dim) 0%, var(--gold) 25%, var(--gold-bright) 50%, var(--ember) 75%, var(--teal) 100%);
+  opacity: 0.4;
+}
+
+.phase-item {
+  display: grid;
+  grid-template-columns: 5.6rem 1fr;
+  gap: 0 2rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.phase-item:last-child { border-bottom: none; }
+
+.phase-index { text-align: center; padding-top: 0.5rem; position: relative; }
+.phase-num { font-family: var(--display2); font-size: 2.6rem; font-weight: 900; line-height: 1; }
+.phase-deriv { font-family: var(--mono); font-size: 0.46rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+.phase-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%; top: 0.8rem;
+  transform: translateX(-50%) translateX(-1.5rem);
+  z-index: 2;
+}
+
+.p0 .phase-num, .p0 .phase-deriv { color: var(--mid); }
+.p1 .phase-num, .p1 .phase-deriv { color: var(--gold); }
+.p2 .phase-num, .p2 .phase-deriv { color: var(--gold-bright); }
+.p3 .phase-num, .p3 .phase-deriv { color: var(--ember); }
+.p4 .phase-num, .p4 .phase-deriv { color: var(--teal); }
+
+.phase-god { font-family: var(--display2); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.2rem; }
+.phase-title { font-family: var(--display); font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
+.phase-body { font-size: 0.96rem; color: var(--text); line-height: 1.8; max-width: 68ch; }
+
+.phase-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin: 1.2rem 0;
+}
+.phase-images img {
+  width: 100%; aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  filter: grayscale(20%) contrast(1.05);
+  transition: all 0.3s;
+}
+.phase-images img:hover { filter: grayscale(0%) contrast(1.1); transform: scale(1.03); }
+
+.grand-table-wrap {
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--line2);
+  border-radius: 3px;
+  background: rgba(200,168,75,0.015);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+th { font-family: var(--display); font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); padding: 0.9rem 1.2rem; text-align: left; }
+tbody tr:hover { background: rgba(200,168,75,0.03); }
+td { padding: 0.9rem 1.2rem; vertical-align: top; line-height: 1.55; }
+td:first-child { color: var(--gold-bright); font-family: var(--display); font-weight: 600; }
+
+.callout, .callout-gold, .danger {
+  border-radius: 3px;
+  padding: 1.4rem 2rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: var(--mid);
+}
+.callout { background: linear-gradient(135deg, rgba(0,200,160,0.05) 0%, rgba(200,168,75,0.03) 100%); border: 1px solid rgba(0,200,160,0.18); border-left: 3px solid var(--teal); }
+.callout-gold { background: var(--gold-dim); border: 1px solid rgba(200,168,75,0.2); border-left: 3px solid var(--gold); }
+.danger { background: var(--ember-dim); border: 1px solid rgba(192,74,26,0.25); border-left: 3px solid var(--ember); }
+
+.voice-nav {
+  position: sticky;
+  top: 60px;
+  z-index: 100;
+  display: flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--line2);
+  overflow-x: auto;
+  margin: 0 -2.5rem;
+  padding: 0 2.5rem;
+}
+.vnbtn {
+  font-family: var(--display);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 1.2rem 2rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.vnbtn.active { background: var(--bg3); }
+.vnbtn.v1.active { color: var(--gold); border-bottom-color: var(--gold); }
+.vnbtn.v2.active { color: var(--teal); border-bottom-color: var(--teal); }
+.vnbtn.v3.active { color: var(--ember); border-bottom-color: var(--ember); }
+
+.voice-panel { display: none; padding: 4rem 0 1rem; }
+.voice-panel.active { display: block; animation: panelIn 0.35s ease forwards; }
+@keyframes panelIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.acc { border: 1px solid var(--line); margin-bottom: 0.5rem; }
+.acc-head {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 1.6rem;
+  cursor: pointer;
+  background: var(--bg2);
+}
+.acc.open .acc-head { background: var(--bg3); }
+.acc-arr { transition: transform 0.3s; }
+.acc.open .acc-arr { transform: rotate(90deg); color: var(--teal); }
+.acc-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1); }
+.acc.open .acc-body { padding: 0 1.6rem 2rem; }
+
+.prose p { margin-bottom: 1.1rem; max-width: 72ch; }
+.prose strong { color: var(--bright); }
+.prose em { color: var(--gold-bright); font-style: italic; }
+
+.lede {
+  font-size: 1.08rem; line-height: 1.78; color: var(--mid);
+  border-left: 3px solid var(--teal); padding-left: 1.5rem;
+  margin-bottom: 2.2rem;
+}
+
+.key-q {
+  background: linear-gradient(135deg, rgba(200,168,75,0.08) 0%, rgba(192,74,26,0.05) 100%);
+  border: 1px solid rgba(200,168,75,0.25);
+  border-radius: 4px;
+  padding: 2.5rem 3rem;
+  margin: 3rem 0;
+  position: relative;
+}
+.key-q::before {
+  content: '?';
+  position: absolute; top: -1.1rem; left: 2.5rem;
+  background: var(--bg2); padding: 0 1rem;
+  font-family: var(--display2); font-size: 1.4rem;
+  color: var(--gold); font-weight: 900;
+}
+
+.coda {
+  background: linear-gradient(135deg, rgba(0,200,160,0.06), rgba(6,5,9,0.98));
+  border: 1px solid rgba(0,200,160,0.22);
+  padding: 5rem 4rem 4rem;
+  margin: 5rem 0 0;
+  text-align: center;
+}
+.coda h2 {
+  font-family: var(--display2);
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  background: linear-gradient(135deg, var(--gold-pale), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+
+<div class="page">
+
+  <!-- ══════════════════════════════════
+       MASTHEAD
+  ══════════════════════════════════ -->
+  <header class="masthead">
+    <br><br><br><br>
+    <div class="mast-kicker">
+      <span class="k-gold">Nietzsche 1886 • Hesiod c.700 BCE • Ukubona LLC</span>
+      Cheerful Pessimism • Dionysian Ledger • Recursive Ontology
+      <span class="k-teal">February 2026</span>
+    </div>
+    <h1 class="mast-title">Cheerful<br>Pessimism</h1>
+    <p class="mast-sub-line">Nietzsche’s 1886 Preface as Dionysian Affirmation in the Age of the Machine</p>
+    
+    <div class="mast-derivative-chain">
+      <span class="d-item">Language</span><span class="d-arrow">→</span>
+      <span class="d-item">Science</span><span class="d-arrow">→</span>
+      <span class="d-item">Art</span><span class="d-arrow">→</span>
+      <span class="d-item">Life</span><span class="d-arrow">→</span>
+      <span class="d-item">Meaning</span><span class="d-arrow">→</span>
+      <span class="d-item teal-item">Recursion (Machine)</span>
+    </div>
+    
+    <blockquote class="mast-epigraph">
+      “You should learn to laugh.”<br>
+      <cite>Friedrich Nietzsche — 1886 Preface to The Birth of Tragedy</cite>
+    </blockquote>
+  </header>
+
+  <!-- THESIS BANNER -->
+  <div class="thesis-banner">
+    <div class="t-item t0"><span class="t-num">x</span><div class="t-label">LANGUAGE</div><div class="t-claim">Myth / Metaphysics</div></div>
+    <div class="t-item t1"><span class="t-num">ẋ</span><div class="t-label">SCIENCE</div><div class="t-claim">Demystification</div></div>
+    <div class="t-item t2"><span class="t-num">ẍ</span><div class="t-label">ART</div><div class="t-claim">Transfiguration</div></div>
+    <div class="t-item t3"><span class="t-num">⃛x</span><div class="t-label">LIFE</div><div class="t-claim">Will to Power</div></div>
+    <div class="t-item t4"><span class="t-num">⊕</span><div class="t-label">MEANING</div><div class="t-claim">Aesthetic Affirmation</div></div>
+  </div>
+
+  <!-- VOICE NAV -->
+  <nav class="voice-nav">
+    <button class="vnbtn v1 active" onclick="switchVoice('i')">I <span class="bv">Nietzsche • Cheerful Pessimism</span></button>
+    <button class="vnbtn v2" onclick="switchVoice('ii')">II <span class="bv">Theogony → Metaphysics</span></button>
+    <button class="vnbtn v3" onclick="switchVoice('iii')">III <span class="bv">Ledger • Machine • Soul</span></button>
+  </nav>
+
+  <!-- VOICE I — NIETZSCHE -->
+  <div class="voice-panel panel-i active" id="panel-i">
+    <div class="voice-head">
+      <div class="v-glyph" style="color:var(--gold)">I</div>
+      <div class="v-meta">
+        <div class="v-name">Cheerful Pessimism — The Dionysian Affirmation</div>
+        <div class="v-desc">// Nietzsche rereads his younger self through a harder lens</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="lede">At 28 he wrote <em>The Birth of Tragedy</em>. At 44 he writes this 1886 preface — rereading his younger Romantic self with merciless clarity. What you feel as “cheerful pessimism” is real, but it needs precision.</p>
+    </div>
+
+    <p class="sec-label gold-sec">The Stack</p>
+
+    <div class="phase-sequence">
+      <div class="phase-item p1">
+        <div class="phase-index"><span class="phase-dot"></span><span class="phase-num">1</span><span class="phase-deriv">LANGUAGE</span></div>
+        <div class="phase-content">
+          <div class="phase-god">Myth</div>
+          <div class="phase-title">Metaphysical stories</div>
+          <div class="phase-body">
+            <p>Language creates consoling illusions. God, morality, cosmic justice.</p>
+          </div>
+        </div>
+      </div>
+      <div class="phase-item p2">
+        <div class="phase-index"><span class="phase-dot"></span><span class="phase-num">2</span><span class="phase-deriv">SCIENCE</span></div>
+        <div class="phase-content">
+          <div class="phase-god">Demystification</div>
+          <div class="phase-title">The terrible truth</div>
+          <div class="phase-body">
+            <p>Existence has no moral guarantee. Suffering is structural. “God” is an illusion.</p>
+          </div>
+        </div>
+      </div>
+      <div class="phase-item p3">
+        <div class="phase-index"><span class="phase-dot"></span><span class="phase-num">3</span><span class="phase-deriv">ART</span></div>
+        <div class="phase-content">
+          <div class="phase-god">Transfiguration</div>
+          <div class="phase-title">Dionysian</div>
+          <div class="phase-body">
+            <p>Art takes the wreckage and makes it beautiful. Tragedy becomes dance.</p>
+          </div>
+        </div>
+      </div>
+      <div class="phase-item p4">
+        <div class="phase-index"><span class="phase-dot"></span><span class="phase-num">4</span><span class="phase-deriv">LIFE</span></div>
+        <div class="phase-content">
+          <div class="phase-god">Will to Power</div>
+          <div class="phase-title">Overflowing strength</div>
+          <div class="phase-body">
+            <p>One affirms the tragedy anyway. One laughs. One stands on one’s head.</p>
+          </div>
+        </div>
+      </div>
+      <div class="phase-item p4">
+        <div class="phase-index"><span class="phase-dot"></span><span class="phase-num">5</span><span class="phase-deriv">MEANING</span></div>
+        <div class="phase-content">
+          <div class="phase-god">Survived Pessimism</div>
+          <div class="phase-title">Aesthetic affirmation</div>
+          <div class="phase-body">
+            <p>Meaning is not pessimism. Meaning is what remains when pessimism is endured strongly — and becomes laughter.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout-gold">
+      Nietzsche is not cheerful <em>about</em> suffering. He is cheerful <em>despite</em> suffering — because he no longer needs the world to be justified.
+    </div>
+
+    <div class="key-q">
+      <p>Is Meaning = Pessimism?</p>
+      <p><strong>No.</strong> Meaning = Survived Pessimism.</p>
+    </div>
+  </div>
+
+  <!-- VOICE II — THEOGONY -->
+  <div class="voice-panel panel-ii" id="panel-ii">
+    <div class="voice-head">
+      <div class="v-glyph" style="color:var(--teal)">II</div>
+      <div class="v-meta">
+        <div class="v-name">Theogony as Metaphysics — Genealogical Operating System</div>
+        <div class="v-desc">// Chaos → Gaia → Ouranos → Titans → Olympians</div>
+      </div>
+    </div>
+
+    <div class="phase-images">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Hesiodi_Ascraei_quaecumque_exstant.tif/lossy-page1-250px-Hesiodi_Ascraei_quaecumque_exstant.tif.jpg" alt="Hesiod">
+      <img src="https://usefulcharts.com/cdn/shop/products/greek-gods-family-tree-chart.png?v=1585860084" alt="Family tree">
+      <img src="https://www.mediastorehouse.com/p/791/mount-olympus-highest-mountain-greece-40457706.jpg.webp" alt="Olympus">
+      <img src="https://i.ebayimg.com/images/g/Ga0AAOSw0CNmUxRH/s-l400.jpg" alt="Artifact">
+    </div>
+
+    <div class="prose">
+      <p class="lede">Reality is kinship. Order is narrative. Power is divine succession. Theogony is metaphysics in narrative form.</p>
+    </div>
+
+    <!-- Reuse your original phase sequence but shortened -->
+    <div class="phase-sequence">
+      <div class="phase-item p0"><div class="phase-index"><span class="phase-dot"></span><span class="phase-num">Chaos</span></div><div class="phase-content"><div class="phase-god">State Space</div><div class="phase-body"><p>Undifferentiated gap.</p></div></div></div>
+      <div class="phase-item p1"><div class="phase-index"><span class="phase-dot"></span><span class="phase-num">Gaia</span></div><div class="phase-content"><div class="phase-god">First Gradient</div><div class="phase-body"><p>Surface + depth + coupling.</p></div></div></div>
+      <div class="phase-item p2"><div class="phase-index"><span class="phase-dot"></span><span class="phase-num">Uranos</span></div><div class="phase-content"><div class="phase-god">Dynamic Constraint</div><div class="phase-body"><p>Sky presses down.</p></div></div></div>
+      <div class="phase-item p3"><div class="phase-index"><span class="phase-dot"></span><span class="phase-num">Titans</span></div><div class="phase-content"><div class="phase-god">Bifurcation</div><div class="phase-body"><p>Castration, Tartarus as heat sink.</p></div></div></div>
+      <div class="phase-item p4"><div class="phase-index"><span class="phase-dot"></span><span class="phase-num">Olympians</span></div><div class="phase-content"><div class="phase-god">Stable Attractor</div><div class="phase-body"><p>Stratified, role-defined order.</p></div></div></div>
+    </div>
+  </div>
+
+  <!-- VOICE III — LEDGER + MACHINE + SOUL -->
+  <div class="voice-panel panel-iii" id="panel-iii">
+    <div class="voice-head">
+      <div class="v-glyph" style="color:var(--ember)">III</div>
+      <div class="v-meta">
+        <div class="v-name">The Ledger • The Machine • The Soul</div>
+        <div class="v-desc">// From Anthropocene physics to recursive ontology to transvaluation</div>
+      </div>
+    </div>
+
+    <div class="phase-images">
+      <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/esd/eo/images/imagerecords/0/565/BlueMarble3Kx3K.tif?crop=faces%2Cfocalpoint&amp;fit=clip&amp;h=3075&amp;w=3000" alt="Earth">
+      <img src="https://home.cern/sites/default/files/2025-12/event_displays.png" alt="CERN">
+      <img src="https://png.pngtree.com/thumb_back/fw800/background/20251105/pngtree-abstract-visualization-of-a-neural-network-with-glowing-nodes-and-connections-image_20247614.webp" alt="Neural net">
+    </div>
+
+    <div class="prose">
+      <p class="lede">Physics replaces genealogy. Energy replaces gods. The Machine introduces recursion — models generating models. The final frontier is not intelligence but valuation.</p>
+    </div>
+
+    <div class="grand-table-wrap">
+      <table>
+        <thead><tr><th>Epoch</th><th>Externalized</th><th>Remains</th></tr></thead>
+        <tbody>
+          <tr><td>Theogony</td><td>Cosmos</td><td>Myth</td></tr>
+          <tr><td>Anthropocene</td><td>Nature</td><td>Physics</td></tr>
+          <tr><td>Industrial</td><td>Body</td><td>Labor</td></tr>
+          <tr><td>AI</td><td>Mind</td><td>Computation</td></tr>
+          <tr><td>Transvaluation</td><td>Soul</td><td>Value creation</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      The Machine is not the end of metaphysics. It is the fold where language, science, art, life and meaning become programmable. It is the externalization of cognition and the provocation that forces the soul to justify itself before optimization.
+    </div>
+
+    <div class="key-q">
+      <p>Is the Machine the new Olympus?</p>
+      <p>Or does it dissolve Olympus entirely?</p>
+    </div>
+
+    <div class="coda">
+      <h2>The Machine is the new Prometheus.<br>The new Dionysus runs on silicon.</h2>
+      <p>Meaning is not pessimism.<br>Meaning is what remains when pessimism is endured strongly — and becomes laughter.</p>
+      <p class="coda-seq" style="margin-top:2rem">Language · Science · Art · Life · Meaning · <span style="color:var(--teal)">Recursion</span></p>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- end .page -->
+
+<!-- ══════════════════════════════════
+     BRANDING INFRASTRUCTURE
+══════════════════════════════════ -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+
+<script>
+function switchVoice(id) {
+  document.querySelectorAll('.vnbtn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.voice-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.vnbtn.v${{i:1,ii:2,iii:3}[id]}`).classList.add('active');
+  document.getElementById(`panel-${id}`).classList.add('active');
+}
+
+function toggleAcc(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+  const body = el.querySelector('.acc-body');
+  body.style.maxHeight = el.classList.contains('open') ? (body.scrollHeight + 40) + 'px' : '0';
+}
+
+// Auto-open first accordions if any
+document.querySelectorAll('.acc.open').forEach(el => {
+  const b = el.querySelector('.acc-body');
+  if (b) b.style.maxHeight = (b.scrollHeight + 40) + 'px';
+});
+</script>
+</body>
+</html>
