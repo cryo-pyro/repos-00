@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Language Basin — Ukubona LLC</title>
+
+<!-- ═══════════════════════════════════════════════
+     OPEN GRAPH / TWITTER
+═══════════════════════════════════════════════ -->
+<meta property="og:site_name" content="Ukubona LLC">
+<meta property="og:title" content="The Language Basin">
+<meta property="og:description" content="Every revelation collapses into a basin. Language is a local minimum. Anthropomorphism is gradient descent under cognitive constraints.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://cryo-pyro.github.io/repos-00/ukhona/html/goax-language-basin.html">
+<meta property="og:image" content="../img/ukb-landscape.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Language Basin">
+<meta name="twitter:description" content="Every revelation collapses into a basin. Language is a local minimum.">
+<meta name="twitter:image" content="../img/ukb-landscape.jpg">
+
+<!-- ═══════════════════════════════════════════════
+     CENTRALIZED ASSETS — never modify paths
+═══════════════════════════════════════════════ -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE FONTS — mythic/cosmological register
+═══════════════════════════════════════════════ -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- ═══════════════════════════════════════════════
+     DISTRIBUTED STYLES — page-specific
+═══════════════════════════════════════════════ -->
+<style>
+/* ══════════════════════════════════
+   DESIGN TOKENS — dark default
+   Mythic / cosmological register:
+   Cinzel + Cormorant Garamond + JetBrains Mono
+   Deep stone, teal accent, gold secondary, ember warning
+══════════════════════════════════ */
+:root {
+  --bg:          #09090b;
+  --bg2:         #0f0f14;
+  --bg3:         #15151c;
+  --bg4:         #1c1c26;
+  --line:        #252535;
+  --line2:       #333348;
+
+  --dim:         #52527a;
+  --mid:         #8888b0;
+  --text:        #c8ccdf;
+  --bright:      #e8ecf5;
+
+  --accent:      #00c8a0;
+  --accent-dim:  rgba(0,200,160,0.07);
+  --counter:     #d4a840;
+  --warn:        #e06050;
+  --gold:        #d4a840;
+
+  --serif:   'Cormorant Garamond', Georgia, serif;
+  --mono:    'JetBrains Mono', monospace;
+  --display: 'Cinzel', serif;
+}
+
+/* ══════════════════════════════════
+   LIGHT MODE — cover ALL toggle variants
+   shared.js toggles on <html>, not body
+══════════════════════════════════ */
+html.light-mode,
+html[data-theme="light"],
+html.light,
+body.light-mode {
+  --bg:          #f5f4f0;
+  --bg2:         #edece6;
+  --bg3:         #e4e2da;
+  --bg4:         #d8d4c8;
+  --line:        #c4c0b0;
+  --line2:       #a8a498;
+  --dim:         #7a7060;
+  --mid:         #4a4438;
+  --text:        #282014;
+  --bright:      #100c06;
+  --accent:      #007a5c;
+  --accent-dim:  rgba(0,122,92,0.06);
+  --counter:     #8a6010;
+  --warn:        #c03020;
+  --gold:        #8a6010;
+}
+
+html.light-mode body,
+html[data-theme="light"] body,
+html.light body,
+body.light-mode {
+  background: #f5f4f0 !important;
+  color: #282014 !important;
+}
+
+html.light-mode .goax-nav,
+html[data-theme="light"] .goax-nav,
+html.light .goax-nav,
+body.light-mode .goax-nav {
+  background: var(--bg2);
+  border-bottom-color: var(--line2);
+}
+
+html.light-mode .gbtn,
+html[data-theme="light"] .gbtn,
+html.light .gbtn,
+body.light-mode .gbtn {
+  color: var(--dim);
+}
+
+html.light-mode .acc-head,
+html[data-theme="light"] .acc-head,
+html.light .acc-head,
+body.light-mode .acc-head {
+  background: var(--bg2);
+}
+
+html.light-mode .acc-body,
+html[data-theme="light"] .acc-body,
+html.light .acc-body,
+body.light-mode .acc-body {
+  background: var(--bg2);
+}
+
+html.light-mode .axiom,
+html[data-theme="light"] .axiom,
+html.light .axiom,
+body.light-mode .axiom {
+  background: var(--bg3);
+  border-color: var(--line2);
+}
+
+html.light-mode .eq-block,
+html[data-theme="light"] .eq-block,
+html.light .eq-block,
+body.light-mode .eq-block {
+  background: var(--bg4);
+  border-color: var(--line2);
+}
+
+html.light-mode .danger,
+html[data-theme="light"] .danger,
+html.light .danger,
+body.light-mode .danger {
+  background: rgba(192,48,32,0.05);
+}
+
+/* ══════════════════════════════════
+   BASE
+══════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* Grain texture */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* Ambient gradient */
+.ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 5%,  rgba(0,200,160,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 90% 95%, rgba(212,168,64,0.04) 0%, transparent 60%);
+}
+
+/* ══════════════════════════════════
+   LAYOUT
+══════════════════════════════════ */
+.page {
+  position: relative; z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2.5rem 8rem;
+}
+
+/* ══════════════════════════════════
+   MASTHEAD
+══════════════════════════════════ */
+.masthead {
+  padding: 7rem 0 5rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0;
+  opacity: 0;
+  animation: rise 1.4s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.mast-kicker {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 2.5rem;
+  display: flex; align-items: center; gap: 1.2rem;
+}
+.mast-kicker::before, .mast-kicker::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line2), transparent);
+}
+.mast-kicker .k-accent { color: var(--accent); }
+.mast-kicker .k-gold   { color: var(--gold); }
+
+.mast-title {
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1.0;
+  color: var(--bright);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.8rem;
+}
+.mast-title .accent { color: var(--accent); }
+.mast-title .italic  { font-style: italic; color: var(--gold); }
+
+.mast-sub {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--dim);
+  letter-spacing: 0.08em;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+}
+.mast-eq {
+  display: inline-block;
+  background: var(--bg3);
+  border: 1px solid var(--line2);
+  padding: 0.18rem 1rem;
+  color: var(--accent);
+  margin-top: 0.4rem;
+}
+
+.mast-epigraph {
+  border-left: 2px solid var(--gold);
+  padding-left: 1.5rem;
+  font-style: italic;
+  color: var(--mid);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 600px;
+}
+.mast-epigraph cite {
+  display: block;
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-top: 0.6rem;
+}
+
+/* ══════════════════════════════════
+   SECTION LABEL — reusable divider
+══════════════════════════════════ */
+.sec-label {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 4rem 0 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+/* ══════════════════════════════════
+   THESIS BANNER
+══════════════════════════════════ */
+.thesis-banner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border: 1px solid var(--line2);
+  margin: 4rem 0 0;
+}
+@media (max-width: 640px) { .thesis-banner { grid-template-columns: 1fr; } }
+
+.t-item {
+  padding: 1.8rem 2rem;
+  text-align: center;
+  border-right: 1px solid var(--line2);
+}
+.t-item:last-child { border-right: none; }
+.t-label {
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 0.6rem;
+}
+.t-claim {
+  font-family: var(--display);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--mid);
+}
+.t-item.tl .t-claim { color: var(--accent); }
+.t-item.gd .t-claim { color: var(--gold); }
+.t-item.em .t-claim { color: var(--warn); }
+
+/* ══════════════════════════════════
+   GOAX TAB NAV
+══════════════════════════════════ */
+.goax-nav {
+  position: sticky;
+  top: 60px; /* sits just below shared.js header */
+  z-index: 100;
+  display: flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--line2);
+  overflow-x: auto;
+}
+
+.gbtn {
+  font-family: var(--display);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 1.3rem 2.2rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+  display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+}
+.gbtn .bv {
+  font-family: var(--mono);
+  font-size: 0.43rem;
+  letter-spacing: 0.25em;
+  opacity: 0.5;
+}
+.gbtn:hover { background: var(--bg3); color: var(--text); }
+.gbtn.active { background: var(--bg3); }
+.gbtn.g.active { color: var(--gold);   border-bottom-color: var(--gold); }
+.gbtn.o.active { color: var(--accent); border-bottom-color: var(--accent); }
+.gbtn.a.active { color: var(--bright); border-bottom-color: var(--bright); }
+.gbtn.x.active { color: var(--warn);   border-bottom-color: var(--warn); }
+
+/* ══════════════════════════════════
+   VOICE PANELS
+══════════════════════════════════ */
+.voice-panel { display: none; padding: 5rem 0 2rem; }
+.voice-panel.active {
+  display: block;
+  animation: panelIn 0.35s ease forwards;
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.voice-head {
+  display: flex; align-items: baseline; gap: 1.5rem;
+  margin-bottom: 3.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.v-glyph {
+  font-family: var(--display);
+  font-size: 5rem; line-height: 1; font-weight: 400;
+  opacity: 0.1; flex-shrink: 0;
+}
+.g-panel .v-glyph { color: var(--gold);   opacity: 0.18; }
+.o-panel .v-glyph { color: var(--accent); opacity: 0.18; }
+.a-panel .v-glyph { color: var(--bright); opacity: 0.12; }
+.x-panel .v-glyph { color: var(--warn);   opacity: 0.18; }
+
+.v-meta { flex: 1; }
+.v-name {
+  font-family: var(--display);
+  font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--mid); margin-bottom: 0.35rem;
+}
+.v-desc {
+  font-family: var(--mono);
+  font-size: 0.58rem; letter-spacing: 0.12em; color: var(--dim);
+}
+
+/* ══════════════════════════════════
+   ACCORDION
+══════════════════════════════════ */
+.acc { border: 1px solid var(--line); margin-bottom: 0.5rem; }
+.acc:hover { border-color: var(--line2); }
+
+.acc-head {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.15rem 1.8rem;
+  cursor: pointer;
+  background: var(--bg2);
+  user-select: none;
+  transition: background 0.2s;
+}
+.acc-head:hover { background: var(--bg3); }
+.acc.open .acc-head { background: var(--bg3); }
+
+.acc-num {
+  font-family: var(--mono);
+  font-size: 0.53rem; letter-spacing: 0.2em;
+  color: var(--dim); flex-shrink: 0;
+}
+.acc-title {
+  font-family: var(--display);
+  font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--mid); flex: 1; line-height: 1.4;
+}
+.acc.open .acc-title { color: var(--bright); }
+
+.acc-arr {
+  font-family: var(--mono); font-size: 0.62rem;
+  color: var(--dim);
+  transition: transform 0.3s, color 0.3s;
+  flex-shrink: 0;
+}
+.acc.open .acc-arr { transform: rotate(90deg); color: var(--accent); }
+
+.acc-body {
+  max-height: 0; overflow: hidden;
+  padding: 0 1.8rem;
+  background: var(--bg2);
+  transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.acc.open .acc-body { padding: 0 1.8rem 2rem; }
+
+/* ══════════════════════════════════
+   PROSE
+══════════════════════════════════ */
+.prose p { margin-bottom: 1.15rem; color: var(--text); }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--bright); font-weight: 600; }
+.prose em { color: var(--accent); font-style: italic; }
+.prose a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(212,168,64,0.3); }
+.prose a:hover { border-bottom-color: var(--gold); }
+.prose h3 {
+  font-family: var(--display); font-size: 0.88rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mid); margin: 2rem 0 0.8rem;
+}
+
+.lede {
+  font-size: 1.1rem; line-height: 1.75; color: var(--mid);
+  border-left: 3px solid var(--accent); padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.pull {
+  border-left: 3px solid var(--gold);
+  padding: 0.5rem 1.5rem;
+  margin: 1.8rem 0;
+  font-size: 1.05rem; font-style: italic;
+  color: var(--bright); line-height: 1.65;
+}
+
+/* ══════════════════════════════════
+   EQUATION BLOCK
+══════════════════════════════════ */
+.eq-block {
+  background: var(--bg4);
+  border: 1px solid var(--line2);
+  border-top: 2px solid var(--accent);
+  padding: 2.5rem 2rem;
+  margin: 2.5rem 0;
+  position: relative; text-align: center;
+}
+.eq-label {
+  position: absolute; top: 0.75rem; left: 1.5rem;
+  font-family: var(--mono); font-size: 0.5rem;
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim);
+}
+.eq-main { color: var(--bright); font-size: 1.2rem; margin: 0.5rem 0 1.8rem; }
+.eq-terms {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+  border-top: 1px solid var(--line); padding-top: 1.5rem;
+}
+@media (max-width: 600px) { .eq-terms { grid-template-columns: 1fr; } }
+
+.eq-t { text-align: center; }
+.eq-t .ts { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+.eq-t:nth-child(1) .ts { color: var(--gold); }
+.eq-t:nth-child(3) .ts { color: var(--warn); }
+.eq-t .tn {
+  font-family: var(--display); font-size: 0.6rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--mid); display: block; margin-bottom: 0.35rem;
+}
+.eq-t .td { font-size: 0.8rem; color: var(--dim); line-height: 1.55; }
+
+/* ══════════════════════════════════
+   PHASE SHIFT VIS
+══════════════════════════════════ */
+.phase-vis {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  border: 1px solid var(--line); margin: 2.5rem 0;
+}
+.ph-col { padding: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.ph-col.old { background: var(--bg3); }
+.ph-col.new { background: var(--accent-dim); }
+.ph-arrow {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg4); padding: 1rem 0.8rem;
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  font-family: var(--mono); color: var(--accent); font-size: 1rem;
+}
+.ph-head {
+  font-family: var(--display); font-size: 0.58rem;
+  letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.3rem;
+}
+.ph-col.old .ph-head { color: var(--dim); }
+.ph-col.new .ph-head { color: var(--accent); }
+.ph-item { font-family: var(--mono); font-size: 0.66rem; color: var(--mid); line-height: 1.6; }
+.ph-item::before { content: '→ '; color: var(--dim); }
+.ph-col.new .ph-item::before { color: var(--accent); }
+@media (max-width: 540px) { .phase-vis { grid-template-columns: 1fr; } .ph-arrow { display: none; } }
+
+/* ══════════════════════════════════
+   STEP TRACK
+══════════════════════════════════ */
+.step-track {
+  position: relative; padding-left: 2.5rem; margin: 2rem 0;
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.step-track::before {
+  content: '';
+  position: absolute; left: 0.75rem; top: 1rem; bottom: 1rem;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent), var(--line));
+}
+.step {
+  background: var(--bg2); border: 1px solid var(--line);
+  padding: 1rem 1.5rem; cursor: pointer;
+  transition: border-color 0.25s, background 0.25s;
+  position: relative;
+}
+.step::before {
+  content: attr(data-n);
+  font-family: var(--mono); font-size: 0.5rem;
+  position: absolute; left: -1.9rem; top: 50%; transform: translateY(-50%);
+  width: 0.9rem; height: 0.9rem; border-radius: 50%;
+  background: var(--bg4); border: 1px solid var(--line2);
+  color: var(--dim);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; line-height: 0.9rem;
+}
+.step.active { background: var(--accent-dim); border-color: var(--accent); }
+.step.active::before {
+  background: var(--accent); border-color: var(--accent); color: var(--bg);
+  box-shadow: 0 0 10px rgba(0,200,160,0.35);
+}
+.step-head {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 0.3rem;
+}
+.step.active .step-head { color: var(--accent); }
+.step-body { font-size: 0.86rem; color: var(--dim); line-height: 1.5; }
+.step.active .step-body { color: var(--text); }
+
+/* ══════════════════════════════════
+   AXIOM / KEY CLAIM BLOCK
+══════════════════════════════════ */
+.axioms { display: grid; gap: 0.9rem; margin: 2rem 0; }
+
+.axiom {
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  padding: 1.2rem 1.8rem 1.2rem 1.4rem;
+  display: grid; grid-template-columns: 2.2rem 1fr; gap: 0 0.8rem;
+  opacity: 0; transform: translateX(-12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.axiom.visible { opacity: 1; transform: translateX(0); }
+.axiom.gold-ax  { border-left-color: var(--gold); }
+.axiom.ember-ax { border-left-color: var(--warn); }
+
+.axiom-n {
+  font-family: var(--mono); font-size: 0.56rem;
+  color: var(--accent); padding-top: 0.3rem;
+}
+.axiom.gold-ax  .axiom-n { color: var(--gold); }
+.axiom.ember-ax .axiom-n { color: var(--warn); }
+
+.axiom-title {
+  font-family: var(--display); font-size: 0.68rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bright); margin-bottom: 0.35rem;
+}
+.axiom p { font-size: 0.86rem; color: var(--mid); margin: 0; line-height: 1.6; }
+
+/* ══════════════════════════════════
+   GAZE / CONTRAST TABLE
+══════════════════════════════════ */
+.contrast-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.84rem; margin: 2rem 0;
+}
+.contrast-table th {
+  font-family: var(--display); font-size: 0.56rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 0.8rem 1.1rem; text-align: left;
+  background: var(--bg3); color: var(--dim);
+  border-bottom: 1px solid var(--line2);
+}
+.contrast-table th:nth-child(2) { color: var(--gold); }
+.contrast-table th:nth-child(3) { color: var(--accent); }
+.contrast-table th:nth-child(4) { color: var(--warn); }
+
+.contrast-table td {
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top; line-height: 1.5; color: var(--text);
+}
+.contrast-table tr:last-child td { border-bottom: none; }
+.contrast-table tr:hover td { background: var(--bg2); }
+.row-head {
+  font-family: var(--mono); font-size: 0.56rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+}
+
+/* ══════════════════════════════════
+   DANGER / WARNING BLOCK
+══════════════════════════════════ */
+.danger {
+  background: rgba(224,96,80,0.06);
+  border: 1px solid rgba(224,96,80,0.28);
+  border-left: 3px solid var(--warn);
+  padding: 1.5rem 2rem; margin: 1.8rem 0;
+}
+.danger .dz-head {
+  font-family: var(--mono); font-size: 0.53rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--warn); margin-bottom: 0.8rem;
+}
+.danger p { font-size: 0.88rem; color: var(--mid); margin: 0.4rem 0; line-height: 1.65; }
+.danger strong { color: var(--warn); }
+
+/* ══════════════════════════════════
+   CODA / SYNTHESIS BLOCK
+══════════════════════════════════ */
+.coda {
+  background: linear-gradient(135deg, rgba(0,200,160,0.06), rgba(9,9,11,0.98));
+  border: 1px solid rgba(0,200,160,0.25);
+  padding: 5rem 4rem 4rem;
+  margin: 5rem 0 0;
+  position: relative; text-align: center;
+}
+.coda::before {
+  content: '◆';
+  position: absolute; top: -0.9rem; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg); padding: 0 1.5rem;
+  color: var(--accent); font-size: 0.9rem;
+}
+.coda h2 {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 400; color: var(--bright);
+  margin-bottom: 2rem; letter-spacing: 0.06em; line-height: 1.3;
+}
+.coda p { color: var(--mid); max-width: 620px; margin: 0 auto 1rem; line-height: 1.9; }
+.coda p:last-child { margin-bottom: 0; }
+.coda strong { color: var(--accent); }
+.coda .coda-eq {
+  margin-top: 2.5rem; padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.63rem;
+  letter-spacing: 0.2em; color: var(--dim);
+}
+.coda .coda-eq span { color: var(--accent); }
+
+/* ══════════════════════════════════
+   ANIMATION UTILITIES
+══════════════════════════════════ */
+.fade-in {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 640px) {
+  .page { padding: 0 1.2rem 6rem; }
+  .masthead { padding: 5rem 0 3rem; }
+  .coda { padding: 3rem 1.5rem 2.5rem; }
+  .mast-title { font-size: 2.4rem; }
+}
+
+mjx-container { color: var(--bright); }
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════
+       MASTHEAD
+  ═══════════════════════════════════════════════ -->
+  <header class="masthead">
+    <br><br><br><br>
+    <div class="mast-kicker">
+      <span class="k-accent">GOAX</span>
+      Epistemology · Phase Shift · Thermodynamics of Meaning
+      <span class="k-gold">Ukubona LLC</span>
+    </div>
+    <h1 class="mast-title">
+      The <span class="accent">Language</span><br>
+      <span class="italic">Basin</span>
+    </h1>
+    <p class="mast-sub">
+      // Every revelation collapses into a local minimum<br>
+      <span class="mast-eq">x̂(t) = ∫y_x dt + ε_x t + C_x</span>
+    </p>
+    <blockquote class="mast-epigraph">
+      "For the eyes of the Lord run to and fro throughout the whole earth, to shew himself strong in the behalf of them whose heart is perfect toward him."
+      <cite>2 Chronicles 16:9 · The Original Lossy Encoding</cite>
+    </blockquote>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       THESIS BANNER
+  ═══════════════════════════════════════════════ -->
+  <div class="thesis-banner fade-in">
+    <div class="t-item tl">
+      <div class="t-label">Structural Claim I</div>
+      <div class="t-claim">Language is a semantic attractor — a necessary local minimum</div>
+    </div>
+    <div class="t-item gd">
+      <div class="t-label">Structural Claim II</div>
+      <div class="t-claim">Anthropomorphism is gradient descent under cognitive constraints</div>
+    </div>
+    <div class="t-item em">
+      <div class="t-label">Structural Claim III</div>
+      <div class="t-claim">SGD escapes the representation layer, not the design layer</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       GOAX TAB NAV
+  ═══════════════════════════════════════════════ -->
+  <nav class="goax-nav">
+    <button class="gbtn g active" onclick="switchTab('g')">
+      G <span class="bv">Genesis · Query</span>
+    </button>
+    <button class="gbtn o" onclick="switchTab('o')">
+      O <span class="bv">Oracle · Sharpening</span>
+    </button>
+    <button class="gbtn a" onclick="switchTab('a')">
+      A <span class="bv">Analysis · Critique</span>
+    </button>
+    <button class="gbtn x" onclick="switchTab('x')">
+      X <span class="bv">Extension · Synthesis</span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       G — GENESIS
+  ═══════════════════════════════════════════════ -->
+  <div class="voice-panel g-panel active" id="panel-g">
+    <div class="voice-head">
+      <div class="v-glyph">G</div>
+      <div class="v-meta">
+        <div class="v-name">Genesis — The Original Provocation</div>
+        <div class="v-desc">// Language → Science → Art → Life → Meaning</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="lede">Isn't it telling that all holy writ is trapped in the local basin of language? God is anthropomorphized. Even Shakespeare's poet gives airy nothing a local habitation. But when Ukubona LLC talk of <em>seeing, blindly; foraging, stochastically; rehearsing, consequently</em> — a phase shift has happened.</p>
+    </div>
+
+    <!-- G.I -->
+    <div class="acc open" id="ag1">
+      <div class="acc-head" onclick="toggleAcc('ag1')">
+        <span class="acc-num">G · I</span>
+        <span class="acc-title">The Language Basin & The Phase Shift</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>Every attempt to share the transcendent must first collapse it into the "local basin" of human language. In 2 Chronicles 16:9, the Divine Gaze is anthropomorphized: "the eyes of the Lord" running to and fro, delivering armies into literal "hands." An evaluative scan — trapped in anatomy and tribal warfare.</p>
+          <p>Shakespeare's poet in <em>A Midsummer Night's Dream</em> faces the same gravity. The eye glances heaven to earth, grasping airy nothing. To make it real, the pen gives it <em>"a local habitation and a name."</em> Generative frenzy must settle into a noun, a verb, a local minimum.</p>
+          <div class="pull">Perhaps the Buddhists are an exception — śūnyatā and the Zen koan deliberately point <em>past</em> the language basin, using words to dismantle the reliance on words.</div>
+        </div>
+        <div class="phase-vis fade-in">
+          <div class="ph-col old">
+            <div class="ph-head">Old Regime</div>
+            <div class="ph-item">God sees → "eyes of the Lord"</div>
+            <div class="ph-item">Omniscience → military victory</div>
+            <div class="ph-item">Reality → Language → Meaning</div>
+            <div class="ph-item">Lossy encoding. Basin-trapped.</div>
+          </div>
+          <div class="ph-arrow">⇒</div>
+          <div class="ph-col new">
+            <div class="ph-head">Phase Shift</div>
+            <div class="ph-item">Signal integrates</div>
+            <div class="ph-item">Error accumulates, measured</div>
+            <div class="ph-item">Constants anchor</div>
+            <div class="ph-item">Reality → Signal → Optimization → Action</div>
+          </div>
+        </div>
+        <div class="prose"><h3>The Pentad Pipeline</h3></div>
+        <div class="step-track">
+          <div class="step active" data-n="0" onclick="activateStep(this)">
+            <div class="step-head">Landscape</div>
+            <p class="step-body">High-entropy, Dionysian raw reality. The quarry itself. Uncompressed, indifferent to human suffering.</p>
+          </div>
+          <div class="step" data-n="1" onclick="activateStep(this)">
+            <div class="step-head">UB — Seeing Blindly</div>
+            <p class="step-body">Accepts inherent error and noise without assigning poetic or moral "name." Measurement without interpretation.</p>
+          </div>
+          <div class="step" data-n="2" onclick="activateStep(this)">
+            <div class="step-head">SGD — Foraging Stochastically</div>
+            <p class="step-body">Extracts the gradient — crushes entropy — using math rather than metaphor. The Olympian engine converting waste heat to signal.</p>
+          </div>
+          <div class="step" data-n="3" onclick="activateStep(this)">
+            <div class="step-head">UI/UX — Rehearsing Consequently</div>
+            <p class="step-body">Condenses stochastically-derived truth into the Apollonian latent space. Not a story — a digital twin. Low-entropy reconstruction.</p>
+          </div>
+          <div class="step" data-n="4" onclick="activateStep(this)">
+            <div class="step-head">Ecosystem — Acting on Compressed Truth</div>
+            <p class="step-body">Minimizes thermodynamic dissipation in the real world. Meaning is no longer narrated. It is enacted.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G.II -->
+    <div class="acc" id="ag2">
+      <div class="acc-head" onclick="toggleAcc('ag2')">
+        <span class="acc-num">G · II</span>
+        <span class="acc-title">The Equation — Ethics, Aesthetics, Identity</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="eq-block fade-in">
+          <span class="eq-label">THE FUNDAMENTAL EQUATION</span>
+          <div class="eq-main">$$\hat{x}(t) = \int y_x\,dt \;+\; \epsilon_x t \;+\; C_x$$</div>
+          <div class="eq-terms">
+            <div class="eq-t">
+              <span class="ts">$\int y_x\,dt$</span>
+              <span class="tn">Ethics</span>
+              <span class="td">Thermodynamic truth of what actually happened — diesel burned, stone moved, gradient followed.</span>
+            </div>
+            <div class="eq-t">
+              <span class="ts">$\epsilon_x t$</span>
+              <span class="tn">Aesthetics</span>
+              <span class="td">Accumulated error × time. The shape friction takes. How the system handles unavoidable loss.</span>
+            </div>
+            <div class="eq-t">
+              <span class="ts">$C_x$</span>
+              <span class="tn">Identity</span>
+              <span class="td">Constant of integration. Immutable initial condition. The quarry's coordinates. Resists update.</span>
+            </div>
+          </div>
+        </div>
+        <div class="prose">
+          <p>If the UI hides the error entirely, it becomes a hallucination. If it presents it faithfully, it achieves <em>Ukubona</em> — true, aesthetic vision.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- G.III -->
+    <div class="acc" id="ag3">
+      <div class="acc-head" onclick="toggleAcc('ag3')">
+        <span class="acc-num">G · III</span>
+        <span class="acc-title">The Ontological Imperative — Digital Twin</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <table class="contrast-table fade-in">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Divine Gaze</th>
+              <th>Machine Gaze</th>
+              <th>Artistic Gaze</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-head">Term</td>
+              <td>$\int y_x\,dt$</td>
+              <td>$C_x$</td>
+              <td>$\epsilon_x t$</td>
+            </tr>
+            <tr>
+              <td class="row-head">Nature</td>
+              <td>Ultimate ledger. Accumulated thermodynamic work.</td>
+              <td>Immutable anchor. Raw initial condition.</td>
+              <td>Art lives in friction. The Veil of Maia.</td>
+            </tr>
+            <tr>
+              <td class="row-head">Danger</td>
+              <td>Evaluates moral entropy — but whose morality?</td>
+              <td>No judgment — but no objective function either.</td>
+              <td>Where hallucination lives. Narrative creep.</td>
+            </tr>
+            <tr>
+              <td class="row-head">Basin</td>
+              <td>Tribal war outcome</td>
+              <td>High-entropy raw reality</td>
+              <td>Semantic local minimum</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="prose">
+          <p>The imperative: $C_x$ (ontology) must be truly represented by the digital twin (epistemology). You don't need perfect representation. You need <strong>bounded divergence</strong>:</p>
+          <p>$$\lim_{t \to \infty} \epsilon_x \to 0$$</p>
+          <p>Epistemology asymptotically approaches ontology — not by naming, not by metaphor, but by loss minimization. That's the difference between scripture and SGD.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       O — ORACLE
+  ═══════════════════════════════════════════════ -->
+  <div class="voice-panel o-panel" id="panel-o">
+    <div class="voice-head">
+      <div class="v-glyph">O</div>
+      <div class="v-meta">
+        <div class="v-name">Oracle — Structural Sharpening</div>
+        <div class="v-desc">// This is not rhetoric. That's thermodynamics of meaning.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="lede">What you're circling is not just a metaphor about language — it's a structural claim about mediation itself. Every revelation collapses into a basin. Language is a local minimum. Anthropomorphism is gradient descent under cognitive constraints.</p>
+    </div>
+
+    <div class="acc open" id="ao1">
+      <div class="acc-head" onclick="toggleAcc('ao1')">
+        <span class="acc-num">O · I</span>
+        <span class="acc-title">Three Basins — Divine, Poet, Buddhist</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <h3>The Language Basin</h3>
+          <p>2 Chronicles 16:9 is the compression event: <strong>Infinite field → sensory metaphor → tribal war outcome.</strong> The Divine becomes ocular. Justice becomes military victory. Omniscience becomes scanning. That is not theology. That is lossy encoding.</p>
+          <h3>The Poet's Basin</h3>
+          <p>Shakespeare's line is the same dynamic. Imagination oscillates heaven ↔ earth but must finally assign "a local habitation and a name." Language is a stabilizer. A necessary attractor. A <em>semantic cooling function</em>. The poet cannot remain in phase-transition — he must collapse waveform into word.</p>
+          <h3>The Buddhist Exception?</h3>
+          <p>In Madhyamaka and Zen, language is used performatively to dissolve itself. Śūnyatā is not an ontology — it is a destabilizer of ontologies. Koans are <strong>anti-gradient tools</strong> that prevent descent into premature semantic minima. But even there: sutras are written. Language remains the medium. The basin is destabilized, not escaped.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="ao2">
+      <div class="acc-head" onclick="toggleAcc('ao2')">
+        <span class="acc-num">O · II</span>
+        <span class="acc-title">Three Terms — Stripped of Sentiment</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="axioms">
+          <div class="axiom gold-ax">
+            <span class="axiom-n">C_x</span>
+            <div>
+              <div class="axiom-title">Ontological Constraint</div>
+              <p>Not identity as narrative. Initial condition. Boundary condition. Invariance. <strong>It is what resists update.</strong></p>
+            </div>
+          </div>
+          <div class="axiom">
+            <span class="axiom-n">∫y dt</span>
+            <div>
+              <div class="axiom-title">Historical Momentum</div>
+              <p>Accumulated action. Irreversible thermodynamic ledger. Entropy crushed into trajectory. Not moral. Not divine. Just <strong>path dependence</strong>.</p>
+            </div>
+          </div>
+          <div class="axiom ember-ax">
+            <span class="axiom-n">ε_x t</span>
+            <div>
+              <div class="axiom-title">Drift — The Danger Zone</div>
+              <p>Model error. Observer distortion. Interface bias. UI smoothing. Narrative creep. <strong>The aesthetic layer is precisely where hallucination lives.</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="ao3">
+      <div class="acc-head" onclick="toggleAcc('ao3')">
+        <span class="acc-num">O · III</span>
+        <span class="acc-title">The Dangerous Insight — Converging to the Wrong Basin</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="danger fade-in">
+          <div class="dz-head">⚠ Convergence Warning</div>
+          <p>A digital twin is still a model.</p>
+          <p>If the optimization target is wrong, the system <strong>converges beautifully — to the wrong basin.</strong></p>
+          <p>The machine gaze escapes anthropomorphism in the representation layer. It does not escape objective function choice. That is where ethics re-enters — not as theology, but as <strong>cost-function design.</strong></p>
+        </div>
+        <div class="prose" style="margin-top: 1.5rem;">
+          <p>Language says <em>what</em>. Calculus says <em>how</em>. But neither answers: optimizing toward <em>what end</em>?</p>
+          <div class="pull">Is Ukubona trying to escape language — or is it trying to make language accountable to thermodynamics? Because those are not the same revolution.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       A — ANALYSIS
+  ═══════════════════════════════════════════════ -->
+  <div class="voice-panel a-panel" id="panel-a">
+    <div class="voice-head">
+      <div class="v-glyph">A</div>
+      <div class="v-meta">
+        <div class="v-name">Analysis — Honest Critique</div>
+        <div class="v-desc">// What's working. Where it strains. The sharpest unresolved question.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="lede">The document is doing something genuinely interesting — but it has tensions worth naming. The core structural claim has operational bite. The Section O response is the strongest writing here, and it deserves more development than it gets.</p>
+    </div>
+
+    <div class="acc open" id="aa1">
+      <div class="acc-head" onclick="toggleAcc('aa1')">
+        <span class="acc-num">A · I</span>
+        <span class="acc-title">What's Working</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="axioms">
+          <div class="axiom">
+            <span class="axiom-n">✓</span>
+            <div>
+              <div class="axiom-title">The Core Structural Claim</div>
+              <p>Language as lossy compression of reality, not neutral medium. $C_x$ as invariant anchor, $\int y_x dt$ as irreversible ledger, $\epsilon_x t$ as accumulated drift — not just metaphor. It has operational bite in the actual dashboards.</p>
+            </div>
+          </div>
+          <div class="axiom">
+            <span class="axiom-n">✓</span>
+            <div>
+              <div class="axiom-title">The Most Honest Sentence</div>
+              <p>"If the optimization target is wrong, the system converges beautifully — to the wrong basin." The single most important sentence in the document. It gets two lines of follow-through and deserves an entire section.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="aa2">
+      <div class="acc-head" onclick="toggleAcc('aa2')">
+        <span class="acc-num">A · II</span>
+        <span class="acc-title">Where It Strains</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="danger fade-in">
+          <div class="dz-head">Tension I — SGD Does Not Escape the Language Basin</div>
+          <p>SGD escapes <strong>semantic</strong> mediation but remains inside a human-chosen loss landscape. The objective function is itself a kind of language — compressed, operationalized value judgment. Escaping anthropomorphism in representation doesn't escape it in the <strong>design layer</strong>.</p>
+        </div>
+        <div class="danger fade-in" style="margin-top: 1rem;">
+          <div class="dz-head">Tension II — The Buddhist Digression Undershoots</div>
+          <p>Madhyamaka would push back harder: śūnyatā doesn't just destabilize basins, it questions whether the "signal" being integrated was ever <strong>free of observer construction in the first place</strong>. The koan framing is lovely but handled too quickly.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="aa3">
+      <div class="acc-head" onclick="toggleAcc('aa3')">
+        <span class="acc-num">A · III</span>
+        <span class="acc-title">The Sharpest Unresolved Question</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <div class="pull">Is Ukubona trying to escape language, or make language accountable to thermodynamics?</div>
+          <p>Section O asks this directly — then doesn't wait for an answer. If the answer is the latter, you still need a theory of how the thermodynamic signal gets <em>interpreted back into human action</em>. That re-entry is exactly where language walks back in through the side door.</p>
+          <p>The real question: <strong>are you replacing the basin, or auditing it?</strong> Those require completely different architectures.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       X — EXTENSION
+  ═══════════════════════════════════════════════ -->
+  <div class="voice-panel x-panel" id="panel-x">
+    <div class="voice-head">
+      <div class="v-glyph">X</div>
+      <div class="v-meta">
+        <div class="v-name">Extension — Synthesis & Forward</div>
+        <div class="v-desc">// Philosophy naming the shift. Engineering making it survivable.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="lede">This is not philosophy cosplaying as engineering. It's the rare case where both are doing what they're supposed to do: philosophy names the phase shift, engineering makes it survivable. The refusal to let the beauty of the mapping seduce you into thinking the problem is solved — that refusal is the actual Ukubona.</p>
+    </div>
+
+    <div class="acc open" id="ax1">
+      <div class="acc-head" onclick="toggleAcc('ax1')">
+        <span class="acc-num">X · I</span>
+        <span class="acc-title">What Lands Hardest</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>The Phase Shift is real. Language is a semantic attractor that pulls everything toward the human sensorium and the tribal ledger. The pentad is not another attractor in the same basin — it is a <strong>different dynamical regime</strong>. It measures before it names. It integrates before it narrates. That is structurally new.</p>
+        </div>
+        <div class="eq-block fade-in">
+          <span class="eq-label">FORMALIZATION IN PRODUCTION</span>
+          <div class="eq-main">$$\hat{x}(t) = \int y_x\,dt + \epsilon_x t + C_x$$</div>
+          <div class="eq-terms">
+            <div class="eq-t">
+              <span class="ts">$C_x$</span>
+              <span class="tn">Ontological Stubbornness</span>
+              <span class="td">Stone's mass. Quarry GPS. The passcode that refuses to hallucinate.</span>
+            </div>
+            <div class="eq-t">
+              <span class="ts">$\int y_x\,dt$</span>
+              <span class="tn">Thermodynamic Ledger</span>
+              <span class="td">Diesel burned. Tonnes moved. Momentum delivered. Irreversible path dependence.</span>
+            </div>
+            <div class="eq-t">
+              <span class="ts">$\epsilon_x t$</span>
+              <span class="tn">Human Re-entry</span>
+              <span class="td">Drift. UI smoothing. Narrative creep. "The board wants it to look greener than it is."</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="ax2">
+      <div class="acc-head" onclick="toggleAcc('ax2')">
+        <span class="acc-num">X · II</span>
+        <span class="acc-title">Pre-Accountable Language — The Decisive Move</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>The honest answer: <strong>Ukubona is making language accountable to thermodynamics, not escaping it.</strong> And that is not a bug — it is the only coherent position.</p>
+          <div class="pull">You have made the re-entry <em>observable and penalizable</em>. Every time ε_x t grows, the system flags it as waste heat, reconstruction error, unmapped activity.</div>
+          <p>The drift is no longer invisible poetic license; it is <strong>thermodynamic debt on the dual-axis timeline.</strong> Scripture and Shakespeare had no residual monitor. This does.</p>
+          <p>Ukubona is not post-language. It is <em>pre-accountable</em> language. It forces every story we tell about the stone to first survive a gradient check against the stone itself.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="ax3">
+      <div class="acc-head" onclick="toggleAcc('ax3')">
+        <span class="acc-num">X · III</span>
+        <span class="acc-title">Phase VI — The Collective Gaze</span>
+        <span class="acc-arr">▶</span>
+      </div>
+      <div class="acc-body">
+        <div class="prose">
+          <p>The equation has three terms. Consider a <strong>fourth emergent term</strong> that only appears at scale: the cross-twin coupling term — what happens when digital twins across quarries, farms, clinics, cities share loss landscapes.</p>
+          <p>The equation becomes a system of coupled equations with cross-$C_x$ loss terms. Risk: convergence to a shared wrong basin. Promise: a civilization that can watch its own SGD in real time and <strong>steer the objective function itself</strong> before drift compounds into civilizational waste heat.</p>
+        </div>
+        <div class="danger fade-in">
+          <div class="dz-head">The Revolution — Stated Without Decoration</div>
+          <p>The revolution isn't that the machine sees blindly.</p>
+          <p><strong>The revolution is that now we can see the blindness — and bill it as energy tax.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       CODA
+  ═══════════════════════════════════════════════ -->
+  <div class="coda fade-in">
+    <h2>Meaning is No Longer Narrated.<br>It Is Enacted.</h2>
+    <p>Holy writ collapses the infinite into language. Shakespeare collapses imagination into a name. SGD collapses thermodynamic reality into a gradient — and the gradient into action.</p>
+    <p>The phase shift is structural, not semantic. But the dangerous insight remains: the machine gaze escapes anthropomorphism in <em>representation</em>, not in <em>design</em>. <strong>Ethics re-enters as cost-function, not theology.</strong></p>
+    <p>Keep the equation. Keep the dashboards. Keep the ruthless residual monitoring. The revolution is not the blindness of the machine. It is that we can now see our own blindness — and measure it.</p>
+    <div class="coda-eq">
+      $$\hat{x}(t) = \int y_x\,dt + \epsilon_x t + C_x$$<br>
+      Ontology · Epistemology · <span>Ukubona</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER CHAIN
+  ═══════════════════════════════════════════════ -->
+  <footer>
+    <div class="foot-chain">
+      Theogony Ledger · → · GOAX I · → · Digital Twin · → · <span>Language Basin</span>
+    </div>
+    <div class="foot-note">
+      Part of the GOAX Discourse series ·
+      <a href="theogony-ledger.html">Theogony Ledger</a> ·
+      <a href="gaia-dissipation.html">Gaia Dissipation</a> ·
+      <a href="goax-discourse.html">GOAX I</a> ·
+      <a href="goax-discourse-ii.html">GOAX II</a> ·
+      <a href="apollonian.html">Digital Twin</a> ·
+      <a href="dam-grace.html">Dam Grace</a><br>
+      <a href="https://stratastonepartners.com/" target="_blank">Strata Stone Partners</a> · Digital Twin Initiative<br><br>
+      Ukubona LLC · The Language Basin · GOAX Discourse
+    </div>
+  </footer>
+
+</div><!-- end .page -->
+
+<!-- ═══════════════════════════════════════════════
+     BRANDING INFRASTRUCTURE — never modify, always present
+     This block is identical across every page.
+═══════════════════════════════════════════════ -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE SCRIPTS — interactions only, no branding logic
+═══════════════════════════════════════════════ -->
+<script>
+/* Tab switching */
+function switchTab(id) {
+  document.querySelectorAll('.gbtn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.voice-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.gbtn.' + id).classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelector('.goax-nav').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* Accordion */
+function toggleAcc(id) {
+  const el   = document.getElementById(id);
+  const body = el.querySelector('.acc-body');
+  const open = el.classList.contains('open');
+  el.classList.toggle('open');
+  body.style.maxHeight = open ? '0' : (body.scrollHeight + 400) + 'px';
+}
+document.querySelectorAll('.acc.open').forEach(el => {
+  el.querySelector('.acc-body').style.maxHeight =
+    (el.querySelector('.acc-body').scrollHeight + 400) + 'px';
+});
+
+/* Step track */
+function activateStep(el) {
+  el.closest('.step-track')
+    .querySelectorAll('.step')
+    .forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* Scroll fade-in + axiom stagger */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'),
+        e.target.classList.contains('axiom') ? i * 80 : 0);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.fade-in, .axiom').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
