@@ -5,7 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ITERATIVE THEOGONY</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<!-- ═══════════════════════════════════════════════
+     OPEN GRAPH / TWITTER
+═══════════════════════════════════════════════ -->
+<meta property="og:site_name" content="Ukubona LLC">
+<meta property="og:title" content="The Language Basin">
+<meta property="og:description" content="Every revelation collapses into a basin. Language is a local minimum. Anthropomorphism is gradient descent under cognitive constraints.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://cryo-pyro.github.io/repos-00/ukhona/html/goax-language-basin.html">
+<meta property="og:image" content="../img/ukb-landscape.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Language Basin">
+<meta name="twitter:description" content="Every revelation collapses into a basin. Language is a local minimum.">
+<meta name="twitter:image" content="../img/ukb-landscape.jpg">
+
+<!-- ═══════════════════════════════════════════════
+     CENTRALIZED ASSETS — never modify paths
+═══════════════════════════════════════════════ -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE FONTS — mythic/cosmological register
+═══════════════════════════════════════════════ -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
+
   :root {
     --void: #05040a;
     --chaos: #0d0b1a;
@@ -749,6 +796,9 @@
 </style>
 </head>
 <body>
+<div class="ambient"></div>
+
+<div class="page">
 
 <!-- HERO -->
 <section class="hero">
@@ -1138,7 +1188,19 @@
   <div class="footer-title">Iterative Theogony</div>
   <div class="footer-tagline">Systems bootstrap themselves from void into meaning — and must continuously invite their own destruction to remain vital.</div>
 </footer>
+</div><!-- end .page -->
 
+<!-- ═══════════════════════════════════════════════
+     BRANDING INFRASTRUCTURE — never modify, always present
+     This block is identical across every page.
+═══════════════════════════════════════════════ -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
 <script>
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
